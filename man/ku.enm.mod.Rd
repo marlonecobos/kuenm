@@ -51,7 +51,7 @@ A batch file for creating all the final maxent models with their projections if 
 }
 \description{
 ku.enm.mod creates and executes a batch file for generating Maxent models using the
-parameters previously selected with the \code{\link{ku.enm.eval}} function.
+parameters previously selected with the \code{\link{ku.enm.ceval}} function.
 }
 \details{
 Same requirements than in \code{\link{ku.enm.cal}}
