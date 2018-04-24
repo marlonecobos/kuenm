@@ -1,7 +1,7 @@
 #' Creation of Maxent models with selected parameters
 #'
 #' @description ku.enm.mod creates and executes a batch file for generating Maxent models using the
-#' parameters previously selected with the \code{\link{ku.enm.eval}} function.
+#' parameters previously selected with the \code{\link{ku.enm.ceval}} function.
 #'
 #' @param occ.joint (character) is the  csv file with all the occurrences, columns must be: species, longitud, latitud.
 #' @param M.var.dir (character) name of the forlder containing folders in wich calibration (M) variables are.
