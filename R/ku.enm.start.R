@@ -92,7 +92,7 @@ ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test 
             kept = kept, selection = selection)
 \```
 
-### Final models creation
+### Final model creation
 
 After selecting parametrizations that produce the best models, the next step is to create the final models, and if needed transfer them to other environmental data sets (e.g., to other time periods or other geographic regions). The function help is called via this code:
 
@@ -127,9 +127,9 @@ ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, ba
 \```
 
 
-### Final models evaluation
+### Final model evaluation
 
-Final models can be ealuated after being created, for this step independent data is needed (data that has not being used in the calibration process and usually comming from different sources). The function help is called via this code:
+Final model can be evaluated after being created, for this step independent data is needed (data that has not being used in the calibration process and usually comming from different sources). The function help is called via this code:
 
 \```{r, eval=FALSE}
 help(ku.enm.feval)
@@ -141,7 +141,7 @@ The next chunk of code is for preparing the arguments for using the function.
 occ_ind <- \"Sp_ind.csv\"
 replicates <- TRUE
 out_feval <- \"Final_Models_evaluation\"
-# Again, some of the variables used here as arguments were already created for the previous functions
+# Most of the variables used here as arguments were already created for the previous functions
 \```
 
 The following is the code for using the function.
@@ -155,7 +155,7 @@ ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicate
 
 ### MOP analysis
 
-If transfers were performed at the moment of creating final models, the MOP analysis will healp to identify areas of extrict extrapolation and levels of similarity between the M and the area or scenario of projection. The code below will help to see the function's description:
+If transfers were performed at the moment of creating final models, the MOP analysis will healp to identify areas of strict extrapolation and levels of similarity between the M and the area or scenario of projection. The code below will help to see the function's description:
 
 \```{r, eval=FALSE}
 help(ku.enm.mmop)
@@ -168,7 +168,7 @@ sets_var <- c(\"Set3\")
 out_mop <- \"MOP_results\"
 percent <- 10
 normalized <- TRUE
-# Again, some of the variables used here as arguments were already created for the previous functions
+# Some of the variables used here as arguments were already created for the previous functions
 \```
 
 And the ku.enm.mmop function has the following syntax:
