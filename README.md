@@ -5,6 +5,7 @@ date: "March 15, 2018"
 output:
   html_document:
     keep_md: yes
+    self_contained: no
     toc: yes
     toc_depth: 4
 ---
