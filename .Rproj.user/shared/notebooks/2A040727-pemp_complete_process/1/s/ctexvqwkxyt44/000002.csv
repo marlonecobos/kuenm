@@ -1,0 +1,30 @@
+"0","ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,"
+"0","            out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,"
+"0","            kept = kept, selection = selection)"
+"2","Loading required package: sqldf
+"
+"2","Loading required package: gsubfn
+"
+"2","Loading required package: proto
+"
+"2","Loading required package: RSQLite
+"
+"2","Loading required package: knitr
+"
+"2","Loading required package: ENMeval
+"
+"2","Loading required package: dismo
+"
+"2","Loading required package: raster
+"
+"2","Loading required package: sp
+"
+"2","Loading required package: rJava
+"
+"2","Loading required package: parallel
+"
+"2","Loading required package: yaml
+"
+"1","
+Partial ROCs, omission rates, and AICcs calculation, please wait...
+"

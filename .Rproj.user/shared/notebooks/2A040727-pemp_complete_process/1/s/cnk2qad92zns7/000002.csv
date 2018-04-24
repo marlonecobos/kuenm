@@ -1,0 +1,10 @@
+"0","ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,"
+"0","           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)"
+"1","
+If asked and run = TRUE, allow runing as administrator."
+"1","
+Process finished
+"
+"1","A maxent batch file for creating 2958 calibration models has been written"
+"1","
+Check your working directory!!!    C:/Users/Marlon/Documents/R/ku_enm_pub/pemp"

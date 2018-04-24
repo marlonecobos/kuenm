@@ -1,0 +1,198 @@
+#' Partial ROC calculation of single models
+#'
+#' @description ku.enm.proc calculates the partial ROC of single models.
+#'
+#' @param occ.test a numeric matrix containing longitude and latitude of the
+#' occurrences used to test the ecological niche model.
+#' @param model a raster layer of the ecological niche model to be evaluated.
+#' @param threshold (numeric) value from 0 to 100 that will be used as threshold,
+#' default = 5.
+#' @param rand.percent (numeric) value from 0 to 100 representing the amount of data
+#' to be used for performing the bootstrap process for calculating the partial ROC,
+#' default = 50.
+#' @param iterations (numeric) number of bootstrapped iterations to be performed,
+#' default = 1000.
+#'
+#' @return A list containing a named vector with the final partial ROC results and
+#' a matrix containing the AUC values and AUC ratios calculated for each iteration.
+#'
+#' @details Partial ROC is calculated following Peterson et al., 2008
+#' \url{https://doi.org/10.1016/j.ecolmodel.2007.11.008}.
+#'
+#' @examples
+#' data()
+#' occ <- sp_test
+#' model <- sp_mod
+#' thres <- 5
+#' rand_perc <- 50
+#' iterac <- 100
+#'
+#' p_roc <- ku.enm.proc(occ.test = occ, model = model, threshold = thres,
+#'                    rand.percent = rand_perc, iterations = iterac)
+
+ku.enm.proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
+                        iterations = 1000) {
+
+  if(min(na.omit(raster::getValues(model))) == max(na.omit(raster::getValues(model)))) {
+    warning("\nModel with no variability, pROC will return NA.\n")
+
+    p_roc <- rep(NA, 2)
+    names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+
+    auc_ratios <- rep(NA, 4)
+    names(auc_ratios) <- c("Iteration", paste("AUC_value"),
+                           paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
+
+    p_roc_res <- list(p_roc, auc_ratios)
+
+    return(p_roc_res)
+  }else {
+    inrastlog <- model
+
+    ## Currently fixing the number of classes to 100. But later flexibility should be given in the parameter.
+    inrast <- round((inrastlog / raster::cellStats(inrastlog, max)) * 1000)
+
+    ## This function should be called only once outside the loop. This function generates values for x-axis.
+    ## As x-axis is not going to
+    classpixels <- a.pred.pres(inrast)
+
+    occur <- occ.test
+    extrast <- raster::extract(inrast, occur)
+
+    ## Remove all the occurrences in the class NA. As these points are not used in the calibration.
+    occurtbl <- cbind(occur, extrast)
+    occurtbl <- occurtbl[which(is.na(occurtbl[, 3]) == FALSE), ]
+
+    pointid <- seq(1:nrow(occurtbl))
+    occurtbl <- cbind(pointid, occurtbl)
+    names(occurtbl) <- c("PointID", "Longitude", "Latitude", "ClassID")
+
+    ## Use option cl.cores to choose an appropriate cluster size.
+    auc_ratio <- lapply(X = 1:iterations, FUN = function(x) {
+      ll <- sample(nrow(occurtbl), round(rand.percent / 100 * nrow(occurtbl)), replace = TRUE)
+      occurtbl1 <- occurtbl[ll, ]
+      ## Generate the % points within each class in this table. Write SQL, using sqldf package
+      occurinclass <- sqldf::sqldf("Select count(*), ClassID from occurtbl1 group by ClassID order by ClassID desc")
+      occurinclass <- cbind(occurinclass, cumsum(occurinclass[, 1]),
+                            cumsum(occurinclass[, 1]) / nrow(occurtbl1))
+      names(occurinclass) <- c("OccuCount", "ClassID", "OccuSumBelow", "Percent")
+
+      #### Raster file will contain all the classes in ClassID column, while
+      #### occurrences table may not have all the classes.
+      xytable <- g.xy.tab(classpixels, occurinclass)
+      arearow <- calc.auc(xytable, threshold / 100, x)
+      names(arearow) <- c("Iteration", paste("AUC_value"),
+                          paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
+      return(arearow)
+    })
+
+    auc_ratios <- as.data.frame(do.call(rbind, auc_ratio)) #converting each list of AUC ratios interations in a table
+    mauc <- apply(auc_ratios, 2, mean)[4] #mean of AUC ratios interations
+    proc <- sum(auc_ratios[, 4] <= 1) / length(auc_ratios[, 4]) #proportion of AUC ratios <= 1
+    p_roc <- c(mauc, proc)
+    names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+
+    p_roc_res <- list(p_roc, auc_ratios)
+
+    return(p_roc_res)
+  }
+}
+
+
+a.pred.pres <- function(inrast) {
+  ### Calculate proportionate area predicted under each suitability
+  classpixels <- raster::freq(inrast)
+  ### Remove the NAs from table
+  if (is.na(classpixels[dim(classpixels)[1], 1]) == TRUE)
+  {
+    classpixels <- classpixels[-dim(classpixels)[1], ]
+  }
+  classpixels <- classpixels[order(nrow(classpixels):1), ]
+  totpixelperclass <- cumsum(classpixels[, 2])
+  percentpixels <- totpixelperclass / sum(classpixels[, 2])
+
+  classpixels <- cbind(classpixels, totpixelperclass, percentpixels)
+  classpixels <- classpixels[order(nrow(classpixels):1), ]
+  return(classpixels)
+}
+
+
+g.xy.tab <- function(classpixels, occurinclass) {
+  xytable <- classpixels[, c(1, 4)]
+  xytable <- cbind(xytable,rep(-1, nrow(xytable)))
+
+  ## Set the previous value for 1-omission, i.e Y-axis as the value of last
+  ## class id in Occurrence table. Last class id will always smallest
+  ## area predicted presence.
+  prevyval <- occurinclass[1, 4]
+  for (i in nrow(classpixels):1) {
+    curclassid <- xytable[i, 1]
+    yval <- occurinclass[which(occurinclass[, 2] == curclassid), 4]
+
+    if (length(yval) == 0 ) {
+      xytable[i, 3] <- prevyval
+    }else {
+      xytable[i, 3] <- yval
+      prevyval <- yval
+    }
+  }
+
+  ## Add A dummy class id in the xytable with coordinate as 0,0
+  xytable <- rbind(xytable, c(xytable[nrow(xytable), 1] + 1, 0, 0))
+  xytable <- as.data.frame(xytable)
+  names(xytable) <- c("ClassID", "XCoor", "YCoor")
+  ### Now calculate the area using trapezoid method.
+  return(xytable)
+}
+
+
+calc.auc <- function(xytable, omissionval, iterationno) {
+  ## if omissionval is 0, then calculate the complete area under the curve. Otherwise calculate only partial area
+  if (omissionval > 0) {
+    partialxytable <- xytable[which(xytable[, 3] >= omissionval), ]
+    ### Here calculate the X, Y coordinate for the parallel line to x-axis depending upon the omissionval
+    ### Get the classid which is bigger than the last row of the xytable and get the xcor and ycor for that class
+    ### So that slope of the line is calculated and then intersection point between line parallel to x-axis and passing through
+    ### ommissionval on Y-axis is calculated.
+    prevxcor <- xytable[which(xytable[, 1] == partialxytable[nrow(partialxytable), 1]) + 1, 2]
+    prevycor <- xytable[which(xytable[, 1] == partialxytable[nrow(partialxytable), 1]) + 1, 3]
+    xcor1 <- partialxytable[nrow(partialxytable), 2]
+    ycor1 <- partialxytable[nrow(partialxytable), 3]
+    ## Calculate the point of intersection of line parallel to x-asiz and this line. Use the equation of line
+    ## in point-slope form y1 <- m(x1-x2)+y2
+    slope <- (ycor1 - prevycor) / (xcor1 - prevxcor)
+    ycor0 <- omissionval
+    xcor0 <- (ycor0 - prevycor + (slope * prevxcor)) / slope
+    ### Add this coordinate in the partialxytable with classid greater than highest class id in the table.
+    ### Actually class-id is not that important now, only the place where we add this xcor0 and ycor0 is important.
+    ### add this as last row in the table
+    partialxytable <- rbind(partialxytable, c(partialxytable[nrow(partialxytable), 1] + 1, xcor0, ycor0))
+  }else {
+    partialxytable <- xytable
+  } ### if omissionval > 0
+
+  ## Now calculate the area under the curve on this table.
+  xcor1 <- partialxytable[nrow(partialxytable), 2]
+  ycor1 <- partialxytable[nrow(partialxytable), 3]
+  aucvalue <- 0
+  aucvalueatrandom <- 0
+
+  for (i in (nrow(partialxytable) - 1):1) {
+    xcor2 <- partialxytable[i, 2]
+    ycor2 <- partialxytable[i, 3]
+
+    # This is calculating the AUCArea for 2 point trapezoid.
+    traparea <- (ycor1 * (abs(xcor2 - xcor1))) + (abs(ycor2 - ycor1) * abs(xcor2 - xcor1)) / 2
+    aucvalue <- aucvalue + traparea
+    # now caluclate the area below 0.5 line.
+    # Find the slope of line which goes to the point
+    # Equation of line parallel to Y-axis is X=k and equation of line at 0.5 is y = x
+    trapareaatrandom <- (xcor1 * (abs(xcor2 - xcor1))) + (abs(xcor2 - xcor1) * abs(xcor2 - xcor1)) / 2
+    aucvalueatrandom <- aucvalueatrandom + trapareaatrandom
+    xcor1 <- xcor2
+    ycor1 <- ycor2
+  }
+  newrow <- c(iterationno, aucvalue, aucvalueatrandom, aucvalue / aucvalueatrandom)
+
+  return(newrow)
+}

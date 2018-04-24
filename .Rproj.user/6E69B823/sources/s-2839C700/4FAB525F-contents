@@ -1,0 +1,12 @@
+#' ku.enm: A package for detailed calibration and construction of Ecological Niche Models.
+#'
+#' ku.enm contains the following functions:
+#' ku.enm.start, ku.enm.cal, ku.enm.ceval, ku.enm.mod, ku.enm.feval,
+#' ku.enm.mmop, ku.enm.omrat, ku.enm.proc, ku.enm.mop, and html.eval
+#'
+#' @section ku.enm functions:
+#' functions ...
+#'
+#' @docType package
+#' @name ku.enm
+NULL
