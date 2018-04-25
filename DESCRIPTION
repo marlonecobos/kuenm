@@ -1,6 +1,6 @@
 Package: ku.enm
 Type: Package
-Title: A package for detailed calibration and construction of Maxent Ecological Niche Models.
+Title: A package for detailed calibration and construction of Maxent Ecological Niche Models
 Version: 0.1.1
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
