@@ -94,7 +94,7 @@ Your working directory will be structured similarly to that presented in Figure 
 Once the working diretory and data are ready, the function *ku.enm.start* (.Rmd) will allow generating an *R Markdown* file as a guide to perform all the analyses that this package includes (Fig 1. yellow area). By recording all the code chunks to be used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but recomended to treat each species as a single case. 
 
 ```{r, eval=FALSE, include=TRUE}
-help(ku.enm.start)
+help("ku.enm.start")
 ```
 
 ```{r}
@@ -118,7 +118,7 @@ The function *ku.enm.cal* creates and executes a batch file for generating Maxen
 Maxent will run in command-line interface (**do not close the application**) and its graphic interface will not show up, to avoid interfering with activities other than the modeling process.
 
 ```{r, eval=FALSE, include=TRUE}
-help(ku.enm.cal)
+help("ku.enm.cal")
 ```
 
 ```{r, eval=FALSE, include=TRUE}
@@ -144,7 +144,7 @@ ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batc
 The function *ku.enm.ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (E = user-selected%), and complexity (AICc), and selects best models based on distinct criteria (see selection in function help). Partial ROC and omission rates are evaluated on models created with training occurrences, and AICc values are calculated on models created with the full set of occurrences. The outputs are stored in a folder that will contain a csv file with the statistics of models meeting various criteria, another with only the models selected based on the user's criteria, a third with performance metrics for all candidate models, a plot of the model performance based on the metrics, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Fig. 2, purple area).
 
 ```{r, eval=FALSE, include=TRUE}
-help(ku.enm.ceval)
+help("ku.enm.ceval")
 ```
 
 ```{r, eval=FALSE, include=TRUE}
@@ -172,7 +172,7 @@ After selecting parameterizations producing the best models, the next step is th
 Maxent will run in command-line interface as it did when creating the calibration models (**again, do not close the application**). However, the process of creating final models may take considerably more time, especially when transfering.
 
 ```{r, eval=FALSE, include=TRUE}
-help(ku.enm.mod)
+help("ku.enm.mod")
 ```
 
 ```{r, eval=FALSE, include=TRUE}
@@ -204,7 +204,7 @@ ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, ba
 Final models should be evaluated using independent occurrence data (i.e., data that has not being used during the calibration process that usually come from different sources). The *ku.enm.feval* function evaluates final models based on statistical significance (partial ROC) and omission rate (E = user-selected%). This function will return a folder containing a csv file with the results of the evaluation (see Figure 1, brown color). 
 
 ```{r, eval=FALSE, include=TRUE}
-help(ku.enm.feval)
+help("ku.enm.feval")
 ```
 
 ```{r, eval=FALSE, include=TRUE}
@@ -227,7 +227,7 @@ ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicate
 If transfers were performed at the moment of creating final models, risks of extrapolation can be assessed using the *ku.enm.mmop* function. This function calculates Mobility-Oriented Parity (MOP) layers by comparing environmental values between the M area and one or multiple areas or scenarios to which ecological niche models were transferred. The layers produced with this function help to visualize were there is strict extrapolation risks and different similarity levels between the projection areas or scenarios and the M (calibration area). Results from this analysis will be written for each set of variables inside an specific data (Figure 1, dark green areas).
 
 ```{r, eval=FALSE, include=TRUE}
-help(ku.enm.mmop)
+help("ku.enm.mmop")
 ```
 
 ```{r, eval=FALSE, include=TRUE}
