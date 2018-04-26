@@ -6,8 +6,8 @@
 \title{Variables of the area to which the ecological niche model is transferred.}
 \format{A RasterStack with 900 rows, 2160 columns, 1944000 cells, and 4 layers:
 \describe{
-  \item{Temperature}{tempreature, in celcius degrees times 10.}
-  \item{Precipitation}{precipitation, in milimiters.}
+  \item{Temperature}{temperature, in Celsius degrees times 10.}
+  \item{Precipitation}{precipitation, in milimeters.}
   ...
 }}
 \source{

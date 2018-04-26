@@ -6,8 +6,8 @@
 \title{Variables of the area in which the ecological niche model is calibrated.}
 \format{A RasterStack with 150 rows, 249 columns, 37350 cells, and 4 layers:
 \describe{
-  \item{Temperature}{tempreature, in celcius degrees times 10.}
-  \item{Precipitation}{precipitation, in milimiters.}
+  \item{Temperature}{temperature, in Celsius degrees times 10.}
+  \item{Precipitation}{precipitation, in milimeters.}
   ...
 }}
 \source{

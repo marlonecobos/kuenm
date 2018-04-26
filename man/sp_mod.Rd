@@ -17,6 +17,6 @@ sp_mod
 }
 \description{
 A raster layer containing an ecological niche model for the Turkey tick that was
-created as part of the candidate models for teh calibration process.
+created as part of the candidate models during the calibration process.
 }
 \keyword{datasets}
