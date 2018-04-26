@@ -60,6 +60,11 @@ Figure 1. Directory structure and data for starting and when finished the proces
 The **ku.enm** R package is in a GitHub repository and can be installed and/or loaded using the following code (make sure to have internet connection).
 
 ``` r
+if(!require(devtools)){
+    install.packages("devtools")
+    library(devtools)
+}
+
 if(!require(ku.enm)){
     devtools::install_github("manubio13/ku.enm")
     library(ku.enm)
@@ -72,18 +77,19 @@ if(!require(ku.enm)){
 
 Data used as an example for testing this package correspond to the turkey tick *Amblyomma americanum*, a vector of various diseases, including human monocytotropic ehrlichiosis, canine and human granulocytic ehrlichiosis, tularemia, and southern tick-associated rash illness. This species is distributed in North America and a complete analysis of the risk of its invasion in other regions is being developed by Raghavan et al. (in prep.).
 
-These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">ku.enm example data</a>) and extracted using the code below.
+These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">ku.enm example data</a>) and extracted using the code below.
 
 ``` r
-download.file(url = "url", destfile = "C:/Users/###YOUR_USER###/Documents/ku.enm_example_data.zip", 
-              quiet = FALSE) #donwload the zipped example folder
+download.file(url = "https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=1&isAllowed=y", 
+              destfile = "C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip", mode = "wb",
+              quiet = FALSE) #donwload the zipped example folder in documents
 
-unzip(zipfile = "C:/Users/###YOUR_USER###/Documents/ku.enm_example_data.zip",
-      exdir = "C:/Users/###YOUR_USER###/Documents") #unzip the example folder
+unzip(zipfile = "C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip",
+      exdir = "C:/Users/YOUR_USER/Documents") #unzip the example folder in documents
 
-unlink("C:/Users/###YOUR_USER###/Documents/ku.enm_example_data.zip") #erase zip file
+unlink("C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip") #erase zip file
 
-setwd("C:/Users/###YOUR_USER###/Documents/ku.enm_example_data/A_americanum") #set the working directory
+setwd("C:/Users/YOUR_USER/Documents/ku.enm_example_data/A_americanum") #set the working directory
 
 dir() #check what is in your working directory
 
