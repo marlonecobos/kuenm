@@ -248,7 +248,7 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
   #Statistics of the process
   ##Counting
   ku_enm_sign <- ku_enm_eval[!is.na(ku_enm_eval[, 3]), ]
-  ku_enm_sign <- ku_enm_b[ku_enm_b[, 3] <= 0.05, ]
+  ku_enm_sign <- ku_enm_sign[ku_enm_sign[, 3] <= 0.05, ]
 
   ku_enm_best_OR_AICc <- ku_enm_bes[ku_enm_bes[, 4] <= threshold / 100, ]
   if(length(ku_enm_best_OR_AICc[, 4]) != 0) {
