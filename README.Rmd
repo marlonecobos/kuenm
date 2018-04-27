@@ -1,6 +1,6 @@
 ---
 title: "ku.enm vignette"
-author: "Marlon E. Cobos and A. Townsend Peterson\n"
+author: "Marlon E. Cobos and A. Townsend Peterson \n"
 date: "April 25, 2018"
 output:
   github_document:
