@@ -1,6 +1,6 @@
 ku.enm vignette
 ================
-Marlon E. Cobos and A. Townsend Peterson
+Marlon E. Cobos and A. Townsend Peterson.
 April 25, 2018
 
 -   [Introduction](#introduction)
