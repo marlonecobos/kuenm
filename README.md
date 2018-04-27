@@ -1,7 +1,7 @@
 ku.enm vignette
 ================
 Marlon E. Cobos and A. Townsend Peterson
-March 15, 2018
+April 25, 2018
 
 -   [Introduction](#introduction)
 -   [Getting started](#getting-started)
