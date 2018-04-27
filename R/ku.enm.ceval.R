@@ -335,7 +335,7 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
              pt.cex = c(1.3, 1.1, 1), pch = c(19, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
              inset = c(0.01, 0))
     }
-    if(selection == "OR" & na.omit(ku_enm_best2)[, 5] != 0) {
+    if(selection == "OR") {
       points(na.omit(ku_enm_best2)[, 4]~log(na.omit(ku_enm_best2)[, 5]),
              col = "orange2", pch = 19, cex = 1.3)
       legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),

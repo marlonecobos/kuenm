@@ -3,6 +3,6 @@
 "0","M_var_dir <- ""M_variables"""
 "0","batch_cal <- ""Candidate_models"""
 "0","out_dir <- ""Candidate_Models"""
-"0","reg_mult <- c(seq(0.1,1,0.1),seq(2,6,1),8,10)"
+"0","reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)"
 "0","f_clas <- ""all"""
 "0","run <- TRUE"
