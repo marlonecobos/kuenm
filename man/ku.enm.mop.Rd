@@ -7,30 +7,29 @@
 ku.enm.mop(M.stack, G.stack, percent = 10, normalized = TRUE)
 }
 \arguments{
-\item{M.stack}{a raster stack of variables representing the M area.}
+\item{M.stack}{a RasterStack of variables representing the calibration area.}
 
-\item{G.stack}{a raster stack of variables representing the G area, areas or scenarios to
-which models are transferred.}
+\item{G.stack}{a RasterStack of variables representing the full area of interest, and areas
+or scenarios to which models are transferred.}
 
-\item{percent}{(numeric) percetage of values sampled from M to calculate the MOP.}
+\item{percent}{(numeric) percent of values sampled from te calibration region to calculate the MOP.}
 
 \item{normalized}{(logical) if true values of similarity are presented from 0 to 1,
 default = TRUE.}
 }
 \value{
-A Mobility-Oriented Parity raster layer.
+A mobility-oriented parity RasterLayer.
 }
 \description{
-ku.enm.mop calculates a Mobility-Oriented Parity layer by
-comparing environmental values between the M area and the area or
+ku.enm.mop calculates a mobility-oriented parity layer by
+comparing environmental values between the calibration area and the area or
 scenario to which an ecological niche model is transferred.
 }
 \details{
-The MOP is calculated following Owens et al., 2013
-\url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}.
+The MOP is calculated following Owens et al.
+(2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 }
 \examples{
-data()
 mvars <- mvars_mop
 gvars <- gvars_mop
 perc <- 10

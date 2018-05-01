@@ -1,22 +1,20 @@
 #' Omission rates calculation for single models
 #'
 #' @description ku.enm.omrat calculates omission rates of geographic projections
-#' of ecologicla niche models based in one or multiple user specified threshold.
+#' of ecological niche models based on one or multiple user-specified thresholds.
 #'
-#' @param model a raster layer of the model to be evaluated.
-#' @param threshold (numeric) value(s) from 0 to 100 that will be used as thresholds,
+#' @param model a RasterLayer of the model to be evaluated.
+#' @param threshold (numeric vector) value(s) from 0 to 100 that will be used as thresholds,
 #' default = 5.
-#' @param occ.tra a numeric matrix containing longitude and latitude of the
-#' occurrences used to create the ecological niche model to be evaluated.
-#' @param occ.test a numeric matrix containing longitude and latitude of the
-#' occurrences used to test the ecological niche model to be evaluated.
+#' @param occ.tra a numerical matrix containing coordinates of the occurrence data used to create
+#' the ecological niche model to be evaluated; columns must be: longitude and latitude.
+#' @param occ.test a numerical matrix containing coordinates of the occurrences used to test
+#' the ecological niche model to be evaluated; columns must be: longitude and latitude.
 #'
 #' @return A named numeric value or numeric vector with the result(s).
 #'
 #' @examples
-#' data()
-#'
-#' #single threshold
+#' # single threshold
 #' model <- sp_mod
 #' thres <- 5
 #' octr <- sp_train
@@ -25,7 +23,7 @@
 #' om_rate <- ku.enm.omrat(model, threshold = thres,
 #'                         occ.tra = octr, occ.test = octe)
 #'
-#' #multiple thresholds
+#' # multiple thresholds
 #' thres1 <- c(5, 10, 20)
 #'
 #' om_rate <- ku.enm.omrat(model, threshold = thres1,

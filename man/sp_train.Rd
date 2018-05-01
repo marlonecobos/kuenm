@@ -8,16 +8,15 @@
 \describe{
   \item{Longitude}{longitude, in decimal degrees.}
   \item{Latitude}{latitude, in decimal degrees.}
-  ...
 }}
 \source{
-\url{http://www.ku***/}
+\url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }
 \usage{
 sp_train
 }
 \description{
-A dataset conatining occurrence recods of the Turkey tick in North America, that
-are used to train candidate ecological niche models during calibration.
+A dataset containing occurrence recods of the Turkey Tick (*Amblyomma americanum*) across
+North America, used to train candidate ecological niche models during calibration.
 }
 \keyword{datasets}

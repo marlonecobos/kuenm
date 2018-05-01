@@ -8,17 +8,16 @@
 \describe{
   \item{Temperature}{temperature, in Celsius degrees times 10.}
   \item{Precipitation}{precipitation, in milimeters.}
-  ...
 }}
 \source{
-\url{http://www.ku***/}
+\url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }
 \usage{
 mvars_mop
 }
 \description{
-A dataset containing predictor variables of the area of calibration of the ecological
+A dataset containing predictor variables for the calibration area for the ecological
 niche model. Variables represent four current bioclimatic variables dowloaded from the
-WorldClim database \url{http://www.worldclim.org/}.
+WorldClim database (\url{http://www.worldclim.org/}).
 }
 \keyword{datasets}

@@ -4,19 +4,18 @@
 \name{ku.enm}
 \alias{ku.enm}
 \alias{ku.enm-package}
-\title{ku.enm: A package for detailed calibration and construction of Maxent Ecological Niche Models.}
+\title{ku.enm: A package for detailed calibration and construction of Maxent ecological niche models.}
 \description{
-ku.enm helps with the development of critical phases of the ecological
-niche modeling process in Maxent. It allows to calibrate models by
-creating and testing several candidate models. Handly options for
-producing final models, evaluating them, and assesing extrapolation
-risks are also included as part of this package.
+ku.enm helps with development of critical steps of the ecological
+niche modeling process in Maxent. It allows users to calibrate models by
+creating and testing large numbers of candidate models. Options allow users
+to produce final models, evaluate them, and assess extrapolation risks,
+as part of this package.
 }
 \section{ku.enm functions}{
 
 \code{\link{ku.enm.start}}, \code{\link{ku.enm.cal}}, \code{\link{ku.enm.ceval}},
 \code{\link{ku.enm.mod}}, \code{\link{ku.enm.feval}}, \code{\link{ku.enm.mmop}},
-\code{\link{ku.enm.omrat}}, \code{\link{ku.enm.proc}}, \code{\link{ku.enm.mop}},
-and \code{\link{html.eval}}
+\code{\link{ku.enm.omrat}}, \code{\link{ku.enm.proc}}, and \code{\link{ku.enm.mop}}
 }
 

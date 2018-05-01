@@ -2,21 +2,21 @@
 % Please edit documentation in R/ku.enm.start.R
 \name{ku.enm.start}
 \alias{ku.enm.start}
-\title{Creation of an R Markdown file for recording all analyses}
+\title{Creation of an R markdown file for recording all analyses}
 \usage{
 ku.enm.start(file.name)
 }
 \arguments{
-\item{file.name}{(character) is the name of the R Markdown file that will be
+\item{file.name}{(character) is the name of the R markdown file that will be
 produced in your working directory.}
 }
 \value{
-An R Markdown file with instructions and code for performing all
+An R markdown file with instructions and code for performing all
 analyses included in this package.
 }
 \description{
-ku.enm.start generates an R Markdown file that serves as a guide for
-performing all the analyses that this package includes.
+ku.enm.start generates an R markdown file that serves as a guide for
+performing all of the analyses included in this package.
 }
 \examples{
 ku.enm.start("complete_process")

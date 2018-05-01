@@ -1,29 +1,29 @@
 #' Extrapolation risk analysis for multiple comparisons
 #'
-#' @description ku.enm.mmop calculates Mobility-Oriented Parity layers by
-#' comparing environmental values between the M area and multiple areas or
+#' @description ku.enm.mmop calculates mobility-oriented parity (MOP) layers by
+#' comparing environmental values between the calibration area and multiple areas or
 #' scenarios to which ecological niche models are transferred.
 #'
-#' @param dirG a raster stack of variables representing the M area.
-#' @param dirM a raster stack of variables representing the G area, areas or scenarios to
+#' @param dirG a raster stack of variables representing the calibration area.
+#' @param dirM a raster stack of variables representing the full area, areas or scenarios to
 #' which models are transferred.
 #' @param sets.var (character) value or vector with the name(s) of the sets of variables
 #' from dirG and dirM that are going to be compared to create the MOP(s).
-#' @param out.mop (character) name of the folder in which MOP results will be written.
-#' @param percent (numeric) percetage of values sampled from M to calculate the MOP.
-#' @param normalized (logical) if true values of similarity are presented from 0 to 1,
+#' @param out.mop (character) name of the folder to which MOP results will be written.
+#' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
+#' @param normalized (logical) if TRUE, values of similarity are presented scaled linearly from 0 to 1,
 #' default = TRUE.
 #'
-#' @return A folder containing one or multiple Mobility-Oriented Parity raster layers depending on
+#' @return A folder containing one or multiple mobility-oriented parity raster layers depending on
 #' how many projection areas or scenarios are considered. This results will be organized by the
 #' different sets of variables chosen for creating final models.
 #'
-#' @details This function can be used after the selection of parameters that produce the best
-#' candidate models (when chosen sets of variables are known), or after producing final models
-#' with the function \code{\link{ku.enm.mod}}. In a MOP layer, areas of extrict extrapolation
-#' are excluded and other values represent how similar are other areas or scenarios to
-#' environmental conditions in the M. MOP is calculated following Owens et al., 2013
-#' \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}.
+#' @details This function can be used after selection of parameters that produce the best
+#' models (when chosen sets of variables are known), or after producing final models
+#' with the function \code{\link{ku.enm.mod}}. In a MOP layer, areas of strict extrapolation
+#' are excluded and other values represent how similar areas or scenarios are to
+#' environmental conditions in the calibration area. MOP is calculated following Owens et al.
+#' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 
 ku.enm.mmop <- function(dirG, dirM, sets.var, out.mop, percent = 10, normalized = TRUE) {
 

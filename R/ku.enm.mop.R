@@ -1,23 +1,22 @@
 #' Extrapolation risk analysis for single comparisons
 #'
-#' @description ku.enm.mop calculates a Mobility-Oriented Parity layer by
-#' comparing environmental values between the M area and the area or
+#' @description ku.enm.mop calculates a mobility-oriented parity layer by
+#' comparing environmental values between the calibration area and the area or
 #' scenario to which an ecological niche model is transferred.
 #'
-#' @param M.stack a raster stack of variables representing the M area.
-#' @param G.stack a raster stack of variables representing the G area, areas or scenarios to
-#' which models are transferred.
-#' @param percent (numeric) percetage of values sampled from M to calculate the MOP.
+#' @param M.stack a RasterStack of variables representing the calibration area.
+#' @param G.stack a RasterStack of variables representing the full area of interest, and areas
+#' or scenarios to which models are transferred.
+#' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.
 #' @param normalized (logical) if true values of similarity are presented from 0 to 1,
 #' default = TRUE.
 #'
-#' @return A Mobility-Oriented Parity raster layer.
+#' @return A mobility-oriented parity RasterLayer.
 #'
-#' @details The MOP is calculated following Owens et al., 2013
-#' \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}.
+#' @details The MOP is calculated following Owens et al.
+#' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 #'
 #' @examples
-#' data()
 #' mvars <- mvars_mop
 #' gvars <- gvars_mop
 #' perc <- 10

@@ -1,39 +1,38 @@
 #' Evaluation of candidate Maxent models during calibration
 #'
-#' @description ku.enm.ceval evaluates candidate Maxent models in terms of statistical
-#' significance (partial ROC), prediction ability (omission rates), and complexity (AICc).
-#' After evaluation this function selects the very best models based on a user-defined
-#' criterion.
+#' @description ku.enm.ceval evaluates candidate models in terms of statistical
+#' significance (partial ROC), prediction ability (omission rates), and model complexity (AICc).
+#' After evaluation, this function selects the best models based on user-defined criteria.
 #'
-#' @param path (character) directory in wich folders containig calibration models are being or
-#' were created.
-#' @param occ.joint (character) is the  csv file with training and testing occurrences combined,
-#' columns must be: species, longitud, latitud.
-#' @param occ.tra (character) is the name of the csv file with the training occurrences,
-#' columns equal to occ.joint.
-#' @param occ.test (character) is the name of the csv file with the evaluation occurrences,
-#' columns equal to occ.joint.
-#' @param batch (character) name of the batch file with the code to create all candidate Maxent models
+#' @param path (character) directory in which folders containig calibration models are being created
+#' or were created.
+#' @param occ.joint (character) the name of csv file with training and testing occurrences combined;
+#' columns must be: species, longitude, latitude.
+#' @param occ.tra (character) the name of the csv file with the training occurrences;
+#' columns as in occ.joint.
+#' @param occ.test (character) the name of the csv file with the evaluation occurrences;
+#' columns as in occ.joint.
+#' @param batch (character) name of the batch file with the code to create all candidate models
 #' for calibration.
-#' @param out.eval (character) name of the folder were evaluation results will be written.
-#' @param threshold (numeric) is the percentage of omission error allowed, default = 5.
-#' @param rand.percent (numeric) is the percentage of data to be used for the bootstraping process
-#' when calculating partial ROCs, default = 50.
-#' @param iterations (numeric) is the number of times that the bootstrap is going to be repeated,
+#' @param out.eval (character) name of the folder where evaluation results will be written.
+#' @param threshold (numeric) the percentage of training data omission error allowed (E); default = 5.
+#' @param rand.percent (numeric) the percentage of data to be used for the bootstraping process
+#' when calculating partial ROCs; default = 50.
+#' @param iterations (numeric) the number of times that the bootstrap is going to be repeated;
 #' default = 500.
-#' @param kept (logical) if false all candidate models will be erased after evaluation, default = TRUE.
+#' @param kept (logical) if FALSE, all candidate models will be erased after evaluation, default = TRUE.
 #' @param selection (character) model selection criterion, can be "OR_AICc", "AICc", or "OR";
-#' OR = omission rates. Default = "OR_AICc", which means that among statistically significant models,
-#' those with omission rates below the threshold and among them those with delta AICc up to 2 will be
-#' presented. If "AICc" criterion is chosen, significant models with delta AICc up to 2 will be presented.
-#' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be presented.
+#' OR = omission rates. Default = "OR_AICc", which means that among models that are statistically significant
+#' and that present omission rates below the threshold, those with delta AICc up to 2 will be
+#' selected. If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
+#' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
 #'
-#' @return A folder, in the working directory, containing: a csv file with information about models meeting
-#' the user-defined selection criterion; another csv file with a summary of the evaluation and selection
-#' process; an extra csv file containing all the statistics of model performance (pROC, AICc, and
-#' omission rates) for all candidate models; a png scatterplot of all models based on the AICc values and
-#' omission rates; and, an html file sumarizing all the information produced after evaluation for helping with
-#' further interpretations.
+#' @return A folder, in the working directory, containing a csv file with information about models meeting
+#' the user-defined selection criterion, another csv file with a summary of the evaluation and selection
+#' process, an extra csv file containing all the statistics of model performance (pROC, AICc, and
+#' omission rates) for all candidate models, a png scatterplot of all models based on the AICc values and
+#' omission rates, and an HTML file sumarizing all the information produced after evaluation for helping with
+#' further interpretation.
 #'
 #' @details This function is used after or during the creation of Maxent candidate models for
 #' calibration.
@@ -267,8 +266,8 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
 
   ##Preparing the table
   r_names <- c("All candidate models", "Statistically significant models",
-               "Models meeting omission rate criteria", "Models meeting AICc critera",
-               "Models meeting omission rate and AICc criteria")
+               "Statistically significant models meeting omission rate criteria", "Statistically significant models meeting AICc critera",
+               "Statistically significant models meeting omission rate and AICc criteria")
   statis <- c(length(ku_enm_eval[, 1]),
               length(ku_enm_sign[, 3]),
               length(ku_enm_best_OR[, 4]),

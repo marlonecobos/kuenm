@@ -1,13 +1,12 @@
 #' A set of occurrence records for training candidate ecological niche models.
 #'
-#' A dataset conatining occurrence recods of the Turkey tick in North America, that
-#' are used to train candidate ecological niche models during calibration. 
+#' A dataset containing occurrence recods of the Turkey Tick (*Amblyomma americanum*) across
+#' North America, used to train candidate ecological niche models during calibration.
 #'
 #' @format A data frame with 89 rows and 2 columns.
 #' \describe{
 #'   \item{Longitude}{longitude, in decimal degrees.}
 #'   \item{Latitude}{latitude, in decimal degrees.}
-#'   ...
 #' }
-#' @source \url{http://www.ku***/}
+#' @source \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 "sp_train"

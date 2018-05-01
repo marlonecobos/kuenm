@@ -1,28 +1,28 @@
-#' Creation of candidate Maxent models for calibration
+#' Creation of candidate models for calibration
 #'
 #' @description ku.enm.cal creates and executes a batch file for generating candidate models in Maxent
-#' in order to test multiple parameter combinations, distinct regularization multiplier values,
-#' various feature classes, and different sets of environmental variables, will be combined.
+#' to test multiple parameter combinations, including distinct regularization multiplier values,
+#' various feature classes, and different sets of environmental variables.
 #'
-#' @param occ.joint (character) is the name of the csv file with all the occurrences, columns must be: species, longitud, latitud.
-#' @param occ.tra (character) is the name of the csv file with the calibration occurrences, columns equal to occ.joint.
+#' @param occ.joint (character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.
+#' @param occ.tra (character) is the name of the csv file with the calibration occurrences; columns equal to occ.joint.
 #' @param M.var.dir (character) is the name of the folder containing other folders with different sets of environmental variables.
-#' @param batch (character) name of the batch file with the code to create all candidate maxent models.
-#' @param out.dir (character) name of the folder which will contain all calibration models subfolders.
-#' @param reg.mult (numeric or numeric vector) regularization multiplier(s) to be evaluated.
-#' @param f.clas (character) feature clases can be selected from  four different combination sets or manually.
+#' @param batch (character) name of the batch file with the code to create all candidate models.
+#' @param out.dir (character) name of the folder that will contain all calibration model subfolders.
+#' @param reg.mult (numeric vector) regularization multiplier(s) to be evaluated.
+#' @param f.clas (character) feature clases can be selected from  five different combination sets or manually.
 #' Combination sets are: "all", "basic", "no.t.h", "no.h", and "no.t". Default = "all".
 #' basic = "l", "lq", "lqp", "lqpt", "lqpth". Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h.
 #' Options from the following list can be selected manually:
 #' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
 #' "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-#' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", "lqpth"
+#' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
 #' @param run (logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
-#' manual, default = TRUE
+#' manual, default = TRUE.
 #'
-#' @return A folder named as out.dir with all the subfolders to save maxent results when running the .bat file.
-#' A .bat file containing the java codes to run all the maxent calibration models, it will run auotmatically or in some
-#' computers it will be asked if running is allowed.
+#' @return A folder named out.dir with all the subfolders to save Maxent results when running the .bat file.
+#' A .bat file containing the java codes to run the calibration models, it will run auotmatically or on some
+#' computers a dialog box will ask if running is allowed.
 #'
 #' @details Java needs to be installed in the computer and maxent.jar needs to be located in the working directory.
 #' Java can be obtained from \url{https://java.com/es/download/manual.jsp}. Maxent can be downloaded from

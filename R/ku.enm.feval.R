@@ -1,27 +1,27 @@
 #' Evaluation of final Maxent models with independent data
 #'
 #' @description ku.enm.feval evaluates final Maxent models in terms of statistical
-#' significance (partial ROC) and omission rates with a user-defined threshold.
+#' significance (partial ROC) and omission rates with a user-defined threshold (E).
 #'
-#' @param path (character) directory in wich folders containig final models are being or
+#' @param path (character) directory in which folders containig final models are being created or
 #' were created.
-#' @param occ.joint (character) is the  csv file with training and testing occurrences combined,
-#' or the file containing occurrences used to create final models, columns must be: species,
-#' longitud, latitud.
-#' @param occ.ind (character) is the name of the csv file with independent occurrences for model
-#' evaluation, this occurrences were not used when creating final models, columns equal to occ.joint.
-#' @param replicates (logical) whether or not final models where created performing replicates.
-#' @param out.eval (character) name of the folder were evaluation results will be written.
-#' @param threshold (numeric) is the percentage of omission error allowed, default = 5.
-#' @param rand.percent (numeric) is the percentage of data to be used for the bootstraping process
-#' when calculating partial ROCs, default = 50.
-#' @param iterations (numeric) is the number of times that the bootstrap is going to be repeated,
+#' @param occ.joint (character) the  csv file with training and testing occurrences combined,
+#' or the file containing occurrences used to create final models; columns must be: species,
+#' longitude, latitude.
+#' @param occ.ind (character) the name of the csv file with independent occurrences for model
+#' evaluation; these occurrences were not used when creating final models; columns as in occ.joint.
+#' @param replicates (logical) whether or not final models were created performing replicates.
+#' @param out.eval (character) name of the folder where evaluation results will be written.
+#' @param threshold (numeric) the percentage of omission error allowed (E), default = 5.
+#' @param rand.percent (numeric) the percentage of data to be used for the bootstrapping process
+#' when calculating partial ROCs; default = 50.
+#' @param iterations (numeric) the number of times that the bootstrap is going to be repeated;
 #' default = 500.
 #'
 #' @return A folder, in the working directory, containing a csv file with the final models evaluation
 #' results.
 #'
-#' @details This function is used after finishing the creation of final Maxent models.
+#' @details This function is used after finishing the creation of final models.
 
 ku.enm.feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500) {

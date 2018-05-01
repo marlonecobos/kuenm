@@ -1,12 +1,12 @@
-#' Creation of an R Markdown file for recording all analyses
+#' Creation of an R markdown file for recording all analyses
 #'
-#' @description ku.enm.start generates an R Markdown file that serves as a guide for
-#' performing all the analyses that this package includes.
+#' @description ku.enm.start generates an R markdown file that serves as a guide for
+#' performing all of the analyses included in this package.
 #'
-#' @param file.name (character) is the name of the R Markdown file that will be
+#' @param file.name (character) is the name of the R markdown file that will be
 #' produced in your working directory.
 #'
-#' @return An R Markdown file with instructions and code for performing all
+#' @return An R markdown file with instructions and code for performing all
 #' analyses included in this package.
 #'
 #' @examples
@@ -25,7 +25,7 @@ output:
       toc_depth: 4
 ---
 
-This R Markdown file is created in the working directory, and is designed to make more reproducible the processes of model calibration and final model creation.
+The R markdown file is created in the working directory, and is designed to make the processes of model calibration and final model creation more reproducible.
 
 Information on using this R Markdown file:
 
@@ -34,13 +34,17 @@ Information on using this R Markdown file:
 
 A brief tutorial for using functions of the ku.enm R package can be found in https://github.com/manubio13/ku.enm/blob/master/Tutorial/ku.enm_vignette.md. Additionally, function help can be checked to change arguments according to specific needs.
 
+<br>
+
 ### Candidate models
 
-Candidate models are a large set of candidate models created to respond to the need to test multiple parameter combinations: for example, distinct regularization multiplier values, various feature classes, and different sets of environmental variables. The following code calls the help page of the function ku.enm.cal.
+Candidate models are a large set of candidate models created to respond to the need to test broad suites of parameter combinations, such as, distinct regularization multiplier values, various feature classes, and different sets of environmental variables. The following code calls the help page of the function ku.enm.cal.
 
 \```{r, eval=FALSE}
 help(ku.enm.cal)
 \```
+
+<br>
 
 The next chunk of code is for preparing the arguments for using the function following the modularity principle. These variables can be changed according to each case.
 
@@ -55,6 +59,8 @@ f_clas <- \"all\"
 run <- TRUE
 \```
 
+<br>
+
 The following is the code for using the function.
 
 \```{r, eval=FALSE}
@@ -62,16 +68,19 @@ ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batc
            out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)
 \```
 
+<br>
 
 ### Evaluation and selection of best models
 
-Evaluation is a crucial step in model calibration. This step centers on selecting candidate models and their associated parameters to identify the very best models for the purposes of the study. The ku.enm.eval function evaluates candidate models based on three distinct criteria: statistical significance (based on partial ROC), prediction ability (we use omission rates, but other metrics, such as overall correct classification rate, can also be used), and complexity (here evaluated using AICc). The following code chunk calls the function help window.
+Evaluation is a crucial step in model calibration. This step centers on selecting candidate models and their associated parameters to identify the best models for the purposes of the study. The ku.enm.eval function evaluates candidate models based on three distinct criteria: statistical significance (based on partial ROC analyses), prediction ability (we use omission rates, but other metrics, such as overall correct classification rate, can also be used), and model complexity (here evaluated using AICc). The following code chunk calls the function help window.
 
 \```{r, eval=FALSE}
 help(ku.enm.ceval)
 \```
 
-Below arguments for this functions will be defined.
+<br>
+
+Below, arguments for this functions will be defined.
 
 \```{r, eval=FALSE}
 occ_test <- \"Sp_test.csv\"
@@ -81,10 +90,12 @@ rand_percent <- 50
 iterations <- 500
 kept <- TRUE
 selection <- \"OR_AICc\"
-# Notice, some of the variables used here as arguments were already created for the previous function
+# Note, some of the variables used here as arguments were already created for the previous function
 \```
 
-And this code allows evaluating candidate models that were created previously, selecting those with best performance based on the three criteria.
+<br>
+
+This code also allows evaluating candidate models that were created previously, selecting those with best performance based on the three criteria.
 
 \```{r, eval=FALSE}
 ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
@@ -92,13 +103,17 @@ ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test 
             kept = kept, selection = selection)
 \```
 
+<br>
+
 ### Final model creation
 
-After selecting parametrizations that produce the best models, the next step is to create the final models, and if needed transfer them to other environmental data sets (e.g., to other time periods or other geographic regions). The function help is called via this code:
+After selecting parametrizations that produce best models, the next step is to create the final models, and if needed transfer them to other environmental data sets (e.g., to other time periods or other geographic regions). The function help is called via this code:
 
 \```{r, eval=FALSE}
 help(ku.enm.mod)
 \```
+
+<br>
 
 For preparing the arguments for this function use the following chunk of code.
 
@@ -118,7 +133,9 @@ run1 <- TRUE
 # Again, some of the variables used here as arguments were already created for the previous functions
 \```
 
-And the ku.enm.mod function has the following syntax:
+<br>
+
+The ku.enm.mod function has the following syntax:
 
 \```{r, eval=FALSE}
 ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
@@ -126,16 +143,19 @@ ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, ba
            G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1)
 \```
 
+<br>
 
 ### Final model evaluation
 
-Final model can be evaluated after being created, for this step independent data is needed (data that has not being used in the calibration process and usually comming from different sources). The function help is called via this code:
+Final model can be evaluated after being created; for this step, independent data are needed (data not used in the calibration process, ideally coming from different sources). The function help is called via this code:
 
 \```{r, eval=FALSE}
 help(ku.enm.feval)
 \```
 
-The next chunk of code is for preparing the arguments for using the function.
+<br>
+
+For preparing the arguments for this function, use the following chunk code.
 
 \```{r, eval=FALSE}
 occ_ind <- \"Sp_ind.csv\"
@@ -143,6 +163,8 @@ replicates <- TRUE
 out_feval <- \"Final_Models_evaluation\"
 # Most of the variables used here as arguments were already created for the previous functions
 \```
+
+<br>
 
 The following is the code for using the function.
 
@@ -152,16 +174,19 @@ ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicate
              iterations = iterations)
 \```
 
+<br>
 
 ### MOP analysis
 
-If transfers were performed at the moment of creating final models, the MOP analysis will healp to identify areas of strict extrapolation and levels of similarity between the M and the area or scenario of projection. The code below will help to see the function's description:
+If transfers were performed when creating final models, the MOP analysis will help to identify areas of strict extrapolation and levels of similarity between the calibration area and the region or scenario of projection. The code below will help to see the function's documentation:
 
 \```{r, eval=FALSE}
 help(ku.enm.mmop)
 \```
 
-Below arguments for this functions will be defined.
+<br>
+
+Below, arguments for this functions will be defined.
 
 \```{r, eval=FALSE}
 sets_var <- c(\"Set3\")
@@ -171,7 +196,9 @@ normalized <- TRUE
 # Some of the variables used here as arguments were already created for the previous functions
 \```
 
-And the ku.enm.mmop function has the following syntax:
+<br>
+
+The ku.enm.mmop function has the following syntax:
 
 \```{r, eval=FALSE}
 ku.enm.mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,

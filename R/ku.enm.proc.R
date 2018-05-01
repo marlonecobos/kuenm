@@ -1,26 +1,25 @@
 #' Partial ROC calculation of single models
 #'
-#' @description ku.enm.proc calculates the partial ROC of single models.
+#' @description ku.enm.proc applies partial ROC tests to single models.
 #'
-#' @param occ.test a numeric matrix containing longitude and latitude of the
-#' occurrences used to test the ecological niche model.
-#' @param model a raster layer of the ecological niche model to be evaluated.
-#' @param threshold (numeric) value from 0 to 100 that will be used as threshold,
+#' @param occ.test a numerical matrix containing coordinates of the occurrences used to test
+#' the ecological niche model to be evaluated; columns must be: longitude and latitude.
+#' @param model a RasterLayer of the ecological niche model to be evaluated.
+#' @param threshold (numeric) value from 0 to 100 that will be used as threshold (E);
 #' default = 5.
-#' @param rand.percent (numeric) value from 0 to 100 representing the amount of data
-#' to be used for performing the bootstrap process for calculating the partial ROC,
+#' @param rand.percent (numeric) value from 0 to 100 representing the percent of testing data
+#' to be used for performing the bootstrap process for calculating the partial ROC;
 #' default = 50.
-#' @param iterations (numeric) number of bootstrapped iterations to be performed,
+#' @param iterations (numeric) number of bootstrap iterations to be performed;
 #' default = 1000.
 #'
 #' @return A list containing a named vector with the final partial ROC results and
 #' a matrix containing the AUC values and AUC ratios calculated for each iteration.
 #'
-#' @details Partial ROC is calculated following Peterson et al., 2008
-#' \url{https://doi.org/10.1016/j.ecolmodel.2007.11.008}.
+#' @details Partial ROC is calculated following Peterson et al.
+#' (2008; \url{https://doi.org/10.1016/j.ecolmodel.2007.11.008}).
 #'
 #' @examples
-#' data()
 #' occ <- sp_test
 #' model <- sp_mod
 #' thres <- 5

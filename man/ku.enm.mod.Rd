@@ -10,49 +10,50 @@ ku.enm.mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
   write.mess = FALSE, write.clamp = FALSE, run = TRUE)
 }
 \arguments{
-\item{occ.joint}{(character) is the  csv file with all the occurrences, columns must be: species, longitud, latitud.}
+\item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}
 
-\item{M.var.dir}{(character) name of the forlder containing folders in wich calibration (M) variables are.}
+\item{M.var.dir}{(character) name of the forlder containing folders in which calibration environmental
+datasets are placed.}
 
-\item{out.eval}{(character) name of the folder were evaluation results were written.}
+\item{out.eval}{(character) name of the folder where evaluation results were written.}
 
-\item{batch}{(character) name of the batch file with the code to create all final Maxent models.}
+\item{batch}{(character) name of the batch file with the code to create final Maxent models.}
 
 \item{rep.n}{(numeric) number of model replicates.}
 
-\item{rep.type}{(character) is the replicate type, it can be: "Crossvalidate", "Bootstrap", or "Subsample".}
+\item{rep.type}{(character) the replicate type; it can be: "Crossvalidate", "Bootstrap", or "Subsample".}
 
-\item{jackknife}{(logical) if true, a jackknife process will be performed while runing Maxent models, default = FALSE.}
+\item{jackknife}{(logical) if TRUE, a jackknife process is performed while runing Maxent models, default = FALSE.}
 
-\item{out.dir}{(character) name of the output directory to be created and in which all models subdirectories
+\item{out.dir}{(character) name of the output directory to be created and in which all model subdirectories
 will be created.}
 
-\item{out.format}{(character) is the models output format, it can be: "raw", "logistic", "cloglog", or "cumulative".}
+\item{out.format}{(character) the model output format; it can be: "raw", "logistic", "cloglog", or "cumulative".}
 
-\item{project}{(logical) if true your models will be projected to the scenarios in G.var.dir, default = FALSE.}
+\item{project}{(logical) if TRUE, your models will be projected to the scenarios in G.var.dir, default = FALSE.}
 
-\item{G.var.dir}{(character) if project is true, name of the forlder containing folders in wich variables of your
-projection scenarios are.}
+\item{G.var.dir}{(character) if project is TRUE, name of the forlder containing folders in wHich variables of
+projection scenarios are placed.}
 
-\item{ext.type}{(character) if project is true, is the extrapolation type of projections, can be: "all", "ext_clam",
+\item{ext.type}{(character) if project is TRUE, is the extrapolation type of projections; can be: "all", "ext_clam",
 "ext", and "no_ext", default = "all". ext = free extrapolation, ext_clam = extrapolation and clamping,
-no_ext = no extrapolation, and all = all, the three previous options.}
+no_ext = no extrapolation, and all = all three of the options listed above.}
 
-\item{write.mess}{(logical) if true, grids of MESS analysis results will be written, default = FALSE.}
+\item{write.mess}{(logical) if TRUE, grids of MESS analysis results will be written, default = FALSE.}
 
-\item{write.clamp}{(logical) if true, a grid of the spatial distribution of clamping will be written, default = FALSE.}
+\item{write.clamp}{(logical) if TRUE, a grid of the spatial distribution of clamping will be written, default = FALSE.}
 
-\item{run}{(logical) if true the batch runs after its creation, if false it will only be created and its runnig
+\item{run}{(logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
 would be manual, default = TRUE.}
 }
 \value{
-A folder named as out.dir with all the subfolders to save maxent final model's results when running the .bat file.
-A batch file for creating all the final maxent models with their projections if project = TRUE.
+A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file.
+A batch file for creating all the final Maxent models with their projections if project = TRUE.
 }
 \description{
-ku.enm.mod creates and executes a batch file for generating Maxent models using the
+ku.enm.mod creates and executes a batch file for generating Maxent models using
 parameters previously selected with the \code{\link{ku.enm.ceval}} function.
 }
 \details{
-Same requirements than in \code{\link{ku.enm.cal}}
+Same requirements as in \code{\link{ku.enm.cal}}
 }

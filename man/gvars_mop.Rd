@@ -8,10 +8,9 @@
 \describe{
   \item{Temperature}{temperature, in Celsius degrees times 10.}
   \item{Precipitation}{precipitation, in milimeters.}
-  ...
 }}
 \source{
-\url{http://www.ku***/}
+\url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }
 \usage{
 gvars_mop
@@ -19,6 +18,6 @@ gvars_mop
 \description{
 A dataset containing predictor variables of the area of projection of the ecological
 niche model. Variables represent four future bioclimatic variables (2050) of the
-NCAR-CCSM4 Global Circulation Model in the RCP 8.5 emission scenario.
+NCAR-CCSM4 general circulation model under the RCP 8.5 emission scenario.
 }
 \keyword{datasets}

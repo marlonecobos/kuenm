@@ -2,20 +2,20 @@
 % Please edit documentation in R/html.eval.R
 \name{html.eval}
 \alias{html.eval}
-\title{Creation of an html file with results from model calibration}
+\title{Creation of an HTML file with results from model calibration}
 \usage{
 html.eval(path = getwd(), file.name)
 }
 \arguments{
-\item{path}{directory in wich the html file will be written, default = current directory.}
+\item{path}{directory in which the HTML file will be written; default = current directory.}
 
-\item{file.name}{(character) name of the html file.}
+\item{file.name}{(character) name of the HTML file.}
 }
 \value{
-An html file summarizing all results from the model calibration and selection process.
+An HTML file summarizing results from the model calibration and selection process.
 }
 \description{
-html.eval creates an html file that summarizes all outputs from
+html.eval creates an HTML file that summarizes all outputs from
 the model calibration and selection processes.
 }
 \details{
