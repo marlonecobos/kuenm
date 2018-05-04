@@ -249,27 +249,35 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
   ku_enm_sign <- ku_enm_eval[!is.na(ku_enm_eval[, 3]), ]
   ku_enm_sign <- ku_enm_sign[ku_enm_sign[, 3] <= 0.05, ]
 
+  ku_enm_or <- ku_enm_eval[ku_enm_eval[, 4] <= 0.05, ]
+
+  ku_enm_AICc <- ku_enm_eval[!is.na(ku_enm_eval[, 6]), ]
+  ku_enm_AICc <- ku_enm_AICc[ku_enm_AICc[, 6] <= 2, ]
+
+  ku_enm_best_OR <- ku_enm_sign[ku_enm_sign[, 4] <= threshold / 100, ]
+
+  ku_enm_best_AICc <- ku_enm_bes[ku_enm_bes[, 6] <= 2, ]
+
   ku_enm_best_OR_AICc <- ku_enm_bes[ku_enm_bes[, 4] <= threshold / 100, ]
   if(length(ku_enm_best_OR_AICc[, 4]) != 0) {
     for (i in 1:length(ku_enm_best_OR_AICc[, 1])) {
       ku_enm_best_OR_AICc[i, 6] <- (ku_enm_best_OR_AICc[i, 5] - min(ku_enm_best_OR_AICc[, 5],
-                                                                  na.rm = TRUE))
+                                                                    na.rm = TRUE))
       ku_enm_best_OR_AICc[i, 7] <- (exp(-0.5 * ku_enm_best_OR_AICc[i, 6])) / (sum(exp(-0.5 * ku_enm_best_OR_AICc[, 6]),
-                                                                                na.rm = TRUE))
+                                                                                  na.rm = TRUE))
     }
     ku_enm_best_OR_AICc <- ku_enm_best_OR_AICc[ku_enm_best_OR_AICc[, 6] <= 2, ]
   }
 
-  ku_enm_best_AICc <- ku_enm_bes[ku_enm_bes[, 6] <= 2, ]
-
-  ku_enm_best_OR <- ku_enm_sign[ku_enm_sign[, 4] <= threshold / 100, ]
-
   ##Preparing the table
-  r_names <- c("All candidate models", "Statistically significant models",
-               "Statistically significant models meeting omission rate criteria", "Statistically significant models meeting AICc critera",
+  r_names <- c("All candidate models", "Statistically significant models", "Models meeting omission rate criteria",
+               "Models meeting AICc criteria", "Statistically significant models meeting omission rate criteria",
+               "Statistically significant models meeting AICc critera",
                "Statistically significant models meeting omission rate and AICc criteria")
   statis <- c(length(ku_enm_eval[, 1]),
               length(ku_enm_sign[, 3]),
+              length(ku_enm_or[, 4]),
+              length(ku_enm_AICc[, 6]),
               length(ku_enm_best_OR[, 4]),
               length(ku_enm_best_AICc[, 6]),
               length(ku_enm_best_OR_AICc[, 2]))
