@@ -32,7 +32,7 @@ Information on using this R Markdown file:
 - Try executing code chunks by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
 - Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
-A brief tutorial for using functions of the ku.enm R package can be found in https://github.com/manubio13/ku.enm/blob/master/Tutorial/ku.enm_vignette.md. Additionally, function help can be checked to change arguments according to specific needs.
+A brief tutorial for using functions of the ku.enm R package can be found in the <a href=\"https://github.com/manubio13/ku.enm\" target=\"_blank\">package vignette</a>. Additionally, function help can be checked to change arguments according to specific needs.
 
 <br>
 
