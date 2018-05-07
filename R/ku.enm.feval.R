@@ -18,7 +18,8 @@
 #' @param iterations (numeric) the number of times that the bootstrap is going to be repeated;
 #' default = 500.
 #'
-#' @return A folder, in the working directory, containing a csv file with the final models evaluation
+#' @return A list with two dataframes containing information about the evaluation process; and
+#' a folder, in the working directory, containing a csv file with the final models evaluation
 #' results.
 #'
 #' @details This function is used after finishing the creation of final models.

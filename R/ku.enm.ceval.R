@@ -27,7 +27,8 @@
 #' selected. If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
 #' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
 #'
-#' @return A folder, in the working directory, containing a csv file with information about models meeting
+#' @return  A list with three dataframes containing information about the calibration process. In addition,
+#' a folder, in the working directory, containing a csv file with information about models meeting
 #' the user-defined selection criterion, another csv file with a summary of the evaluation and selection
 #' process, an extra csv file containing all the statistics of model performance (pROC, AICc, and
 #' omission rates) for all candidate models, a png scatterplot of all models based on the AICc values and

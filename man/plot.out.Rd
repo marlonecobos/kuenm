@@ -4,7 +4,7 @@
 \alias{plot.out}
 \title{Detection of environmental values ouside the calibration area of a model}
 \usage{
-plot.out(M1, G1)
+\method{plot}{out}(M1, G1)
 }
 \arguments{
 \item{M1}{a numeric matrix containing values of all environmental variables in the calibration area.}
