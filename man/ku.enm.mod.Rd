@@ -7,7 +7,7 @@
 ku.enm.mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
   rep.type = "Bootstrap", jackknife = FALSE, out.dir,
   out.format = "logistic", project = FALSE, G.var.dir, ext.type = "all",
-  write.mess = FALSE, write.clamp = FALSE, run = TRUE)
+  write.mess = FALSE, write.clamp = FALSE, run = TRUE, args = NULL)
 }
 \arguments{
 \item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -45,6 +45,9 @@ no_ext = no extrapolation, and all = all three of the options listed above.}
 
 \item{run}{(logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
 would be manual, default = TRUE.}
+
+\item{args}{(character) additional arguments that can be passed to Maxent. See the Maxent help for more information
+on how to write these arguments, default = NULL.}
 }
 \value{
 A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file.

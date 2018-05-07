@@ -98,9 +98,9 @@ selection <- \"OR_AICc\"
 This code also allows evaluating candidate models that were created previously, selecting those with best performance based on the three criteria.
 
 \```{r, eval=FALSE}
-ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
-            out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
-            kept = kept, selection = selection)
+cal_eval <- ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
+                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
+                         kept = kept, selection = selection)
 \```
 
 <br>
@@ -130,6 +130,7 @@ ext_type <- \"all\"
 write_mess <- FALSE
 write_clamp <- FALSE
 run1 <- TRUE
+args <- NULL
 # Again, some of the variables used here as arguments were already created for the previous functions
 \```
 
@@ -140,7 +141,7 @@ The ku.enm.mod function has the following syntax:
 \```{r, eval=FALSE}
 ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
            rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
-           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1)
+           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1, args = args)
 \```
 
 <br>
@@ -169,9 +170,9 @@ out_feval <- \"Final_Models_evaluation\"
 The following is the code for using the function.
 
 \```{r, eval=FALSE}
-ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
-             out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
-             iterations = iterations)
+fin_eval <- ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
+                         out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
+                         iterations = iterations)
 \```
 
 <br>

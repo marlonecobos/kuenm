@@ -1,10 +1,12 @@
 Package: ku.enm
 Type: Package
 Title: A package for detailed calibration and construction of Maxent Ecological Niche Models
-Version: 0.1.1
+Version: 1.0.0
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
-    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"))
+    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
+    person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "ctb"),
+    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "ctb"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2018-04-25
 Description: This package helps with the development of critical phases of the 
@@ -13,19 +15,19 @@ Description: This package helps with the development of critical phases of the
     final models, evaluating them, and assesing extrapolation risks are also
     included as part of this package.
 Imports:
-    ENMeval,
-    fields,
-    grDevices,
-    knitr,
-    parallel,
-    raster,
-    rgdal,
-    rmarkdown,
-    sp,
-    sqldf,
-    yaml
+    ENMeval (>= 0.2),
+    fields (>= 9.6),
+    knitr (>= 1.20),
+    parallel (>= 3.4),
+    raster (>= 2.6),
+    rgdal (>= 1.2),
+    rmarkdown (>= 1.9),
+    sp (>= 1.2),
+    sqldf (>= 0.4)
 Suggests:
-    maptools  
+    grDevices,
+    maptools,
+    yaml
 Depends: 
     R (>= 3.4.0)
 License: GPL-2

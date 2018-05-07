@@ -27,7 +27,8 @@ scenario to which an ecological niche model is transferred.
 }
 \details{
 The MOP is calculated following Owens et al.
-(2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
+(2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}). This function is a modification
+of the \code{\link[ENMGadgets]{MOP}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 }
 \examples{
 mvars <- mvars_mop

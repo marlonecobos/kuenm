@@ -203,19 +203,19 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
 
     if(selection == "AICc") {
       ku_enm_bes <- na.omit(ku_enm_eval[ku_enm_eval[, 3] <= 0.05, ])
-      ku_enm_best1 <- ku_enm_best1[ku_enm_best1[, 6] <= 2, ]
-      if(length(ku_enm_best1[, 6] != 0)) {
-        ku_enm_best1 <- ku_enm_best1[order(ku_enm_best1[, 6]), ]
+      ku_enm_best <- ku_enm_bes[ku_enm_bes[, 6] <= 2, ]
+      if(length(ku_enm_best[, 6] != 0)) {
+        ku_enm_best <- ku_enm_best[order(ku_enm_best[, 6]), ]
       }else {
         cat(paste("\nNone of the significant candidate models met the AICc criterion,",
-                  "\ndelta AICc will be recalculated for the significant models\n"))
+                  "\ndelta AICc will be recalculated for significant models\n"))
 
-        for (i in 1:length(ku_enm_best1[, 6])) {
-          ku_enm_best1[i, 6] <- (ku_enm_best1[i, 5] - min(ku_enm_best1[, 5], na.rm = TRUE))
-          ku_enm_best1[i, 7] <- (exp(-0.5 * ku_enm_best1[i, 6])) / (sum(exp(-0.5 * ku_enm_best1[, 6]), na.rm = TRUE))
+        for (i in 1:length(ku_enm_best[, 6])) {
+          ku_enm_best[i, 6] <- (ku_enm_best[i, 5] - min(ku_enm_best[, 5], na.rm = TRUE))
+          ku_enm_best[i, 7] <- (exp(-0.5 * ku_enm_best[i, 6])) / (sum(exp(-0.5 * ku_enm_best[, 6]), na.rm = TRUE))
         }
-        ku_enm_best1 <- ku_enm_best1[ku_enm_best1[, 6] <= 2, ]
-        ku_enm_best1 <- ku_enm_best1[order(ku_enm_best1[, 6]), ]
+        ku_enm_best <- ku_enm_best[ku_enm_best[, 6] <= 2, ]
+        ku_enm_best <- ku_enm_best[order(ku_enm_best[, 6]), ]
       }
     }
 
@@ -223,23 +223,23 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
       ku_enm_b <- ku_enm_eval[!is.na(ku_enm_eval[, 3]), ]
       ku_enm_bes <- na.omit(ku_enm_eval[ku_enm_eval[, 3] <= 0.05, ])
       ku_enm_bes1 <- ku_enm_b[ku_enm_b[, 3] <= 0.05, ]
-      ku_enm_best2 <- ku_enm_bes1[ku_enm_bes1[, 4] <= threshold / 100, ]
-      if(length(ku_enm_best2[, 4]) != 0) {
-        if(length(ku_enm_best2[, 4]) > 10) {
-          ku_enm_best2 <- ku_enm_best2[order(ku_enm_best2[, 4]), ][1:10, ]
+      ku_enm_best <- ku_enm_bes1[ku_enm_bes1[, 4] <= threshold / 100, ]
+      if(length(ku_enm_best[, 4]) != 0) {
+        if(length(ku_enm_best[, 4]) > 10) {
+          ku_enm_best <- ku_enm_best[order(ku_enm_best[, 4]), ][1:10, ]
         }else {
-          ku_enm_best2 <- ku_enm_best2[order(ku_enm_best2[, 4]), ]
+          ku_enm_best <- ku_enm_best[order(ku_enm_best[, 4]), ]
         }
       }else {
         cat(paste("\nNone of the significant candidate models met the omission rate criterion,",
                   "\nmodels with the smallest omission rate will be presented\n"))
 
-        ku_enm_best2 <- ku_enm_bes[ku_enm_bes[, 4] == min(ku_enm_bes[, 4]), ][1:10, ]
+        ku_enm_best <- ku_enm_bes[ku_enm_bes[, 4] == min(ku_enm_bes[, 4]), ][1:10, ]
       }
     }
   }else {
   cat("\nNo valid model selection criterion has been defined,\n
-        no file containing the best models will be created.\n
+        no file containing best models was created.\n
         Select your best models from the complete list.\n")
   }
 
@@ -306,10 +306,10 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
       write.csv(ku_enm_best, file = name1, eol = "\n", na = "NA", row.names = FALSE)
     }
     if(selection == "AICc"){
-      write.csv(ku_enm_best1, file = name2, eol = "\n", na = "NA", row.names = FALSE)
+      write.csv(ku_enm_best, file = name2, eol = "\n", na = "NA", row.names = FALSE)
     }
     if(selection == "OR"){
-      write.csv(ku_enm_best2, file = name3, eol = "\n", na = "NA", row.names = FALSE)
+      write.csv(ku_enm_best, file = name3, eol = "\n", na = "NA", row.names = FALSE)
     }
   }
 
@@ -317,7 +317,7 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
   png(paste(out.eval, "calibration_figure.png", sep = "/"), width = 80, height = 80,
       units = "mm", res = 600)
 
-  par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.6)
+  par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.62)
   plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
        xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
                                                         paste(threshold, "%", sep = ""),
@@ -336,14 +336,14 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
              inset = c(0.01, 0))
     }
     if(selection == "AICc") {
-      points(na.omit(ku_enm_best1)[, 4]~log(na.omit(ku_enm_best1)[, 5]),
+      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
              col = "darkorchid1", pch = 17, cex = 1.4)
       legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
              pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
              inset = c(0.01, 0))
     }
     if(selection == "OR") {
-      points(na.omit(ku_enm_best2)[, 4]~log(na.omit(ku_enm_best2)[, 5]),
+      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
              col = "orange2", pch = 17, cex = 1.4)
       legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
              pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
@@ -360,6 +360,54 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
   ##html file
   ###Writing the html file
   html.eval(path = out.eval, file.name = "calibration_results")
+
+  ##Retuning objects
+  ###Dataframes in a list
+  list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
+  names(list_res) <- c("Summary", "Best models",
+                       "All models")
+
+  ###Plot
+  ku_enm_plot <- {
+    par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.85)
+    plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
+         xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
+                                                          paste(threshold, "%", sep = ""),
+                                                          "threshold value", sep = " "),
+         las = 1, col = "grey35")
+
+    points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
+           col = "red1", pch = 19, cex = 1.1)
+
+    if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
+      if(selection == "OR_AICc") {
+        points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+               col = "dodgerblue1", pch = 17, cex = 1.4)
+        legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+               pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
+               inset = c(0.01, 0))
+      }
+      if(selection == "AICc") {
+        points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+               col = "darkorchid1", pch = 17, cex = 1.4)
+        legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+               pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
+               inset = c(0.01, 0))
+      }
+      if(selection == "OR") {
+        points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+               col = "orange2", pch = 17, cex = 1.4)
+        legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+               pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
+               inset = c(0.01, 0))
+      }else {
+        cat("All selected models had NAs as AICc values, imposible to plot them.")
+        legend("bottomright", legend = c("Non significant models", "All candidate models"),
+               pt.cex = c(1.1, 1), pch = c(19, 1), col = c("red1", "gray35"), bty = "n",
+               inset = c(0.01, 0))
+      }
+    }
+  }
 
   #####
   #Finalizing the function
@@ -386,6 +434,7 @@ ku.enm.ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, th
   }
 
   cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+  return(list_res)
 }
 
 n.par <- function(x) {

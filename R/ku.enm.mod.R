@@ -24,16 +24,17 @@
 #' @param write.clamp (logical) if TRUE, a grid of the spatial distribution of clamping will be written, default = FALSE.
 #' @param run (logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
 #' would be manual, default = TRUE.
+#' @param args (character) additional arguments that can be passed to Maxent. See the Maxent help for more information
+#' on how to write these arguments, default = NULL.
 #'
 #' @return A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file.
 #' A batch file for creating all the final Maxent models with their projections if project = TRUE.
 #'
 #' @details Same requirements as in \code{\link{ku.enm.cal}}
 
-
 ku.enm.mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
                        jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
-                       ext.type = "all", write.mess = FALSE, write.clamp = FALSE, run = TRUE) {
+                       ext.type = "all", write.mess = FALSE, write.clamp = FALSE, run = TRUE, args = NULL) {
 
   #####
   #Data
@@ -187,9 +188,61 @@ ku.enm.mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.ty
 
   #####
   #Final code
-  if(project == TRUE) {
-    if(write.clamp == FALSE | write.mess == FALSE) {
-      if(write.clamp == FALSE & write.mess == TRUE) {
+  if (exists("args") == TRUE) {
+    if(project == TRUE) {
+      if(write.clamp == FALSE | write.mess == FALSE) {
+        if(write.clamp == FALSE & write.mess == TRUE) {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = ""))
+
+          for (i in 1:length(sett1)) {
+            Sys.sleep(0.1)
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+            for (j in 1:length(ext.nam)) {
+              subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+              dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+              reg.m <- paste("betamultiplier=", rm[i], sep = "")
+              cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.clamp, args, fin.com, sep = " "))
+            }
+          }
+        }
+        if(write.mess == FALSE & write.clamp == TRUE) {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = ""))
+
+          for (i in 1:length(sett1)) {
+            Sys.sleep(0.1)
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+            for (j in 1:length(ext.nam)) {
+              subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+              dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+              reg.m <- paste("betamultiplier=", rm[i], sep = "")
+              cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.mess, args, fin.com, sep = " "))
+            }
+          }
+        }
+        if(write.clamp == FALSE & write.mess == FALSE) {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = ""))
+
+          for (i in 1:length(sett1)) {
+            Sys.sleep(0.1)
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+            for (j in 1:length(ext.nam)) {
+              subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+              dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+              reg.m <- paste("betamultiplier=", rm[i], sep = "")
+              cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.clamp, w.mess, args, fin.com, sep = " "))
+            }
+          }
+        }
+      }else {
         pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
         sink(paste(batch, ".bat", sep = ""))
 
@@ -202,44 +255,20 @@ ku.enm.mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.ty
             dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
 
             reg.m <- paste("betamultiplier=", rm[i], sep = "")
-            cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.clamp, fin.com, sep = " "))
+            cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], args, fin.com, sep = " "))
           }
         }
       }
-      if(write.mess == FALSE & write.clamp == TRUE) {
-        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
-        sink(paste(batch, ".bat", sep = ""))
 
-        for (i in 1:length(sett1)) {
-          Sys.sleep(0.1)
-          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+      sink()
+      suppressMessages(close(pb))
 
-          for (j in 1:length(ext.nam)) {
-            subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
-            dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+      cat("\nIf asked, allow runing as administrator.")
+      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
 
-            reg.m <- paste("betamultiplier=", rm[i], sep = "")
-            cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.mess, fin.com, sep = " "))
-          }
-        }
-      }
-      if(write.clamp == FALSE & write.mess == FALSE) {
-        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
-        sink(paste(batch, ".bat", sep = ""))
-
-        for (i in 1:length(sett1)) {
-          Sys.sleep(0.1)
-          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
-
-          for (j in 1:length(ext.nam)) {
-            subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
-            dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
-
-            reg.m <- paste("betamultiplier=", rm[i], sep = "")
-            cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.clamp, w.mess, fin.com, sep = " "))
-          }
-        }
-      }
+      cat("\nProcess finished\n")
+      cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }else {
       pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
       sink(paste(batch, ".bat", sep = ""))
@@ -248,62 +277,128 @@ ku.enm.mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.ty
         Sys.sleep(0.1)
         setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
 
-        for (j in 1:length(ext.nam)) {
-          subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
-          dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+        subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], sep = "")
+        dir.create(paste(out.dir, "/", sett1[i], sep = ""))
 
-          reg.m <- paste("betamultiplier=", rm[i], sep = "")
-          cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], fin.com, sep = " "))
+        reg.m <- paste("betamultiplier=", rm[i], sep = "")
+        cat(paste(in.comm, env[i], samp, subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com, args, fin.com, sep = " "))
+      }
+
+      sink()
+      suppressMessages(close(pb))
+
+      cat("\nIf asked, allow runing as administrator.")
+      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+
+      cat("\nProcess finished\n")
+      cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
+      cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+    }
+  }else {
+    if(project == TRUE) {
+      if(write.clamp == FALSE | write.mess == FALSE) {
+        if(write.clamp == FALSE & write.mess == TRUE) {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = ""))
+
+          for (i in 1:length(sett1)) {
+            Sys.sleep(0.1)
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+            for (j in 1:length(ext.nam)) {
+              subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+              dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+              reg.m <- paste("betamultiplier=", rm[i], sep = "")
+              cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.clamp, fin.com, sep = " "))
+            }
+          }
+        }
+        if(write.mess == FALSE & write.clamp == TRUE) {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = ""))
+
+          for (i in 1:length(sett1)) {
+            Sys.sleep(0.1)
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+            for (j in 1:length(ext.nam)) {
+              subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+              dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+              reg.m <- paste("betamultiplier=", rm[i], sep = "")
+              cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.mess, fin.com, sep = " "))
+            }
+          }
+        }
+        if(write.clamp == FALSE & write.mess == FALSE) {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = ""))
+
+          for (i in 1:length(sett1)) {
+            Sys.sleep(0.1)
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+            for (j in 1:length(ext.nam)) {
+              subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+              dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+              reg.m <- paste("betamultiplier=", rm[i], sep = "")
+              cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], w.clamp, w.mess, fin.com, sep = " "))
+            }
+          }
+        }
+      }else {
+        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        sink(paste(batch, ".bat", sep = ""))
+
+        for (i in 1:length(sett1)) {
+          Sys.sleep(0.1)
+          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+          for (j in 1:length(ext.nam)) {
+            subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
+            dir.create(paste(out.dir, "/", sett1[i], ext.nam[j], sep = ""))
+
+            reg.m <- paste("betamultiplier=", rm[i], sep = "")
+            cat(paste(in.comm, env[i], samp, G.dirs[i], subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com[j], fin.com, sep = " "))
+          }
         }
       }
+
+      sink()
+      suppressMessages(close(pb))
+
+      cat("\nIf asked, allow runing as administrator.")
+      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+
+      cat("\nProcess finished\n")
+      cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+    }else {
+      pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+      sink(paste(batch, ".bat", sep = ""))
+
+      for (i in 1:length(sett1)) {
+        Sys.sleep(0.1)
+        setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+
+        subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], sep = "")
+        dir.create(paste(out.dir, "/", sett1[i], sep = ""))
+
+        reg.m <- paste("betamultiplier=", rm[i], sep = "")
+        cat(paste(in.comm, env[i], samp, subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com, fin.com, sep = " "))
+      }
+
+      sink()
+      suppressMessages(close(pb))
+
+      cat("\nIf asked, allow runing as administrator.")
+      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+
+      cat("\nProcess finished\n")
+      cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
+      cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }
-
-    sink()
-    suppressMessages(close(pb))
-
-    cat("\nIf asked, allow runing as administrator.")
-    shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
-
-    cat("\nProcess finished\n")
-    cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
-    cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
-  }else {
-    pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
-    sink(paste(batch, ".bat", sep = ""))
-
-    for (i in 1:length(sett1)) {
-      Sys.sleep(0.1)
-      setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
-
-      subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], sep = "")
-      dir.create(paste(out.dir, "/", sett1[i], sep = ""))
-
-      reg.m <- paste("betamultiplier=", rm[i], sep = "")
-      cat(paste(in.comm, env[i], samp, subfol, reg.m, a.fea, fea[i], rep, rept, jack, out, mid.com, fin.com, sep = " "))
-    }
-
-    sink()
-    suppressMessages(close(pb))
-
-    cat("\nIf asked, allow runing as administrator.")
-    shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
-
-    cat("\nProcess finished\n")
-    cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
-    cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
-  }
-}
-
-
-get.free.ram <- function(){
-  if(Sys.info()[["sysname"]] == "Windows"){
-    x <- system2("wmic", args =  "OS get FreePhysicalMemory /Value", stdout = TRUE)
-    x <- x[grepl("FreePhysicalMemory", x)]
-    x <- gsub("FreePhysicalMemory=", "", x, fixed = TRUE)
-    x <- gsub("\r", "", x, fixed = TRUE)
-    as.integer(x)
-  } else {
-    cat("\nOnly supported on Windows OS\n1.6 Gb of the memory will be used for java runnings\n")
-    x <- 4000000
   }
 }

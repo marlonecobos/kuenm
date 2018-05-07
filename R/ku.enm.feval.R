@@ -138,6 +138,11 @@ ku.enm.feval <- function(path, occ.joint, occ.ind, replicates, out.eval, thresho
 
   write.csv(ku_enm_eval, file = name, eol = "\n", na = "NA", row.names = FALSE)
 
+  ##Retuning objects
+  ###Dataframes in a list
+  list_res <- list(ku_enm_stats, ku_enm_eval)
+  names(list_res) <- c("Summary", "Evaluated models")
+
   #####
   #Finalizing the function
   cat("\nProcess finished\n")
@@ -149,4 +154,6 @@ ku.enm.feval <- function(path, occ.joint, occ.ind, replicates, out.eval, thresho
   cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
   cat("\n\nHere a summary of the evaluation process.\n\n")
   print(ku_enm_stats)
+
+  return(list_res)
 }

@@ -14,7 +14,8 @@
 #' @return A mobility-oriented parity RasterLayer.
 #'
 #' @details The MOP is calculated following Owens et al.
-#' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
+#' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}). This function is a modification
+#' of the \code{\link[ENMGadgets]{MOP}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 #'
 #' @examples
 #' mvars <- mvars_mop
@@ -38,7 +39,7 @@ ku.enm.mop <- function(M.stack, G.stack, percent = 10, normalized = TRUE) {
 
   steps <- seq(1, dim(m2)[1], 1000)
   kkk <- c(steps,  dim(m2)[1] + 1)
-  out_index <- PlotOut(m1, m2)
+  out_index <- plot.out(m1, m2)
   long_k <- length(kkk)
 
   mop1 <- lapply(1:(length(kkk) - 1), function(x) {
@@ -70,20 +71,4 @@ ku.enm.mop <- function(M.stack, G.stack, percent = 10, normalized = TRUE) {
   }
 
   return(mop_raster)
-}
-
-
-PlotOut <- function (M1, G1) {
-  d1 <- dim(M1)
-  AllVec <- matrix(0, 0, 0)
-
-  for (i in 3:d1[2]) {
-    MRange <- range(M1[, i])
-    l1 <- which(G1[, i] < range(M1[, i])[1] | G1[,4] > range(M1[, 4])[2])
-    AllVec <- c(l1, AllVec)
-  }
-
-  AllVec <- unique(AllVec)
-
-  return(AllVec)
 }
