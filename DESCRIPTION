@@ -5,8 +5,8 @@ Version: 1.0.0
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
-    person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "ctb"),
-    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "ctb"))
+    person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "aut"),
+    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
 Date: 2018-04-25
 Description: This package helps with the development of critical phases of the 
