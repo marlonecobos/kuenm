@@ -111,12 +111,22 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   fin.com1 <- "extrapolate=false doclamp=false replicates=1 replicatetype=Bootstrap responsecurves=false jackknife=false plots=false pictures=false outputformat=logistic warnings=false visible=false redoifexists autorun\n"
 
   #Final code
-  pb <- winProgressBar(title = "Progress bar", min = 0, max = length(reg.mult), width = 300) #progress bar
+  if(.Platform$OS.type == "unix") {
+
+  } else {
+    pb <- winProgressBar(title = "Progress bar", min = 0, max = length(reg.mult), width = 300) #progress bar
+  }
+
   sink(paste(batch, ".bat", sep = ""))
 
   for (i in 1:length(reg.mult)) {
-    Sys.sleep(0.1)
-    setWinProgressBar(pb, i, title = paste( round(i / length(reg.mult) * 100, 0), "% finished"))
+    if(.Platform$OS.type == "unix") {
+
+    } else {
+      Sys.sleep(0.1)
+      setWinProgressBar(pb, i, title = paste( round(i / length(reg.mult) * 100, 0), "% finished"))
+    }
+
     for (j in 1:length(fea)) {
       for (k in 1:length(ms)) {
         subfol <- paste("outputdirectory=", out.dir, "\\",
@@ -135,7 +145,12 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
     }
   }
   sink()
-  suppressMessages(close(pb))
+  if(.Platform$OS.type == "unix") {
+
+  } else {
+    suppressMessages(close(pb))
+  }
+
 
   cat("\nIf asked and run = TRUE, allow runing as administrator.")
 
