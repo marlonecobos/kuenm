@@ -14,16 +14,16 @@ Information on using this R Markdown file:
 -   Try executing code chunks by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
 -   Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
 
-A brief tutorial for using functions of the ku.enm R package can be found in the <a href="https://github.com/manubio13/ku.enm" target="_blank">package vignette</a>. Additionally, function help can be checked to change arguments according to specific needs.
+A brief tutorial for using functions of the kuenm R package can be found in the <a href="https://github.com/manubio13/kuenm" target="_blank">package vignette</a>. Additionally, function help can be checked to change arguments according to specific needs.
 
 <br>
 
 ### Candidate models
 
-Candidate models are a large set of candidate models created to respond to the need to test broad suites of parameter combinations, such as, distinct regularization multiplier values, various feature classes, and different sets of environmental variables. The following code calls the help page of the function ku.enm.cal.
+Candidate models are a large set of candidate models created to respond to the need to test broad suites of parameter combinations, such as, distinct regularization multiplier values, various feature classes, and different sets of environmental variables. The following code calls the help page of the function kuenm\_cal.
 
 ``` r
-help(ku.enm.cal)
+help(kuenm_cal)
 ```
 
 <br>
@@ -46,7 +46,7 @@ run <- TRUE
 The following is the code for using the function.
 
 ``` r
-ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
+kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
            out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)
 ```
 
@@ -54,10 +54,10 @@ ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batc
 
 ### Evaluation and selection of best models
 
-Evaluation is a crucial step in model calibration. This step centers on selecting candidate models and their associated parameters to identify the best models for the purposes of the study. The ku.enm.eval function evaluates candidate models based on three distinct criteria: statistical significance (based on partial ROC analyses), prediction ability (we use omission rates, but other metrics, such as overall correct classification rate, can also be used), and model complexity (here evaluated using AICc). The following code chunk calls the function help window.
+Evaluation is a crucial step in model calibration. This step centers on selecting candidate models and their associated parameters to identify the best models for the purposes of the study. The kuenm\_eval function evaluates candidate models based on three distinct criteria: statistical significance (based on partial ROC analyses), prediction ability (we use omission rates, but other metrics, such as overall correct classification rate, can also be used), and model complexity (here evaluated using AICc). The following code chunk calls the function help window.
 
 ``` r
-help(ku.enm.ceval)
+help(kuenm_ceval)
 ```
 
 <br>
@@ -80,7 +80,7 @@ selection <- "OR_AICc"
 This code also allows evaluating candidate models that were created previously, selecting those with best performance based on the three criteria.
 
 ``` r
-cal_eval <- ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
+cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
                          out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
                          kept = kept, selection = selection)
 ```
@@ -92,7 +92,7 @@ cal_eval <- ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tr
 After selecting parametrizations that produce best models, the next step is to create the final models, and if needed transfer them to other environmental data sets (e.g., to other time periods or other geographic regions). The function help is called via this code:
 
 ``` r
-help(ku.enm.mod)
+help(kuenm_mod)
 ```
 
 <br>
@@ -118,10 +118,10 @@ args <- "outputgrids=false"
 
 <br>
 
-The ku.enm.mod function has the following syntax:
+The kuenm\_mod function has the following syntax:
 
 ``` r
-ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
+kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
            rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
            G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1, args = args)
 ```
@@ -133,7 +133,7 @@ ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, ba
 Final model can be evaluated after being created; for this step, independent data are needed (data not used in the calibration process, ideally coming from different sources). The function help is called via this code:
 
 ``` r
-help(ku.enm.feval)
+help(kuenm_feval)
 ```
 
 <br>
@@ -152,7 +152,7 @@ out_feval <- "Final_Models_evaluation"
 The following is the code for using the function.
 
 ``` r
-fin_eval <- ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
+fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
                          out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
                          iterations = iterations)
 ```
@@ -164,7 +164,7 @@ fin_eval <- ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_in
 If transfers were performed when creating final models, the MOP analysis will help to identify areas of strict extrapolation and levels of similarity between the calibration area and the region or scenario of projection. The code below will help to see the function's documentation:
 
 ``` r
-help(ku.enm.mmop)
+help(kuenm_mmop)
 ```
 
 <br>
@@ -181,9 +181,9 @@ normalized <- TRUE
 
 <br>
 
-The ku.enm.mmop function has the following syntax:
+The kuenm\_mmop function has the following syntax:
 
 ``` r
-ku.enm.mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
+kuenm_mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
             percent = percent, normalized = normalized)
 ```

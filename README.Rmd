@@ -36,7 +36,7 @@ Before starting the analyses, the user must make sure that the working directory
 * A csv file containing training and testing occurrence data together (preferably after cleaning and thinning original data to avoid problems like wrong records and spatial auto-correlation). This data set consists of three fields: species name, longitude, and latitude. See Sp_joint.csv, in Figure 1.
 * A csv file containing occurrence data for training models. This file and the next file generally represent exclusive subsets of the full set of records. Occurrences can be subsetted in multiple ways [@muscarella_enmeval:_2014], but some degree of independence of training and testing data is desired. See Sp_train.csv in figure 1.
 * A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp_test.csv in figure 1).
-* A csv file containing a completely independent subset of occurrence data--external to training and testing data--for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp_ind.csv, in Figure 1. 
+* A csv file containing a completely independent subset of occurrence data&mdash;external to training and testing data&mdash;for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp_ind.csv, in Figure 1. 
 
 Another important requirement for using Maxent and therefore the kuenm package is to have Java installed in the computer. Java can be downloaded from the <a href="https://java.com/es/download/" target="_blank">Java download page</a>.
 
@@ -73,10 +73,10 @@ if(!require(kuenm)){
 
 Data used as an example for testing this package correspond to the turkey tick *Amblyomma americanum*, a vector of various  diseases, including human monocytotropic ehrlichiosis, canine and human granulocytic ehrlichiosis, tularemia, and southern tick-associated rash illness. This species is distributed broadly in North America and a complete analysis of the risk of its invasion in other regions is being developed by Raghavan et al. (in review).
 
-These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">kuenm example data</a>) and extracted using the code below.
+These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">kuenm example data</a>) and extracted using the code below.
 
 ```{r, eval=FALSE, include=TRUE}
-download.file(url = "https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=1&isAllowed=y", 
+download.file(url = "https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=3&isAllowed=y", 
               destfile = "C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip", mode = "wb",
               quiet = FALSE) # donwload the zipped example folder in documents
 
