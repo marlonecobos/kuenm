@@ -1,4 +1,4 @@
-ku.enm vignette
+kuenm vignette
 ================
 Marlon E. Cobos and A. Townsend Peterson.
 April 25, 2018
@@ -23,9 +23,9 @@ April 25, 2018
 Introduction
 ------------
 
-**ku.enm** is an R package designed to make the process of model calibration and final model creation easier and more reproducible, and at the same time more robust. The aim of this package is to design suites of candidate models to create diverse calibrations of Maxent models to allow selection of optimal parameterizations for each study. Other objectives of this program are to make the task of creating final models and their transfers easier, as well to permit assessing extrapolation risks when model transfers are needed.
+**kuenm** is an R package designed to make the process of model calibration and final model creation easier and more reproducible, and at the same time more robust. The aim of this package is to design suites of candidate models to create diverse calibrations of Maxent models to allow selection of optimal parameterizations for each study. Other objectives of this program are to make the task of creating final models and their transfers easier, as well to permit assessing extrapolation risks when model transfers are needed.
 
-This document is a brief tutorial for using the functions of the **ku.enm** R package. An example of a disease vector (a tick) is used in this tutorial to make it more clear and understandable. Functions help can be checked while performing the processes.
+This document is a brief tutorial for using the functions of the **kuenm** R package. An example of a disease vector (a tick) is used in this tutorial to make it more clear and understandable. Functions help can be checked while performing the processes.
 
 <br>
 
@@ -45,20 +45,20 @@ Before starting the analyses, the user must make sure that the working directory
 -   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in figure 1).
 -   A csv file containing a completely independent subset of occurrence data--external to training and testing data--for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
 
-Another important requirement for using Maxent and therefore the ku.enm package is to have Java installed in the computer. Java can be downloaded from the <a href="https://java.com/es/download/" target="_blank">Java download page</a>.
+Another important requirement for using Maxent and therefore the kuenm package is to have Java installed in the computer. Java can be downloaded from the <a href="https://java.com/es/download/" target="_blank">Java download page</a>.
 
 <br>
 
-<img src="Structure.png" alt="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the ku.enm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)." width="4114" />
+<img src="Structure.png" alt="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)." width="4114" />
 <p class="caption">
-Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the ku.enm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green).
+Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green).
 </p>
 
 <br>
 
 ### Installing the package
 
-The **ku.enm** R package is in a GitHub repository and can be installed and/or loaded using the following code (make sure to have Internet connection).
+The **kuenm** R package is in a GitHub repository and can be installed and/or loaded using the following code (make sure to have Internet connection).
 
 ``` r
 # Installing and loading packages
@@ -67,9 +67,9 @@ if(!require(devtools)){
     library(devtools)
 }
 
-if(!require(ku.enm)){
-    devtools::install_github("manubio13/ku.enm")
-    library(ku.enm)
+if(!require(kuenm)){
+    devtools::install_github("manubio13/kuenm")
+    library(kuenm)
 }
 ```
 
@@ -79,7 +79,7 @@ if(!require(ku.enm)){
 
 Data used as an example for testing this package correspond to the turkey tick *Amblyomma americanum*, a vector of various diseases, including human monocytotropic ehrlichiosis, canine and human granulocytic ehrlichiosis, tularemia, and southern tick-associated rash illness. This species is distributed broadly in North America and a complete analysis of the risk of its invasion in other regions is being developed by Raghavan et al. (in review).
 
-These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">ku.enm example data</a>) and extracted using the code below.
+These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">kuenm example data</a>) and extracted using the code below.
 
 ``` r
 download.file(url = "https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=1&isAllowed=y", 
@@ -108,10 +108,10 @@ Doing the analyses
 
 ### Workflow recording
 
-Once the working directory and data are ready, the function *ku.enm.start* (.Rmd) will allow generating an *R Markdown* file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recomended if recording individual workflows per each species is desired.
+Once the working directory and data are ready, the function *kuenm\_start* (.Rmd) will allow generating an *R Markdown* file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recomended if recording individual workflows per each species is desired.
 
 ``` r
-help(ku.enm.start)
+help(kuenm_start)
 ```
 
 ``` r
@@ -120,25 +120,25 @@ file_name = "aame_enm_process"
 ```
 
 ``` r
-ku.enm.start(file.name = file_name)
+kuenm_start(file.name = file_name)
 ```
 
 <br>
 
 ### Calibration of models
 
-Notice that, from this point, the following procedures will be performed in the *R Markdown* file previously created, but only if the *ku.enm.start* function was used.
+Notice that, from this point, the following procedures will be performed in the *R Markdown* file previously created, but only if the *kuenm\_start* function was used.
 
 <br>
 
 #### Creation of candidate models
 
-The function *ku.enm.cal* creates and executes a batch file for generating Maxent candidate models that will be written in subdirectories, named as the parameterizations selected, inside the output directory (Figure 1, light green area). Calibration models will be created with multiple combinations of regularization multipliers, feature classes, and sets of environmental predictors. For each combination, this function creates one Maxent model with the complete set of occurrences and another with training occurrences only. On some computers, the user will be asked if ruinning the batch file is allowed before the modeling process starts in Maxent.
+The function *kuenm\_cal* creates and executes a batch file for generating Maxent candidate models that will be written in subdirectories, named as the parameterizations selected, inside the output directory (Figure 1, light green area). Calibration models will be created with multiple combinations of regularization multipliers, feature classes, and sets of environmental predictors. For each combination, this function creates one Maxent model with the complete set of occurrences and another with training occurrences only. On some computers, the user will be asked if ruinning the batch file is allowed before the modeling process starts in Maxent.
 
 Maxent will run in command-line interface (**do not close the application**) and its graphic interface will not show up, to avoid interfering with activities other than the modeling process.
 
 ``` r
-help(ku.enm.cal)
+help(kuenm_cal)
 ```
 
 ``` r
@@ -154,7 +154,7 @@ run <- TRUE
 ```
 
 ``` r
-ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
+kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
            out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)
 ```
 
@@ -162,10 +162,10 @@ ku.enm.cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batc
 
 #### Evaluation and selection of best models
 
-The function *ku.enm.ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (*E* = a user-selected proportion of occurrence data that may present meaninful errors; see Peterson, Papeş, & Soberón (2008)), and model complexity (AICc), and selects best models based on distinct, user-set criteria (see selection in function help). Partial ROC and omission rates are evaluated based on models created with training occurrences, whereas AICc values are calculated for models created with the full set of occurrences (Warren & Seifert, 2011). Outputs are stored in a folder that will contain a .csv file with the statistics of models meeting each of the evaluation criteria, another with only the models selected based on the user-specified criteria, a third with performance metrics for all candidate models, a plot of model performance, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Figure 1, purple area).
+The function *kuenm\_ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (*E* = a user-selected proportion of occurrence data that may present meaninful errors; see Peterson, Papeş, & Soberón (2008)), and model complexity (AICc), and selects best models based on distinct, user-set criteria (see selection in function help). Partial ROC and omission rates are evaluated based on models created with training occurrences, whereas AICc values are calculated for models created with the full set of occurrences (Warren & Seifert, 2011). Outputs are stored in a folder that will contain a .csv file with the statistics of models meeting each of the evaluation criteria, another with only the models selected based on the user-specified criteria, a third with performance metrics for all candidate models, a plot of model performance, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Figure 1, purple area).
 
 ``` r
-help(ku.enm.ceval)
+help(kuenm_ceval)
 ```
 
 ``` r
@@ -180,7 +180,7 @@ selection <- "OR_AICc"
 ```
 
 ``` r
-cal_eval <- ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
+cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
                          out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
                          kept = kept, selection = selection)
 ```
@@ -189,12 +189,12 @@ cal_eval <- ku.enm.ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tr
 
 ### Final model creation
 
-After selecting parameterizations producing the best models, the next step is that of creating final models and, if needed, transferring them to other areas or scenarios. The *ku.enm.mod* function takes the .csv file with the best models from the model selection process, and writes and executes a batch file for creating final models with the selected parameterizations. Models and projections are stored in subdirectories inside an output folder; these subdirectories will be named as with the candidate models. By allowing projections (i.e., project = TRUE) and defining the folder holding the data for transfers (i.e., folder name in G.var.dir argument), this function automatically performs those transfers.
+After selecting parameterizations producing the best models, the next step is that of creating final models and, if needed, transferring them to other areas or scenarios. The *kuenm\_mod* function takes the .csv file with the best models from the model selection process, and writes and executes a batch file for creating final models with the selected parameterizations. Models and projections are stored in subdirectories inside an output folder; these subdirectories will be named as with the candidate models. By allowing projections (i.e., project = TRUE) and defining the folder holding the data for transfers (i.e., folder name in G.var.dir argument), this function automatically performs those transfers.
 
 Maxent will run in command-line interface, as it did when creating the calibration models (**again, do not close the application**). However, the process of creating final models may take considerably more time, especially when transferring to other regions or scenarios.
 
 ``` r
-help(ku.enm.mod)
+help(kuenm_mod)
 ```
 
 ``` r
@@ -215,7 +215,7 @@ args <- NULL
 ```
 
 ``` r
-ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
+kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
            rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
            G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1, args = args)
 ```
@@ -224,10 +224,10 @@ ku.enm.mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, ba
 
 ### Final model evaluation
 
-Final models should be evaluated using independent occurrence data (i.e., data that have not been used in the calibration process that usually come from different sources). The *ku.enm.feval* function evaluates final models based on statistical significance (partial ROC) and omission rate (*E*). This function will return a folder containing a .csv file with the results of the evaluation (see Figure 1, brown color).
+Final models should be evaluated using independent occurrence data (i.e., data that have not been used in the calibration process that usually come from different sources). The *kuenm\_feval* function evaluates final models based on statistical significance (partial ROC) and omission rate (*E*). This function will return a folder containing a .csv file with the results of the evaluation (see Figure 1, brown color).
 
 ``` r
-help(ku.enm.feval)
+help(kuenm_feval)
 ```
 
 ``` r
@@ -238,7 +238,7 @@ out_feval <- "Final_Models_evaluation"
 ```
 
 ``` r
-fin_eval <- ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
+fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
                          out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
                          iterations = iterations)
 ```
@@ -247,10 +247,10 @@ fin_eval <- ku.enm.feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_in
 
 ### Extrapolation risk analysis
 
-If transfers were performed when creating final models, risks of extrapolation can be assessed using the *ku.enm.mmop* function. This function calculates mobility-oriented parity (MOP) layers (Owens et al., 2013) by comparing environmental values between the calibration area and one or multiple regions or scenarios to which ecological niche models were transferred. The layers produced with this function help to visualize were strict extrapolation risks exist, and different similarity levels between the projection regions or scenarios and the calibration area. Results from this analysis will be written for each set of variables inside an specific data (Figure 1, dark green areas).
+If transfers were performed when creating final models, risks of extrapolation can be assessed using the *kuenm\_mmop* function. This function calculates mobility-oriented parity (MOP) layers (Owens et al., 2013) by comparing environmental values between the calibration area and one or multiple regions or scenarios to which ecological niche models were transferred. The layers produced with this function help to visualize were strict extrapolation risks exist, and different similarity levels between the projection regions or scenarios and the calibration area. Results from this analysis will be written for each set of variables inside an specific data (Figure 1, dark green areas).
 
 ``` r
-help(ku.enm.mmop)
+help(kuenm_mmop)
 ```
 
 ``` r
@@ -262,7 +262,7 @@ normalized <- TRUE
 ```
 
 ``` r
-ku.enm.mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
+kuenm_mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
             percent = percent, normalized = normalized)
 ```
 

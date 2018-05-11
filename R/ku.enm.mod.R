@@ -15,7 +15,7 @@
 #' will be created.
 #' @param out.format (character) the model output format; it can be: "raw", "logistic", "cloglog", or "cumulative".
 #' @param project (logical) if TRUE, your models will be projected to the scenarios in G.var.dir, default = FALSE.
-#' @param G.var.dir (character) if project is TRUE, name of the forlder containing folders in wHich variables of
+#' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in wHich variables of
 #' projection scenarios are placed.
 #' @param ext.type (character) if project is TRUE, is the extrapolation type of projections; can be: "all", "ext_clam",
 #' "ext", and "no_ext", default = "all". ext = free extrapolation, ext_clam = extrapolation and clamping,
