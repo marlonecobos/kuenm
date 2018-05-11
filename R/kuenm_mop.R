@@ -61,6 +61,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, normalized = TRUE) {
   mop2 <- unlist(mop1)
   mop_all <- data.frame(gPoints[, 1:2], mop2)
   mop_max <- max(na.omit(mop2))
+  # What about using -1 instead of NA?
   mop_all[out_index, 3] <- NA
   sp::coordinates(mop_all) <- ~x + y
   sp::gridded(mop_all) <- TRUE
