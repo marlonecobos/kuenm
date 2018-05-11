@@ -394,7 +394,15 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       suppressMessages(close(pb))
 
       cat("\nIf asked, allow runing as administrator.")
-      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+
+      if(run == TRUE){
+        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
+        if(.Platform$OS.type == "unix") {
+          system(batfile_path)
+        } else {
+          shell.exec(batfile_path)
+        }
+      }
 
       cat("\nProcess finished\n")
       cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))

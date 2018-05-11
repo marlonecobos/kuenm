@@ -140,7 +140,12 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   cat("\nIf asked and run = TRUE, allow runing as administrator.")
 
   if(run == TRUE){
-    shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+    batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
+    if(.Platform$OS.type == "unix") {
+      system(batfile_path)
+    } else {
+      shell.exec(batfile_path)
+    }
   }
 
   cat("\nProcess finished\n")
