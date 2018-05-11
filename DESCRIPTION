@@ -1,4 +1,4 @@
-Package: ku.enm
+Package: kuenm
 Type: Package
 Title: A package for detailed calibration and construction of Maxent Ecological Niche Models
 Version: 1.0.0
