@@ -1,6 +1,6 @@
 #' kuenm: A package for detailed calibration and construction of Maxent ecological niche models.
 #'
-#' ku.enm helps with development of critical steps of the ecological
+#' kuenm helps with development of critical steps of the ecological
 #' niche modeling process in Maxent. It allows users to calibrate models by
 #' creating and testing large numbers of candidate models. Options allow users
 #' to produce final models, evaluate them, and assess extrapolation risks,
