@@ -33,7 +33,7 @@
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
                         iterations = 1000) {
 
-  library(dplyr)
+  suppressMessages(library(dplyr))
 
   if(min(na.omit(raster::getValues(model))) == max(na.omit(raster::getValues(model)))) {
     warning("\nModel with no variability, pROC will return NA.\n")
