@@ -1,0 +1,36 @@
+Package: kuenm
+Type: Package
+Title: A package for detailed calibration and construction of Maxent Ecological Niche Models
+Version: 0.1.1
+Authors@R: c(
+    person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
+    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
+    person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "aut"),
+    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut"))
+Maintainer: Marlon E. Cobos <manubio13@gmail.com>
+Date: 2018-04-25
+Description: This package helps with the development of critical phases of the 
+    ecological niche modeling process in Maxent. It allows to calibrate models by
+    creating and testing several candidate models. Handly options for producing 
+    final models, evaluating them, and assesing extrapolation risks are also
+    included as part of this package.
+Imports:
+    dplyr (>= 0.7.4),
+    ENMeval (>= 0.2),
+    fields (>= 9.6),
+    knitr (>= 1.20),
+    parallel (>= 3.4),
+    raster (>= 2.6),
+    rgdal (>= 1.2),
+    rmarkdown (>= 1.9),
+    sp (>= 1.2)
+Suggests:
+    grDevices,
+    maptools,
+    yaml
+Depends: 
+    R (>= 3.4.0)
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
