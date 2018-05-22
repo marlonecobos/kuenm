@@ -1,8 +1,0 @@
-"0","occ_test <- ""aame_test.csv"""
-"0","out_eval <- ""Calibration_results"""
-"0","threshold <- 5"
-"0","rand_percent <- 50"
-"0","iterations <- 100"
-"0","kept <- TRUE"
-"0","selection <- ""OR_AICc"""
-"0","# Notice, some of the variables used here as arguments were already created for the previous function"

@@ -4,11 +4,11 @@
 #' comparing environmental values between the calibration area and multiple areas or
 #' scenarios to which ecological niche models are transferred.
 #'
-#' @param dirG a raster stack of variables representing the calibration area.
-#' @param dirM a raster stack of variables representing the full area, areas or scenarios to
+#' @param G.var.dir a raster stack of variables representing the calibration area.
+#' @param M.var.dir a raster stack of variables representing the full area, areas or scenarios to
 #' which models are transferred.
 #' @param sets.var (character) value or vector with the name(s) of the sets of variables
-#' from dirG and dirM that are going to be compared to create the MOP(s).
+#' from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 #' @param out.mop (character) name of the folder to which MOP results will be written.
 #' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
 #' @param normalized (logical) if TRUE, values of similarity are presented scaled linearly from 0 to 1,
@@ -25,7 +25,7 @@
 #' environmental conditions in the calibration area. MOP is calculated following Owens et al.
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 
-kuenm_mmop <- function(dirG, dirM, sets.var, out.mop, percent = 10, normalized = TRUE) {
+kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10, normalized = TRUE) {
 
   #MOP directory
   dir.create(out.mop)
@@ -33,9 +33,9 @@ kuenm_mmop <- function(dirG, dirM, sets.var, out.mop, percent = 10, normalized =
   #Calculating MOP for each comparison set by set
   for (h in 1:length(sets.var)) {
 
-    dirsm <- dir(dirM, pattern = sets.var[h], full.names = TRUE)
+    dirsm <- dir(M.var.dir, pattern = sets.var[h], full.names = TRUE)
 
-    dirsg <- dir(dirG, pattern = sets.var[h], full.names = TRUE)
+    dirsg <- dir(G.var.dir, pattern = sets.var[h], full.names = TRUE)
     dirsg_in <- dir(dirsg, full.names = TRUE)
     namesg <- dir(dirsg)
 
@@ -48,12 +48,20 @@ kuenm_mmop <- function(dirG, dirM, sets.var, out.mop, percent = 10, normalized =
     m_var <- list.files(dirsm, pattern = "asc", full.names = TRUE) #listing vars in M
     m_vars <- raster::stack(m_var) #stacking the variables
 
-    pb <- winProgressBar(title = "Progress bar", min = 0, max = length(dirsg_in), width = 300) #progress bar
+    if(.Platform$OS.type == "unix") {
+      pb <- txtProgressBar(min = 0, max = length(dirsg_in), style = 3)
+    } else {
+      pb <- winProgressBar(title = "Progress bar", min = 0, max = length(dirsg_in), width = 300) #progress bar
+    }
 
     for(i in 1:length(dirsg_in)) {
       Sys.sleep(0.1)
-      setWinProgressBar(pb, i, title = paste(round(i / length(dirsg_in) * 100, 2),
-                                             paste("% of the process for", sets.var[h], "has finished")))
+      if(.Platform$OS.type == "unix") {
+        setTxtProgressBar(pb, i)
+      } else {
+        setWinProgressBar(pb, i, title = paste(round(i / length(dirsg_in) * 100, 2),
+                                               paste("% of the process for", sets.var[h], "has finished")))
+      }
 
       g_var <- list.files(dirsg_in[i], pattern = "asc",
                                full.names = TRUE) #listing var of different Gs
@@ -66,7 +74,10 @@ kuenm_mmop <- function(dirG, dirM, sets.var, out.mop, percent = 10, normalized =
       #Writing results
       raster::writeRaster(mop_res, filename = paste(dirs_mop[i],".tif", sep = ""), format = "GTiff")
     }
-    suppressMessages(close(pb))
+
+    if(.Platform$OS.type != "unix") {
+      suppressMessages(close(pb))
+    }
     cat("\n", paste(h, "of", length(sets.var), "processes", sep = " "), "\n")
   }
 }

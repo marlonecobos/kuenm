@@ -31,6 +31,43 @@
 kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
                        f.clas = "all", run = TRUE) {
 
+  #Checking potential issues
+  if (!file.exists(occ.joint)) {
+    stop(paste(occ.joint, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_joint.csv"))
+  }
+  if (!file.exists(occ.tra)) {
+    stop(paste(occ.tra, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_train.csv"))
+  }
+  if (!dir.exists(M.var.dir)) {
+    stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
+               "\nor its existense."))
+  }
+  if (length(list.dirs(M.var.dir)) == 0) {
+    stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
+               "\neach set of variables should be in a subdirectory inside",
+               paste(M.var.dir, ".", sep = "")))
+  }
+  if (missing(reg.mult)) {
+    warning(paste("Argument reg.mult is not defined, the default set, basic,",
+                  "\nwill be used."))
+    reg.mult <- "basic"
+  }
+  if (class(reg.mult) != "numeric") {
+    stop("Argument reg.mult must be numeric.")
+  }
+  if (missing(batch)) {
+    warning(paste("Argument batch is not defined, the default name candidate_models",
+               "\nwill be used."))
+    batch <- "candidate_models"
+  }
+  if (missing(out.dir)) {
+    warning(paste("Argument out.dir is not defined, the default name Candidate_Models",
+                  "\nwill be used."))
+    out.dir <- "Candidate_Models"
+  }
+
   #Data
   ##Environmental variables sets
   m <- dir(M.var.dir)
@@ -112,7 +149,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 
   #Final code
   if(.Platform$OS.type == "unix") {
-
+    pb <- txtProgressBar(min = 0, max = length(reg.mult), style = 3)
   } else {
     pb <- winProgressBar(title = "Progress bar", min = 0, max = length(reg.mult), width = 300) #progress bar
   }
@@ -120,10 +157,10 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   sink(paste(batch, ".bat", sep = ""))
 
   for (i in 1:length(reg.mult)) {
+    Sys.sleep(0.1)
     if(.Platform$OS.type == "unix") {
-
+      setTxtProgressBar(pb, i)
     } else {
-      Sys.sleep(0.1)
       setWinProgressBar(pb, i, title = paste( round(i / length(reg.mult) * 100, 0), "% finished"))
     }
 
@@ -145,12 +182,9 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
     }
   }
   sink()
-  if(.Platform$OS.type == "unix") {
-
-  } else {
+  if(.Platform$OS.type != "unix") {
     suppressMessages(close(pb))
   }
-
 
   cat("\nIf asked and run = TRUE, allow runing as administrator.")
 

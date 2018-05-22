@@ -33,6 +33,8 @@
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
                         iterations = 1000) {
 
+  library(dplyr)
+
   if(min(na.omit(raster::getValues(model))) == max(na.omit(raster::getValues(model)))) {
     warning("\nModel with no variability, pROC will return NA.\n")
 
@@ -40,13 +42,15 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
 
     auc_ratios <- rep(NA, 4)
-    names(auc_ratios) <- c("Iteration", paste("AUC_value"),
+    names(auc_ratios) <- c("Iteration", paste("AUC_at_", 100 - threshold, "%", sep = ""),
                            paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
 
     p_roc_res <- list(p_roc, auc_ratios)
 
     return(p_roc_res)
   }else {
+    omissionval <- (100 - threshold) / 100
+
     inrastlog <- model
 
     ## Currently fixing the number of classes to 100. But later flexibility should be given in the parameter.
@@ -67,26 +71,15 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     occurtbl <- cbind(pointid, occurtbl)
     names(occurtbl) <- c("PointID", "Longitude", "Latitude", "ClassID")
 
-    ## Use option cl.cores to choose an appropriate cluster size.
-    auc_ratio <- lapply(X = 1:iterations, FUN = function(x) {
-      ll <- sample(nrow(occurtbl), round(rand.percent / 100 * nrow(occurtbl)), replace = TRUE)
-      occurtbl1 <- occurtbl[ll, ]
-      ## Generate the % points within each class in this table. Write SQL, using sqldf package
-      occurinclass <- sqldf::sqldf("Select count(*), ClassID from occurtbl1 group by ClassID order by ClassID desc")
-      occurinclass <- cbind(occurinclass, cumsum(occurinclass[, 1]),
-                            cumsum(occurinclass[, 1]) / nrow(occurtbl1))
-      names(occurinclass) <- c("OccuCount", "ClassID", "OccuSumBelow", "Percent")
+    ## Partial ROC iterations
+    output_auc <- parallel::mclapply(1:(iterations),
+                                     function(x) auc_comp(x, occurtbl,
+                                                          rand.percent,
+                                                          omissionval,
+                                                          classpixels))
+    auc_ratios <- data.frame(t(sapply(output_auc, c)))
 
-      #### Raster file will contain all the classes in ClassID column, while
-      #### occurrences table may not have all the classes.
-      xytable <- g_xy_tab(classpixels, occurinclass)
-      arearow <- calc_auc(xytable, threshold / 100, x)
-      names(arearow) <- c("Iteration", paste("AUC_value"),
-                          paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
-      return(arearow)
-    })
 
-    auc_ratios <- as.data.frame(do.call(rbind, auc_ratio)) #converting each list of AUC ratios interations in a table
     mauc <- apply(auc_ratios, 2, mean)[4] #mean of AUC ratios interations
     proc <- sum(auc_ratios[, 4] <= 1) / length(auc_ratios[, 4]) #proportion of AUC ratios <= 1
     p_roc <- c(mauc, proc)

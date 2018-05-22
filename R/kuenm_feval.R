@@ -66,13 +66,21 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
   proc_res <- list() #empty list of pROC values
   om_rates <- vector() #empty vector of omision rates
 
-  pb <- winProgressBar(title = "Progress bar", min = 0, max = length(u_fmodels),
-                       width = 300) #progress bar
+  if(.Platform$OS.type == "unix") {
+    pb <- txtProgressBar(min = 0, max = length(u_fmodels), style = 3)
+  } else {
+    pb <- winProgressBar(title = "Progress bar", min = 0, max = length(u_fmodels),
+                         width = 300) #progress bar
+  }
 
   for(i in 1:length(u_fmodels)) {
     Sys.sleep(0.1)
-    setWinProgressBar(pb, i, title = paste(round(i / length(u_fmodels) * 100, 2),
-                                           "% of the evaluation process has finished"))
+    if(.Platform$OS.type == "unix") {
+      setTxtProgressBar(pb, i)
+    } else {
+      setWinProgressBar(pb, i, title = paste(round(i / length(u_fmodels) * 100, 2),
+                                             "% of the evaluation process has finished"))
+    }
 
     #Models to be evaluated
     if(replicates == TRUE) {
@@ -95,7 +103,9 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
                                 occ.tra = occ, occ.test = occ1)
 
   }
-  suppressMessages(close(pb))
+  if(.Platform$OS.type != "unix") {
+    suppressMessages(close(pb))
+  }
   n.mod <- i
 
   ##Creating final tables

@@ -4,16 +4,17 @@
 \alias{kuenm_mmop}
 \title{Extrapolation risk analysis for multiple comparisons}
 \usage{
-kuenm_mmop(dirG, dirM, sets.var, out.mop, percent = 10, normalized = TRUE)
+kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
+  normalized = TRUE)
 }
 \arguments{
-\item{dirG}{a raster stack of variables representing the calibration area.}
+\item{G.var.dir}{a raster stack of variables representing the calibration area.}
 
-\item{dirM}{a raster stack of variables representing the full area, areas or scenarios to
+\item{M.var.dir}{a raster stack of variables representing the full area, areas or scenarios to
 which models are transferred.}
 
 \item{sets.var}{(character) value or vector with the name(s) of the sets of variables
-from dirG and dirM that are going to be compared to create the MOP(s).}
+from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).}
 
 \item{out.mop}{(character) name of the folder to which MOP results will be written.}
 

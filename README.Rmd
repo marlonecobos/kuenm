@@ -6,7 +6,7 @@ output:
   github_document:
     toc: yes
     toc_depth: 4
-csl: methods-in-ecology-and-evolution.csl
+csl: ecography.csl
 bibliography: My Library.bib
 ---
 
@@ -42,7 +42,7 @@ Another important requirement for using Maxent and therefore the kuenm package i
 
 <br>
 
-```{r Fig.1, echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, fig.cap="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green).", cache=TRUE}
+```{r Fig.1, echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, fig.cap="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)."}
 
 knitr::include_graphics("Structure.png")
 ```
@@ -97,7 +97,7 @@ Your working directory will be structured similarly to that presented in Figure 
 
 <br>
 
-## Doing the analyses
+## Doing analyses for a single species project
 ### Workflow recording
 
 Once the working directory and data are ready, the function *kuenm_start* (.Rmd) will allow generating an *R Markdown* file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recomended if recording individual workflows per each species is desired. 
@@ -108,7 +108,7 @@ help(kuenm_start)
 
 ```{r}
 # Preparing variables to be used in arguments
-file_name = "aame_enm_process"
+file_name <- "aame_enm_process"
 ```
 
 ```{r, eval=FALSE, include=TRUE}

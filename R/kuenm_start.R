@@ -202,7 +202,7 @@ normalized <- TRUE
 The kuenm_mmop function has the following syntax:
 
 \```{r, eval=FALSE}
-kuenm_mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
+kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
             percent = percent, normalized = normalized)
 \```"
   )

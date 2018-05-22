@@ -40,6 +40,33 @@
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500, kept = TRUE, selection = "OR_AICc") {
+  #Checking potential issues
+  if (!dir.exists(path)) {
+    stop(paste(path, "does not exist in the working directory, check folder name",
+               "\nor its existense."))
+  }
+  if (!file.exists(occ.joint)) {
+    stop(paste(occ.joint, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_joint.csv"))
+  }
+  if (!file.exists(occ.tra)) {
+    stop(paste(occ.tra, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_train.csv"))
+  }
+  if (!file.exists(occ.test)) {
+    stop(paste(occ.test, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_test.csv"))
+  }
+  if (missing(out.eval)) {
+    stop(paste("Argument out.eval is not defined, it is necessary for creating a folder",
+               "\nwith the outputs of this function."))
+  }
+  if (missing(batch)) {
+    warning(paste("Argument batch is not defined, the default name candidate_models",
+                  "\nwill be used."))
+    batch <- "candidate_models"
+  }
+
 
   #####
   #Data
@@ -89,13 +116,22 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   proc_res <- list() #empty list of pROC values
   om_rates <- vector() #empty vector of omision rates
 
-  pb <- winProgressBar(title = "Progress bar", min = 0, max = length(dir_names),
-                       width = 300) #progress bar
+  if(.Platform$OS.type == "unix") {
+    pb <- txtProgressBar(min = 0, max = length(dir_names), style = 3) #progress bar
+  } else {
+    pb <- winProgressBar(title = "Progress bar", min = 0, max = length(dir_names),
+                         width = 300) #progress bar
+  }
 
   for(i in 1:length(dir_names)) {
     Sys.sleep(0.1)
-    setWinProgressBar(pb, i, title = paste(round(i / length(dir_names) * 100, 2),
-                                           "% of the evaluation process has finished"))
+    if(.Platform$OS.type == "unix") {
+      setTxtProgressBar(pb, i)
+    } else {
+      setWinProgressBar(pb, i, title = paste(round(i / length(dir_names) * 100, 2),
+                                             "% of the evaluation process has finished"))
+    }
+
 
     #AICc calculation
     suppressWarnings(while (!file.exists(as.vector(list.files(dir_names[i], pattern = ".lambdas",
@@ -141,7 +177,9 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       unlink(dir_names1[i], recursive = T)
     }
   }
-  suppressMessages(close(pb))
+  if(.Platform$OS.type != "unix") {
+    suppressMessages(close(pb))
+  }
   n.mod <- i
 
   ##Erasing main folder of candidate models if kept = FALSE

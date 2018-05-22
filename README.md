@@ -8,7 +8,7 @@ April 25, 2018
     -   [Directory structure and necessary data](#directory-structure-and-necessary-data)
     -   [Installing the package](#installing-the-package)
     -   [Downloading the example data](#downloading-the-example-data)
--   [Doing the analyses](#doing-the-analyses)
+-   [Doing analyses for a single species project](#doing-analyses-for-a-single-species-project)
     -   [Workflow recording](#workflow-recording)
     -   [Calibration of models](#calibration-of-models)
         -   [Creation of candidate models](#creation-of-candidate-models)
@@ -41,7 +41,7 @@ Before starting the analyses, the user must make sure that the working directory
 -   A folder containing the distinct sets of environmental variables (i.e., M\_variables in Figure 1) to be used (more than one is highly recommended, but not mandatory). These variables must represent the area over which models are calibrated.
 -   The maxent.jar application, available from the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>.
 -   A csv file containing training and testing occurrence data together (preferably after cleaning and thinning original data to avoid problems like wrong records and spatial auto-correlation). This data set consists of three fields: species name, longitude, and latitude. See Sp\_joint.csv, in Figure 1.
--   A csv file containing occurrence data for training models. This file and the next file generally represent exclusive subsets of the full set of records. Occurrences can be subsetted in multiple ways (Muscarella et al., 2014), but some degree of independence of training and testing data is desired. See Sp\_train.csv in figure 1.
+-   A csv file containing occurrence data for training models. This file and the next file generally represent exclusive subsets of the full set of records. Occurrences can be subsetted in multiple ways (Muscarella et al. 2014), but some degree of independence of training and testing data is desired. See Sp\_train.csv in figure 1.
 -   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in figure 1).
 -   A csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
 
@@ -103,8 +103,8 @@ Your working directory will be structured similarly to that presented in Figure 
 
 <br>
 
-Doing the analyses
-------------------
+Doing analyses for a single species project
+-------------------------------------------
 
 ### Workflow recording
 
@@ -116,7 +116,7 @@ help(kuenm_start)
 
 ``` r
 # Preparing variables to be used in arguments
-file_name = "aame_enm_process"
+file_name <- "aame_enm_process"
 ```
 
 ``` r
@@ -162,7 +162,7 @@ kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch
 
 #### Evaluation and selection of best models
 
-The function *kuenm\_ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (*E* = a user-selected proportion of occurrence data that may present meaninful errors; see Peterson, Papeş, & Soberón (2008)), and model complexity (AICc), and selects best models based on distinct, user-set criteria (see selection in function help). Partial ROC and omission rates are evaluated based on models created with training occurrences, whereas AICc values are calculated for models created with the full set of occurrences (Warren & Seifert, 2011). Outputs are stored in a folder that will contain a .csv file with the statistics of models meeting each of the evaluation criteria, another with only the models selected based on the user-specified criteria, a third with performance metrics for all candidate models, a plot of model performance, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Figure 1, purple area).
+The function *kuenm\_ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (*E* = a user-selected proportion of occurrence data that may present meaninful errors; see Peterson et al. (2008)), and model complexity (AICc), and selects best models based on distinct, user-set criteria (see selection in function help). Partial ROC and omission rates are evaluated based on models created with training occurrences, whereas AICc values are calculated for models created with the full set of occurrences (Warren and Seifert 2011). Outputs are stored in a folder that will contain a .csv file with the statistics of models meeting each of the evaluation criteria, another with only the models selected based on the user-specified criteria, a third with performance metrics for all candidate models, a plot of model performance, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Figure 1, purple area).
 
 ``` r
 help(kuenm_ceval)
@@ -247,7 +247,7 @@ fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind
 
 ### Extrapolation risk analysis
 
-If transfers were performed when creating final models, risks of extrapolation can be assessed using the *kuenm\_mmop* function. This function calculates mobility-oriented parity (MOP) layers (Owens et al., 2013) by comparing environmental values between the calibration area and one or multiple regions or scenarios to which ecological niche models were transferred. The layers produced with this function help to visualize were strict extrapolation risks exist, and different similarity levels between the projection regions or scenarios and the calibration area. Results from this analysis will be written for each set of variables inside an specific data (Figure 1, dark green areas).
+If transfers were performed when creating final models, risks of extrapolation can be assessed using the *kuenm\_mmop* function. This function calculates mobility-oriented parity (MOP) layers (Owens et al. 2013) by comparing environmental values between the calibration area and one or multiple regions or scenarios to which ecological niche models were transferred. The layers produced with this function help to visualize were strict extrapolation risks exist, and different similarity levels between the projection regions or scenarios and the calibration area. Results from this analysis will be written for each set of variables inside an specific data (Figure 1, dark green areas).
 
 ``` r
 help(kuenm_mmop)
@@ -270,10 +270,10 @@ kuenm_mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = ou
 
 ### References
 
-Muscarella, R., Galante, P. J., Soley-Guardia, M., Boria, R. A., Kass, J. M., Uriarte, M., & Anderson, R. P. (2014). ENMeval: An R package for conducting spatially independent evaluations and estimating optimal model complexity for Maxent ecological niche models. *Methods in Ecology and Evolution*, *5*(11), 1198–1205. doi:[10.1111/2041-210X.12261](https://doi.org/10.1111/2041-210X.12261)
+Muscarella, R. et al. 2014. ENMeval: An R package for conducting spatially independent evaluations and estimating optimal model complexity for Maxent ecological niche models. - Methods in Ecology and Evolution 5: 1198–1205.
 
-Owens, H. L., Campbell, L. P., Dornak, L. L., Saupe, E. E., Barve, N., Soberón, J., … Peterson, A. T. (2013). Constraints on interpretation of ecological niche models by limited environmental ranges on calibration areas. *Ecological Modelling*, *263*, 10–18. doi:[10.1016/j.ecolmodel.2013.04.011](https://doi.org/10.1016/j.ecolmodel.2013.04.011)
+Owens, H. L. et al. 2013. Constraints on interpretation of ecological niche models by limited environmental ranges on calibration areas. - Ecological Modelling 263: 10–18.
 
-Peterson, A. T., Papeş, M., & Soberón, J. (2008). Rethinking receiver operating characteristic analysis applications in ecological niche modeling. *Ecological Modelling*, *213*(1), 63–72. doi:[10.1016/j.ecolmodel.2007.11.008](https://doi.org/10.1016/j.ecolmodel.2007.11.008)
+Peterson, A. T. et al. 2008. Rethinking receiver operating characteristic analysis applications in ecological niche modeling. - Ecological Modelling 213: 63–72.
 
-Warren, D. L., & Seifert, S. N. (2011). Ecological niche modeling in Maxent: The importance of model complexity and the performance of model selection criteria. *Ecological Applications*, *21*(2), 335–342. doi:[10.1890/10-1171.1](https://doi.org/10.1890/10-1171.1)
+Warren, D. L. and Seifert, S. N. 2011. Ecological niche modeling in Maxent: The importance of model complexity and the performance of model selection criteria. - Ecological Applications 21: 335–342.

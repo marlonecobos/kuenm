@@ -35,6 +35,25 @@
 kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
                        jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
                        ext.type = "all", write.mess = FALSE, write.clamp = FALSE, run = TRUE, args = NULL) {
+  #Checking potential issues
+  if (!file.exists(occ.joint)) {
+    stop(paste(occ.joint, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_joint.csv"))
+  }
+  if (!dir.exists(M.var.dir)) {
+    stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
+               "\nor its existense."))
+  }
+  if (length(list.dirs(M.var.dir)) == 0) {
+    stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
+               "\neach set of variables should be in a subdirectory inside",
+               paste(M.var.dir, ".", sep = "")))
+  }
+  if (missing(out.eval)) {
+    stop(paste("Argument out.eval is not defined, it is necessary for reading selected",
+               "\nsets of parameters."))
+  }
+
 
   #####
   #Data
@@ -192,12 +211,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
     if(project == TRUE) {
       if(write.clamp == FALSE | write.mess == FALSE) {
         if(write.clamp == FALSE & write.mess == TRUE) {
-          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          if(.Platform$OS.type == "unix") {
+            pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+          } else {
+            pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          }
+
           sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
-            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            if(.Platform$OS.type == "unix") {
+              setTxtProgressBar(pb, i)
+            } else {
+              setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            }
 
             for (j in 1:length(ext.nam)) {
               subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -209,12 +237,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
         }
         if(write.mess == FALSE & write.clamp == TRUE) {
-          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          if(.Platform$OS.type == "unix") {
+            pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+          } else {
+            pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          }
+
           sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
-            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            if(.Platform$OS.type == "unix") {
+              setTxtProgressBar(pb, i)
+            } else {
+              setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            }
 
             for (j in 1:length(ext.nam)) {
               subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -226,12 +263,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
         }
         if(write.clamp == FALSE & write.mess == FALSE) {
-          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          if(.Platform$OS.type == "unix") {
+            pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+          } else {
+            pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          }
+
           sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
-            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            if(.Platform$OS.type == "unix") {
+              setTxtProgressBar(pb, i)
+            } else {
+              setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            }
 
             for (j in 1:length(ext.nam)) {
               subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -243,12 +289,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
         }
       }else {
-        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        if(.Platform$OS.type == "unix") {
+          pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+        } else {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        }
+
         sink(paste(batch, ".bat", sep = ""))
 
         for (i in 1:length(sett1)) {
           Sys.sleep(0.1)
-          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+          if(.Platform$OS.type == "unix") {
+            setTxtProgressBar(pb, i)
+          } else {
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+          }
 
           for (j in 1:length(ext.nam)) {
             subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -261,21 +316,39 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       }
 
       sink()
-      suppressMessages(close(pb))
+      if(.Platform$OS.type != "unix") {
+        suppressMessages(close(pb))
+      }
 
       cat("\nIf asked, allow runing as administrator.")
-      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+      if(run == TRUE){
+        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
+        if(.Platform$OS.type == "unix") {
+          system(batfile_path)
+        } else {
+          shell.exec(batfile_path)
+        }
+      }
 
       cat("\nProcess finished\n")
       cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
       cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }else {
-      pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+      if(.Platform$OS.type == "unix") {
+        pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+      } else {
+        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+      }
+
       sink(paste(batch, ".bat", sep = ""))
 
       for (i in 1:length(sett1)) {
         Sys.sleep(0.1)
-        setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+        if(.Platform$OS.type == "unix") {
+          setTxtProgressBar(pb, i)
+        } else {
+          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+        }
 
         subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], sep = "")
         dir.create(paste(out.dir, "/", sett1[i], sep = ""))
@@ -285,10 +358,19 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       }
 
       sink()
-      suppressMessages(close(pb))
+      if(.Platform$OS.type != "unix") {
+        suppressMessages(close(pb))
+      }
 
       cat("\nIf asked, allow runing as administrator.")
-      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+      if(run == TRUE){
+        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
+        if(.Platform$OS.type == "unix") {
+          system(batfile_path)
+        } else {
+          shell.exec(batfile_path)
+        }
+      }
 
       cat("\nProcess finished\n")
       cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
@@ -298,12 +380,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
     if(project == TRUE) {
       if(write.clamp == FALSE | write.mess == FALSE) {
         if(write.clamp == FALSE & write.mess == TRUE) {
-          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          if(.Platform$OS.type == "unix") {
+            pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+          } else {
+            pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          }
+
           sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
-            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            if(.Platform$OS.type == "unix") {
+              setTxtProgressBar(pb, i)
+            } else {
+              setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            }
 
             for (j in 1:length(ext.nam)) {
               subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -315,12 +406,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
         }
         if(write.mess == FALSE & write.clamp == TRUE) {
-          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          if(.Platform$OS.type == "unix") {
+            pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+          } else {
+            pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          }
+
           sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
-            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            if(.Platform$OS.type == "unix") {
+              setTxtProgressBar(pb, i)
+            } else {
+              setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            }
 
             for (j in 1:length(ext.nam)) {
               subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -332,12 +432,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
         }
         if(write.clamp == FALSE & write.mess == FALSE) {
-          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          if(.Platform$OS.type == "unix") {
+            pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+          } else {
+            pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          }
+
           sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
-            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            if(.Platform$OS.type == "unix") {
+              setTxtProgressBar(pb, i)
+            } else {
+              setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+            }
 
             for (j in 1:length(ext.nam)) {
               subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -349,12 +458,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
         }
       }else {
-        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        if(.Platform$OS.type == "unix") {
+          pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+        } else {
+          pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        }
+
         sink(paste(batch, ".bat", sep = ""))
 
         for (i in 1:length(sett1)) {
           Sys.sleep(0.1)
-          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+          if(.Platform$OS.type == "unix") {
+            setTxtProgressBar(pb, i)
+          } else {
+            setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+          }
 
           for (j in 1:length(ext.nam)) {
             subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], ext.nam[j], sep = "")
@@ -367,21 +485,39 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       }
 
       sink()
-      suppressMessages(close(pb))
+      if(.Platform$OS.type != "unix") {
+        suppressMessages(close(pb))
+      }
 
       cat("\nIf asked, allow runing as administrator.")
-      shell.exec(file.path(getwd(), paste(batch, ".bat", sep = "")))
+      if(run == TRUE){
+        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
+        if(.Platform$OS.type == "unix") {
+          system(batfile_path)
+        } else {
+          shell.exec(batfile_path)
+        }
+      }
 
       cat("\nProcess finished\n")
       cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
       cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }else {
-      pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+      if(.Platform$OS.type == "unix") {
+        pb <- txtProgressBar(min = 0, max = length(sett1), style = 3)
+      } else {
+        pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+      }
+
       sink(paste(batch, ".bat", sep = ""))
 
       for (i in 1:length(sett1)) {
         Sys.sleep(0.1)
-        setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+        if(.Platform$OS.type == "unix") {
+          setTxtProgressBar(pb, i)
+        } else {
+          setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
+        }
 
         subfol <- paste("outputdirectory=", out.dir, "\\", sett1[i], sep = "")
         dir.create(paste(out.dir, "/", sett1[i], sep = ""))
@@ -391,10 +527,11 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       }
 
       sink()
-      suppressMessages(close(pb))
+      if(.Platform$OS.type != "unix") {
+        suppressMessages(close(pb))
+      }
 
       cat("\nIf asked, allow runing as administrator.")
-
       if(run == TRUE){
         batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
         if(.Platform$OS.type == "unix") {
