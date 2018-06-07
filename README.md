@@ -36,16 +36,15 @@ Getting started
 
 Since this package was designed to perform complex analyses while avoiding excessive demands on the computer (especially related to RAM memory used for R), it needs certain data and to be organized carefully in the working directory. Following this structure (Figure 1) will allow working with one or more species in a project, and avoid potential problems during the analyses.
 
-Before starting the analyses, the user must make sure that the working directory has the following components:
+Before starting the analyses, the user must make sure that the working directory (the folder with information for an individual species) has the following components:
 
 -   A folder containing the distinct sets of environmental variables (i.e., M\_variables in Figure 1) to be used (more than one is highly recommended, but not mandatory). These variables must represent the area over which models are calibrated.
--   The maxent.jar application, available from the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>.
 -   A csv file containing training and testing occurrence data together (preferably after cleaning and thinning original data to avoid problems like wrong records and spatial auto-correlation). This data set consists of three fields: species name, longitude, and latitude. See Sp\_joint.csv, in Figure 1.
 -   A csv file containing occurrence data for training models. This file and the next file generally represent exclusive subsets of the full set of records. Occurrences can be subsetted in multiple ways (Muscarella et al. 2014), but some degree of independence of training and testing data is desired. See Sp\_train.csv in figure 1.
 -   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in figure 1).
--   A csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
+-   If available, a csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
 
-Another important requirement for using Maxent and therefore the kuenm package is to have Java installed in the computer. Java can be downloaded from the <a href="https://java.com/es/download/" target="_blank">Java download page</a>.
+A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed in the computer. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>.
 
 <br>
 
@@ -64,11 +63,10 @@ The **kuenm** R package is in a GitHub repository and can be installed and/or lo
 # Installing and loading packages
 if(!require(devtools)){
     install.packages("devtools")
-    library(devtools)
 }
 
 if(!require(kuenm)){
-    devtools::install_github("manubio13/kuenm")
+    devtools::install_github("marlonecobos/kuenm")
     library(kuenm)
 }
 ```
@@ -82,16 +80,17 @@ Data used as an example for testing this package correspond to the turkey tick *
 These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">kuenm example data</a>) and extracted using the code below.
 
 ``` r
+# Change "YOUR/DIRECTORY" by your actual directory.
 download.file(url = "https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=3&isAllowed=y", 
-              destfile = "C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip", mode = "wb",
+              destfile = "YOUR/DIRECTORY/ku.enm_example_data.zip", mode = "wb",
               quiet = FALSE) # donwload the zipped example folder in documents
 
-unzip(zipfile = "C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip",
-      exdir = "C:/Users/YOUR_USER/Documents") # unzip the example folder in documents
+unzip(zipfile = "YOUR/DIRECTORY/ku.enm_example_data.zip",
+      exdir = "YOUR/DIRECTORY") # unzip the example folder in documents
 
-unlink("C:/Users/YOUR_USER/Documents/ku.enm_example_data.zip") # erase zip file
+unlink("YOUR/DIRECTORY/ku.enm_example_data.zip") # erase zip file
 
-setwd("C:/Users/YOUR_USER/Documents/ku.enm_example_data/A_americanum") # set the working directory
+setwd("YOUR/DIRECTORY/ku.enm_example_data/A_americanum") # set the working directory
 
 dir() # check what is in your working directory
 
@@ -99,7 +98,7 @@ dir() # check what is in your working directory
 # your directory and follow the instructions below.
 ```
 
-Your working directory will be structured similarly to that presented in Figure 1.
+Your working directory will be structured similarly to that presented for Species\_1 in the left part of Figure 1.
 
 <br>
 
@@ -142,7 +141,7 @@ help(kuenm_cal)
 ```
 
 ``` r
-# Variables with information to be used as arguments
+# Variables with information to be used as arguments. Change "YOUR/DIRECTORY" by your actual directory.
 occ_joint <- "aame_joint.csv"
 occ_tra <- "aame_train.csv"
 M_var_dir <- "M_variables"
@@ -150,12 +149,15 @@ batch_cal <- "Candidate_models"
 out_dir <- "Candidate_Models"
 reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- "all"
+background <- 10000
+maxent_path <- "YOUR/DIRECTORY/ku.enm_example_data/A_americanum"
 run <- TRUE
 ```
 
 ``` r
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
-           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
+          maxent.path = maxent_path, run = run)
 ```
 
 <br>
@@ -181,8 +183,8 @@ selection <- "OR_AICc"
 
 ``` r
 cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
-                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
-                         kept = kept, selection = selection)
+                        out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
+                        kept = kept, selection = selection)
 ```
 
 <br>
@@ -210,14 +212,18 @@ ext_type <- "all"
 write_mess <- FALSE
 write_clamp <- FALSE
 run1 <- TRUE
-args <- NULL
+args <- NULL # e.g., "maximumbackground=20000" for increasing the number of pixels in the bacground or
+             # "outputgrids=false" which avoids writing grids of replicated models and only writes the 
+             # summary of them (e.g., average, median, etc.) when rep.n > 1
+             # note that some arguments are fixed in the function and should not be changed
 # Again, some of the variables used here as arguments were already created for previous functions
 ```
 
 ``` r
 kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
-           rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
-           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1, args = args)
+          rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
+          G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, 
+          maxent.path = maxent_path, args = args, run = run1)
 ```
 
 <br>
@@ -239,8 +245,8 @@ out_feval <- "Final_Models_evaluation"
 
 ``` r
 fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
-                         out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
-                         iterations = iterations)
+                        out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
+                        iterations = iterations)
 ```
 
 <br>
@@ -254,7 +260,7 @@ help(kuenm_mmop)
 ```
 
 ``` r
-sets_var <- "Set3"
+sets_var <- "Set3" # here a vector of various sets can be used
 out_mop <- "MOP_results"
 percent <- 10
 normalized <- TRUE
@@ -262,8 +268,8 @@ normalized <- TRUE
 ```
 
 ``` r
-kuenm_mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
-            percent = percent, normalized = normalized)
+kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
+           percent = percent, normalized = normalized)
 ```
 
 <br>
