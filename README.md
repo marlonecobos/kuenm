@@ -67,8 +67,9 @@ if(!require(devtools)){
 
 if(!require(kuenm)){
     devtools::install_github("marlonecobos/kuenm")
-    library(kuenm)
 }
+
+library(kuenm)
 ```
 
 <br>
@@ -77,7 +78,7 @@ if(!require(kuenm)){
 
 Data used as an example for testing this package correspond to the turkey tick *Amblyomma americanum*, a vector of various diseases, including human monocytotropic ehrlichiosis, canine and human granulocytic ehrlichiosis, tularemia, and southern tick-associated rash illness. This species is distributed broadly in North America and a complete analysis of the risk of its invasion in other regions is being developed by Raghavan et al. (in review).
 
-These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="https://kuscholarworks.ku.edu/handle/1808/26376" target="_blank">kuenm example data</a>) and extracted using the code below.
+These data are already structured as needed for doing analysis with this package, and can be downloaded (from <a href="http://doi.org/10.17161/1808.26376" target="_blank">kuenm example data</a>) and extracted using the code below.
 
 ``` r
 # Change "YOUR/DIRECTORY" by your actual directory.

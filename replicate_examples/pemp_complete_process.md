@@ -1,20 +1,35 @@
 *P. empusa*: modeling process
 ================
 
+-   [Getting started](#getting-started)
 -   [Candidate models](#candidate-models)
 -   [Evaluation and selection of best models](#evaluation-and-selection-of-best-models)
 -   [Final model creation](#final-model-creation)
 -   [Final model evaluation](#final-model-evaluation)
 -   [MOP analysis](#mop-analysis)
 
-The R markdown file is created in the working directory, and is designed to make the processes of model calibration and final model creation more reproducible.
-
-Information on using this R Markdown file:
-
--   Try executing code chunks by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
--   Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
-
 A brief tutorial for using functions of the kuenm R package can be found in the <a href="https://github.com/manubio13/kuenm" target="_blank">package vignette</a>. Additionally, function help can be checked to change arguments according to specific needs.
+
+<br>
+
+### Getting started
+
+Package loading and working directory setting.
+
+``` r
+if(!require(devtools)){
+    install.packages("devtools")
+}
+
+if(!require(kuenm)){
+    devtools::install_github("marlonecobos/kuenm")
+}
+
+library(kuenm)
+
+# working directory
+setwd("YOUR/DIRECTORY/P_empusa")
+```
 
 <br>
 
@@ -38,6 +53,8 @@ batch_cal <- "Candidate_models"
 out_dir <- "Candidate_Models"
 reg_mult <- c(seq(0.1,1,0.1),seq(2,6,1),8,10)
 f_clas <- "all"
+background <- 10000
+maxent_path <- getwd()
 run <- TRUE
 ```
 
@@ -47,7 +64,8 @@ The following is the code for using the function.
 
 ``` r
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
-           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
+          maxent.path = maxent_path, run = run)
 ```
 
 <br>
@@ -81,8 +99,8 @@ This code also allows evaluating candidate models that were created previously, 
 
 ``` r
 cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
-                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
-                         kept = kept, selection = selection)
+                        out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
+                        kept = kept, selection = selection)
 ```
 
 <br>
@@ -122,8 +140,9 @@ The kuenm\_mod function has the following syntax:
 
 ``` r
 kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
-           rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
-           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1, args = args)
+          rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
+          G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, 
+          run = run1, args = args)
 ```
 
 <br>
@@ -153,8 +172,8 @@ The following is the code for using the function.
 
 ``` r
 fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
-                         out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
-                         iterations = iterations)
+                        out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
+                        iterations = iterations)
 ```
 
 <br>
@@ -184,6 +203,6 @@ normalized <- TRUE
 The kuenm\_mmop function has the following syntax:
 
 ``` r
-kuenm_mmop(dirG = G_var_dir, dirM = M_var_dir, sets.var = sets_var, out.mop = out_mop,
-            percent = percent, normalized = normalized)
+kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
+           percent = percent, normalized = normalized)
 ```
