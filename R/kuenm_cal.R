@@ -17,6 +17,8 @@
 #' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
 #' "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
 #' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
+#' @param background (numeric) the numer of pixels be used as background when creating the maxent models.
+#' @param maxent.path (character) the path were the maxent.jar file is in your computer.
 #' @param run (logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
 #' manual, default = TRUE.
 #'
@@ -24,12 +26,13 @@
 #' A .bat file containing the java codes to run the calibration models, it will run auotmatically or on some
 #' computers a dialog box will ask if running is allowed.
 #'
-#' @details Java needs to be installed in the computer and maxent.jar needs to be located in the working directory.
-#' Java can be obtained from \url{https://java.com/es/download/manual.jsp}. Maxent can be downloaded from
-#' \url{https://biodiversityinformatics.amnh.org/open_source/maxent/}
+#' @details Java needs to be installed in the computer and maxent.jar needs to be in a known place in the computer.
+#' Java can be obtained from \url{https://java.com/es/download/manual.jsp}. Users of Linux and Mac need the entire
+#' Java Development Kit available in \url{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html}.
+#' Maxent can be downloaded from \url{https://biodiversityinformatics.amnh.org/open_source/maxent/}
 
 kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
-                       f.clas = "all", run = TRUE) {
+                      f.clas = "all", background = 10000, maxent.path, run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -40,26 +43,29 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
     stop(paste(occ.tra, "does not exist in the working directory, check file name",
                "\nor extension, example: species_train.csv"))
   }
+  if (missing(M.var.dir)) {
+    stop("Argument M.var.dir is not defined.")
+  }
   if (!dir.exists(M.var.dir)) {
     stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
                "\nor its existense."))
   }
   if (length(list.dirs(M.var.dir)) == 0) {
     stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
-               "\neach set of variables should be in a subdirectory inside",
+               "\neach set of variables must be in a subdirectory inside",
                paste(M.var.dir, ".", sep = "")))
   }
   if (missing(reg.mult)) {
-    warning(paste("Argument reg.mult is not defined, the default set, basic,",
-                  "\nwill be used."))
-    reg.mult <- "basic"
+    warning(paste("Argument reg.mult is not defined, a default set will be used:",
+                  "\n0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 2.0 3.0 4.0 5.0 6.0 8.0 10.0"))
+    reg.mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
   }
   if (class(reg.mult) != "numeric") {
     stop("Argument reg.mult must be numeric.")
   }
   if (missing(batch)) {
     warning(paste("Argument batch is not defined, the default name candidate_models",
-               "\nwill be used."))
+                  "\nwill be used."))
     batch <- "candidate_models"
   }
   if (missing(out.dir)) {
@@ -67,11 +73,24 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
                   "\nwill be used."))
     out.dir <- "Candidate_Models"
   }
+  if (missing(maxent.path)) {
+    stop(paste("Argument maxent.path is not defined, it is necessary for executing",
+               "\nthe Maxent software."))
+  }
+
+  #Slash
+  if(.Platform$OS.type == "unix") {
+    sl <- "/"
+    dl <- "/"
+  } else {
+    sl <- "\\"
+    dl <- "\\\\"
+  }
 
   #Data
   ##Environmental variables sets
   m <- dir(M.var.dir)
-  ms <- paste(M.var.dir, "\\", m, sep = "")
+  ms <- paste(gsub("/", dl, paste(getwd(), M.var.dir, sep = sl)), sl, m, sep = "")
   env <- vector()
   for (i in 1:length(ms)) {
     env[i] <- paste("environmentallayers=", ms[i], sep = "")
@@ -79,9 +98,9 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 
   ##Species occurrences
   oc <- occ.joint
-  samp <- paste("samplesfile=", oc, sep = "")
+  samp <- paste("samplesfile=", gsub("/", dl, paste(getwd(), oc, sep = sl)), sep = "")
   occ <- occ.tra
-  samp1 <- paste("samplesfile=", occ, sep = "")
+  samp1 <- paste("samplesfile=", gsub("/", dl, paste(getwd(), occ, sep = sl)), sep = "")
 
   #Maxent settings
   ##Featire classes combinations
@@ -129,16 +148,23 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
     fea <- fea[f.clas]
   })
 
+  #background
+  back <- paste("maximumbackground=", background, sep = "")
 
   #output directories
   dir.create(out.dir)
+  out.dir <- gsub("/", dl, paste(getwd(), out.dir, sep = sl))
 
   #Getting ram to be used
   ram <- paste("-mx", (round((get_free_ram()/1000)*0.5)), "m", sep = "")
 
   #Fixed commands
   ##Intitial command
-  in.comm <- paste("java", ram, "-jar maxent.jar", sep = " ")
+  in.comm <- paste("java", ram,
+                   paste("-jar",
+                         gsub("/", dl,
+                              paste(maxent.path, "maxent.jar", sep = sl))),
+                   sep = " ")
 
   ##Autofeature
   a.fea <- "autofeature=false"
@@ -149,7 +175,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 
   #Final code
   if(.Platform$OS.type == "unix") {
-    pb <- txtProgressBar(min = 0, max = length(reg.mult), style = 3)
+    cat("\nCreating directories and maxent batch file, please wait...\n")
   } else {
     pb <- winProgressBar(title = "Progress bar", min = 0, max = length(reg.mult), width = 300) #progress bar
   }
@@ -159,25 +185,25 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   for (i in 1:length(reg.mult)) {
     Sys.sleep(0.1)
     if(.Platform$OS.type == "unix") {
-      setTxtProgressBar(pb, i)
+
     } else {
       setWinProgressBar(pb, i, title = paste( round(i / length(reg.mult) * 100, 0), "% finished"))
     }
 
     for (j in 1:length(fea)) {
       for (k in 1:length(ms)) {
-        subfol <- paste("outputdirectory=", out.dir, "\\",
+        subfol <- paste("outputdirectory=", out.dir, sl,
                         paste("M", reg.mult[i], "F", names(fea)[j], m[k], "all", sep = "_"), sep = "")
-        dir.create(paste(out.dir, "/",
+        dir.create(paste(out.dir, sl,
                          paste("M", reg.mult[i], "F", names(fea)[j], m[k], "all", sep = "_"), sep = ""))
         reg.m <- paste("betamultiplier=", reg.mult[i], sep = "")
-        cat(paste(in.comm, env[k], samp, subfol, reg.m, a.fea, fea[j], fin.com, sep = " "))
+        cat(paste(in.comm, env[k], samp, subfol, reg.m, a.fea, fea[j], back, fin.com, sep = " "))
 
-        subfol1 <- paste("outputdirectory=", out.dir, "\\",
+        subfol1 <- paste("outputdirectory=", out.dir, sl,
                          paste("M", reg.mult[i], "F", names(fea)[j], m[k], "cal", sep = "_"), sep = "")
-        dir.create(paste(out.dir, "/",
+        dir.create(paste(out.dir, sl,
                          paste("M", reg.mult[i], "F", names(fea)[j], m[k], "cal", sep = "_"), sep = ""))
-        cat(paste(in.comm, env[k], samp1, subfol1, reg.m, a.fea, fea[j], fin.com1, sep = " "))
+        cat(paste(in.comm, env[k], samp1, subfol1, reg.m, a.fea, fea[j], back, fin.com1, sep = " "))
       }
     }
   }
@@ -189,12 +215,16 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   cat("\nIf asked and run = TRUE, allow runing as administrator.")
 
   if(run == TRUE){
-    batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = ""))
+    batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
+    r_wd <- getwd() # real working directory
+    setwd(maxent.path) # change temporally the working directory
+
     if(.Platform$OS.type == "unix") {
       system(batfile_path)
     } else {
       shell.exec(batfile_path)
     }
+    setwd(r_wd) # return actual working directory
   }
 
   cat("\nProcess finished\n")

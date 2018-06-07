@@ -43,7 +43,7 @@ selected. If "AICc" criterion is chosen, all significant models with delta AICc 
 If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.}
 }
 \value{
-A list with three dataframes containing information about the calibration process. In addition,
+A list with three dataframes containing results from the calibration process. In addition,
 a folder, in the working directory, containing a csv file with information about models meeting
 the user-defined selection criterion, another csv file with a summary of the evaluation and selection
 process, an extra csv file containing all the statistics of model performance (pROC, AICc, and
@@ -57,6 +57,6 @@ significance (partial ROC), prediction ability (omission rates), and model compl
 After evaluation, this function selects the best models based on user-defined criteria.
 }
 \details{
-This function is used after or during the creation of Maxent candidate models for
-calibration.
+This function is used after or during the creation of Maxent candidate models for calibration
+(waiting until the four first models are completed is recommended).
 }

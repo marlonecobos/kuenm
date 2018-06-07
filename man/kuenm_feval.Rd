@@ -31,7 +31,7 @@ when calculating partial ROCs; default = 50.}
 default = 500.}
 }
 \value{
-A list with two dataframes containing information about the evaluation process; and
+A list with two dataframes containing results from the evaluation process, and
 a folder, in the working directory, containing a csv file with the final models evaluation
 results.
 }

@@ -27,7 +27,7 @@
 #' selected. If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
 #' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
 #'
-#' @return  A list with three dataframes containing information about the calibration process. In addition,
+#' @return  A list with three dataframes containing results from the calibration process. In addition,
 #' a folder, in the working directory, containing a csv file with information about models meeting
 #' the user-defined selection criterion, another csv file with a summary of the evaluation and selection
 #' process, an extra csv file containing all the statistics of model performance (pROC, AICc, and
@@ -35,12 +35,16 @@
 #' omission rates, and an HTML file sumarizing all the information produced after evaluation for helping with
 #' further interpretation.
 #'
-#' @details This function is used after or during the creation of Maxent candidate models for
-#' calibration.
+#' @details This function is used after or during the creation of Maxent candidate models for calibration
+#' (waiting until the four first models are completed is recommended).
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500, kept = TRUE, selection = "OR_AICc") {
   #Checking potential issues
+  if (missing(path)) {
+    stop(paste("Argument path is not defined, this is necessary for reading the",
+               "\ncandidate models created with the kuenm_cal function."))
+  }
   if (!dir.exists(path)) {
     stop(paste(path, "does not exist in the working directory, check folder name",
                "\nor its existense."))
@@ -58,17 +62,23 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                "\nor extension, example: species_test.csv"))
   }
   if (missing(out.eval)) {
-    stop(paste("Argument out.eval is not defined, it is necessary for creating a folder",
+    stop(paste("Argument out.eval is not defined, this is necessary for creating a folder",
                "\nwith the outputs of this function."))
   }
   if (missing(batch)) {
-    warning(paste("Argument batch is not defined, the default name candidate_models",
-                  "\nwill be used."))
-    batch <- "candidate_models"
+    stop(paste("Argument batch is not defined, this is necessary for evaluating",
+               "\ncandidate models in the order in which they are created."))
   }
 
 
   #####
+  #Slash
+  if(.Platform$OS.type == "unix") {
+    out <- "outputd.\\S*/"
+  } else {
+    out <- "outputd.\\S*\\\\"
+  }
+
   #Data
   ##Source of initial information for model evaluation order
   bat <- readLines(paste(batch, ".bat", sep = "")) #reading the batch file written to create the calibration models
@@ -77,7 +87,12 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   fol <- gregexpr("outputd.\\S*", bat)
   fold <- regmatches(bat, fol)
   folde <- unlist(fold)
-  extract <- paste("outputdirectory=", path, "\\", sep = "")
+
+  ext <- gregexpr(out, bat)
+  extr <- regmatches(bat, ext)
+  extra <- unlist(extr)
+  extract <- unique(extra)
+
   folder <- gsub(extract, "", folde, fixed = T) #names of all the calibration models folders
 
   folder_a <- gregexpr("\\S*all", folder)
@@ -152,7 +167,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     mods <- list.files(dir_names[i], pattern = "asc", full.names = TRUE) #name of ascii model
     mod <- raster::raster(mods) #reading each ascii model created with the complete set of occurrences
     aiccs[[i]] <- suppressWarnings(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                             predictive.maps = mod)) #calculating AICc for each model
+                                                      predictive.maps = mod)) #calculating AICc for each model
 
     #pROCs calculation
     suppressWarnings(while (!file.exists(list.files(dir_names1[i], pattern = "asc",
@@ -164,12 +179,12 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     mod1 <- raster::raster(mods1) #reading each ascii model created with the calibration occurrences
 
     proc <- kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                        rand.percent = rand.percent, iterations = iterations) #Partial ROC analyses for each model
+                       rand.percent = rand.percent, iterations = iterations) #Partial ROC analyses for each model
     proc_res[[i]] <- proc[[1]]
 
     #Omission rates calculation
     om_rates[i] <- kuenm_omrat(model = mod1, threshold = threshold,
-                                occ.tra = occ, occ.test = occ1)
+                               occ.tra = occ, occ.test = occ1)
 
     #Erasing calibration models after evaluating them if kept = FALSE
     if(kept == FALSE) {
@@ -277,7 +292,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       }
     }
   }else {
-  cat("\nNo valid model selection criterion has been defined,\n
+    cat("\nNo valid model selection criterion has been defined,\n
         no file containing best models was created.\n
         Select your best models from the complete list.\n")
   }
@@ -474,7 +489,10 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
   cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
   return(list_res)
-}
+  }
+
+#' Helper function to calculate the AICc values.
+#' @param x An objects derived from reading the lambdas file created for Maxent.
 
 n.par <- function(x) {
   lambdas <- x[1:(length(x) - 4)]

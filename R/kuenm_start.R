@@ -54,8 +54,10 @@ occ_tra <- \"Sp_train.csv\"
 M_var_dir <- \"M_variables\"
 batch_cal <- \"Candidate_models\"
 out_dir <- \"Candidate_Models\"
-reg_mult <- c(seq(0.1,1,0.1),seq(2,6,1),8,10)
+reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- \"all\"
+background <- 10000
+maxent_path <- \"YOUR/DIRECTORY\"
 run <- TRUE
 \```
 
@@ -65,7 +67,8 @@ The following is the code for using the function.
 
 \```{r, eval=FALSE}
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
-           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, run = run)
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
+          maxent.path = maxent_path, run = run)
 \```
 
 <br>
@@ -98,9 +101,10 @@ selection <- \"OR_AICc\"
 This code also allows evaluating candidate models that were created previously, selecting those with best performance based on the three criteria.
 
 \```{r, eval=FALSE}
-cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
-                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
-                         kept = kept, selection = selection)
+cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test,
+                        batch = batch_cal, out.eval = out_eval, threshold = threshold,
+                        rand.percent = rand_percent, iterations = iterations, kept = kept,
+                        selection = selection)
 \```
 
 <br>
@@ -139,9 +143,11 @@ args <- NULL
 The kuenm_mod function has the following syntax:
 
 \```{r, eval=FALSE}
-kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
-           rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
-           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, run = run1, args = args)
+kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin,
+          rep.n = rep_n, rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir,
+          out.format = out_format, project = project, G.var.dir = G_var_dir, ext.type = ext_type,
+          write.mess = write_mess, write.clamp = write_clamp, maxent.path = maxent_path,
+          args = args, run = run1)
 \```
 
 <br>
@@ -170,9 +176,9 @@ out_feval <- \"Final_Models_evaluation\"
 The following is the code for using the function.
 
 \```{r, eval=FALSE}
-fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
-                         out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
-                         iterations = iterations)
+fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind,
+                        replicates = replicates, out.eval = out_feval, threshold = threshold,
+                        rand.percent = rand_percent, iterations = iterations)
 \```
 
 <br>
@@ -202,8 +208,8 @@ normalized <- TRUE
 The kuenm_mmop function has the following syntax:
 
 \```{r, eval=FALSE}
-kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
-            percent = percent, normalized = normalized)
+kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var,
+           out.mop = out_mop, percent = percent, normalized = normalized)
 \```"
   )
   sink()

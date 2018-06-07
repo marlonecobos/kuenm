@@ -18,7 +18,7 @@
 #' @param iterations (numeric) the number of times that the bootstrap is going to be repeated;
 #' default = 500.
 #'
-#' @return A list with two dataframes containing information about the evaluation process; and
+#' @return A list with two dataframes containing results from the evaluation process, and
 #' a folder, in the working directory, containing a csv file with the final models evaluation
 #' results.
 #'
@@ -26,6 +26,32 @@
 
 kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500) {
+
+  #Checking potential issues
+  if (missing(path)) {
+    stop(paste("Argument path is not defined, this is necessary for reading the",
+               "\nfinal models created with the kuenm_mod function."))
+  }
+  if (!dir.exists(path)) {
+    stop(paste(path, "does not exist in the working directory, check folder name",
+               "\nor its existense."))
+  }
+  if (!file.exists(occ.joint)) {
+    stop(paste(occ.joint, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_joint.csv"))
+  }
+  if (!file.exists(occ.ind)) {
+    stop(paste(occ.ind, "does not exist in the working directory, check file name",
+               "\nor extension, example: species_ind.csv"))
+  }
+  if (missing(out.eval)) {
+    stop(paste("Argument out.eval is not defined, this is necessary for creating a folder",
+               "\nwith the outputs of this function."))
+  }
+  if (missing(replicates)) {
+    stop(paste("Logical argument replicates is not defined, this is necessary for",
+               "\nselecting the layer that will be evaluated; it can be TRUE or FALSE."))
+  }
 
   #####
   #Data
@@ -95,12 +121,12 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
 
     #pROCs calculation
     proc <- kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                        rand.percent = rand.percent, iterations = iterations) #Partial ROC analyses for each model
+                       rand.percent = rand.percent, iterations = iterations) #Partial ROC analyses for each model
     proc_res[[i]] <- proc[[1]]
 
     #Omission rates calculation
     om_rates[i] <- kuenm_omrat(model = mod1, threshold = threshold,
-                                occ.tra = occ, occ.test = occ1)
+                               occ.tra = occ, occ.test = occ1)
 
   }
   if(.Platform$OS.type != "unix") {

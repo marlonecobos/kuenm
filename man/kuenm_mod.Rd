@@ -4,10 +4,11 @@
 \alias{kuenm_mod}
 \title{Creation of Maxent models with selected parameters}
 \usage{
-kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
+kuenm_mod(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10,
   rep.type = "Bootstrap", jackknife = FALSE, out.dir,
   out.format = "logistic", project = FALSE, G.var.dir, ext.type = "all",
-  write.mess = FALSE, write.clamp = FALSE, run = TRUE, args = NULL)
+  write.mess = FALSE, write.clamp = FALSE, maxent.path, args = NULL,
+  run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -15,11 +16,11 @@ kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
 \item{M.var.dir}{(character) name of the forlder containing folders in which calibration environmental
 datasets are placed.}
 
-\item{out.eval}{(character) name of the folder where evaluation results were written.}
+\item{out.ceval}{(character) name of the folder where evaluation results were written.}
 
 \item{batch}{(character) name of the batch file with the code to create final Maxent models.}
 
-\item{rep.n}{(numeric) number of model replicates.}
+\item{rep.n}{(numeric) number of model replicates, default = 10.}
 
 \item{rep.type}{(character) the replicate type; it can be: "Crossvalidate", "Bootstrap", or "Subsample".}
 
@@ -43,11 +44,14 @@ no_ext = no extrapolation, and all = all three of the options listed above.}
 
 \item{write.clamp}{(logical) if TRUE, a grid of the spatial distribution of clamping will be written, default = FALSE.}
 
-\item{run}{(logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
-would be manual, default = TRUE.}
+\item{maxent.path}{(character) the path were the maxent.jar file is in your computer.}
 
 \item{args}{(character) additional arguments that can be passed to Maxent. See the Maxent help for more information
-on how to write these arguments, default = NULL.}
+on how to write these arguments, default = NULL. Note that some arguments cannot be changed in here because they are
+part of the parameters of the function already (e.g., "writemess").}
+
+\item{run}{(logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
+would be manual, default = TRUE.}
 }
 \value{
 A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file.

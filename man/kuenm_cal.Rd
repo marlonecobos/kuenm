@@ -5,7 +5,7 @@
 \title{Creation of candidate models for calibration}
 \usage{
 kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
-  f.clas = "all", run = TRUE)
+  f.clas = "all", background = 10000, maxent.path, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -28,6 +28,10 @@ Options from the following list can be selected manually:
 "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
 "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".}
 
+\item{background}{(numeric) the numer of pixels be used as background when creating the maxent models.}
+
+\item{maxent.path}{(character) the path were the maxent.jar file is in your computer.}
+
 \item{run}{(logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
 manual, default = TRUE.}
 }
@@ -42,7 +46,8 @@ to test multiple parameter combinations, including distinct regularization multi
 various feature classes, and different sets of environmental variables.
 }
 \details{
-Java needs to be installed in the computer and maxent.jar needs to be located in the working directory.
-Java can be obtained from \url{https://java.com/es/download/manual.jsp}. Maxent can be downloaded from
-\url{https://biodiversityinformatics.amnh.org/open_source/maxent/}
+Java needs to be installed in the computer and maxent.jar needs to be in a known place in the computer.
+Java can be obtained from \url{https://java.com/es/download/manual.jsp}. Users of Linux and Mac need the entire
+Java Development Kit available in \url{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html}.
+Maxent can be downloaded from \url{https://biodiversityinformatics.amnh.org/open_source/maxent/}
 }
