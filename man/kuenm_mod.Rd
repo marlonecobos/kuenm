@@ -18,7 +18,7 @@ datasets are placed.}
 
 \item{out.eval}{(character) name of the folder where evaluation results (from calibration) were written.}
 
-\item{batch}{(character) name of the batch file with the code to create final Maxent models.}
+\item{batch}{(character) name of the batch file (bash for Unix) with the code to create final Maxent models.}
 
 \item{rep.n}{(numeric) number of model replicates, default = 10.}
 
@@ -54,7 +54,7 @@ part of the parameters of the function already (e.g., "writemess").}
 model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 candidate models parallelly. Default = TRUE.}
 
-\item{invisible}{(logical) determines wheter or not the terminal executing the batch (bash) file for producing
+\item{invisible}{(logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
 maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
 If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.}
 
@@ -62,11 +62,11 @@ If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance o
 would be manual, default = TRUE.}
 }
 \value{
-A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file.
-A batch file for creating all the final Maxent models with their projections if project = TRUE.
+A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file
+(.sh for Unix). A batch file (bash for Unix) for creating all the final Maxent models with their projections if project = TRUE.
 }
 \description{
-kuenm_mod creates and executes a batch file for generating Maxent models using
+kuenm_mod creates and executes a batch file (bash for Unix) for generating Maxent models using
 parameters previously selected with the \code{\link{kuenm_ceval}} function.
 }
 \details{

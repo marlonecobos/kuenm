@@ -4,9 +4,10 @@
 #' comparing environmental values between the calibration area and multiple areas or
 #' scenarios to which ecological niche models are transferred.
 #'
-#' @param G.var.dir a raster stack of variables representing the calibration area.
-#' @param M.var.dir a raster stack of variables representing the full area, areas or scenarios to
-#' which models are transferred.
+#' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in wHich variables of
+#' projection scenarios are placed.
+#' @param M.var.dir (character) name of the forlder containing folders in which calibration environmental
+#' datasets are placed.
 #' @param sets.var (character) value or vector with the name(s) of the sets of variables
 #' from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 #' @param out.mop (character) name of the folder to which MOP results will be written.

@@ -1,13 +1,13 @@
 #' Creation of candidate models for calibration
 #'
-#' @description kuenm_cal creates and executes a batch file for generating candidate models in Maxent
+#' @description kuenm_cal creates and executes a batch file (bash for Unix) for generating candidate models in Maxent
 #' to test multiple parameter combinations, including distinct regularization multiplier values,
 #' various feature classes, and different sets of environmental variables.
 #'
 #' @param occ.joint (character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.
 #' @param occ.tra (character) is the name of the csv file with the calibration occurrences; columns equal to occ.joint.
 #' @param M.var.dir (character) is the name of the folder containing other folders with different sets of environmental variables.
-#' @param batch (character) name of the batch (bash) file with the code to create all candidate models.
+#' @param batch (character) name of the batch file (bash for Unix) with the code to create all candidate models.
 #' @param out.dir (character) name of the folder that will contain all calibration model subfolders.
 #' @param reg.mult (numeric vector) regularization multiplier(s) to be evaluated.
 #' @param f.clas (character) feature clases can be selected from  five different combination sets or manually.
@@ -22,14 +22,14 @@
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 #' candidate models parallelly. Default = TRUE.
-#' @param invisible (logical) determines wheter or not the terminal executing the batch (bash) file for producing
+#' @param invisible (logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
 #' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
 #' If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.
-#' @param run (logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
+#' @param run (logical) if TRUE the batch runs after its creation, if FALSE it will only be created and its runnig would be
 #' manual, default = TRUE.
 #'
-#' @return A folder named out.dir with all the subfolders to save Maxent results when running the .bat file.
-#' A .bat file containing the java codes to run the calibration models, it will run auotmatically or on some
+#' @return A folder named out.dir with all the subfolders to save Maxent results when running the .bat file (.sh for Unix).
+#' A .bat file (.sh for Unix) containing the java codes to run the calibration models, it will run auotmatically or on some
 #' computers a dialog box will ask if running is allowed.
 #'
 #' @details Java needs to be installed in the computer and maxent.jar needs to be in a known place in the computer.

@@ -1,13 +1,13 @@
 #' Creation of Maxent models with selected parameters
 #'
-#' @description kuenm_mod creates and executes a batch file for generating Maxent models using
+#' @description kuenm_mod creates and executes a batch file (bash for Unix) for generating Maxent models using
 #' parameters previously selected with the \code{\link{kuenm_ceval}} function.
 #'
 #' @param occ.joint (character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.
 #' @param M.var.dir (character) name of the forlder containing folders in which calibration environmental
 #' datasets are placed.
 #' @param out.eval (character) name of the folder where evaluation results (from calibration) were written.
-#' @param batch (character) name of the batch file with the code to create final Maxent models.
+#' @param batch (character) name of the batch file (bash for Unix) with the code to create final Maxent models.
 #' @param rep.n (numeric) number of model replicates, default = 10.
 #' @param rep.type (character) the replicate type; it can be: "Crossvalidate", "Bootstrap", or "Subsample".
 #' @param jackknife (logical) if TRUE, a jackknife process is performed while runing Maxent models, default = FALSE.
@@ -26,7 +26,7 @@
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 #' candidate models parallelly. Default = TRUE.
-#' @param invisible (logical) determines wheter or not the terminal executing the batch (bash) file for producing
+#' @param invisible (logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
 #' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
 #' If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.
 #' @param args (character) additional arguments that can be passed to Maxent. See the Maxent help for more information
@@ -35,8 +35,8 @@
 #' @param run (logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
 #' would be manual, default = TRUE.
 #'
-#' @return A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file.
-#' A batch file for creating all the final Maxent models with their projections if project = TRUE.
+#' @return A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file
+#' (.sh for Unix). A batch file (bash for Unix) for creating all the final Maxent models with their projections if project = TRUE.
 #'
 #' @details Same requirements as in \code{\link{kuenm_cal}}
 

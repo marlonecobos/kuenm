@@ -8,10 +8,11 @@ kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
   normalized = TRUE)
 }
 \arguments{
-\item{G.var.dir}{a raster stack of variables representing the calibration area.}
+\item{G.var.dir}{(character) if project is TRUE, name of the folder containing folders in wHich variables of
+projection scenarios are placed.}
 
-\item{M.var.dir}{a raster stack of variables representing the full area, areas or scenarios to
-which models are transferred.}
+\item{M.var.dir}{(character) name of the forlder containing folders in which calibration environmental
+datasets are placed.}
 
 \item{sets.var}{(character) value or vector with the name(s) of the sets of variables
 from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).}

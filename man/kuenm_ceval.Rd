@@ -21,7 +21,7 @@ columns as in occ.joint.}
 \item{occ.test}{(character) the name of the csv file with the evaluation occurrences;
 columns as in occ.joint.}
 
-\item{batch}{(character) name of the batch file with the code to create all candidate models
+\item{batch}{(character) name of the batch file (bash for Unix) with the code to create all candidate models
 for calibration.}
 
 \item{out.eval}{(character) name of the folder where evaluation results will be written.}

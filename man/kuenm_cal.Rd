@@ -15,7 +15,7 @@ kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 
 \item{M.var.dir}{(character) is the name of the folder containing other folders with different sets of environmental variables.}
 
-\item{batch}{(character) name of the batch (bash) file with the code to create all candidate models.}
+\item{batch}{(character) name of the batch file (bash for Unix) with the code to create all candidate models.}
 
 \item{out.dir}{(character) name of the folder that will contain all calibration model subfolders.}
 
@@ -37,20 +37,20 @@ Options from the following list can be selected manually:
 model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 candidate models parallelly. Default = TRUE.}
 
-\item{invisible}{(logical) determines wheter or not the terminal executing the batch (bash) file for producing
+\item{invisible}{(logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
 maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
 If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.}
 
-\item{run}{(logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
+\item{run}{(logical) if TRUE the batch runs after its creation, if FALSE it will only be created and its runnig would be
 manual, default = TRUE.}
 }
 \value{
-A folder named out.dir with all the subfolders to save Maxent results when running the .bat file.
-A .bat file containing the java codes to run the calibration models, it will run auotmatically or on some
+A folder named out.dir with all the subfolders to save Maxent results when running the .bat file (.sh for Unix).
+A .bat file (.sh for Unix) containing the java codes to run the calibration models, it will run auotmatically or on some
 computers a dialog box will ask if running is allowed.
 }
 \description{
-kuenm_cal creates and executes a batch file for generating candidate models in Maxent
+kuenm_cal creates and executes a batch file (bash for Unix) for generating candidate models in Maxent
 to test multiple parameter combinations, including distinct regularization multiplier values,
 various feature classes, and different sets of environmental variables.
 }

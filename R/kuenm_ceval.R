@@ -12,7 +12,7 @@
 #' columns as in occ.joint.
 #' @param occ.test (character) the name of the csv file with the evaluation occurrences;
 #' columns as in occ.joint.
-#' @param batch (character) name of the batch file with the code to create all candidate models
+#' @param batch (character) name of the batch file (bash for Unix) with the code to create all candidate models
 #' for calibration.
 #' @param out.eval (character) name of the folder where evaluation results will be written.
 #' @param threshold (numeric) the percentage of training data omission error allowed (E); default = 5.
