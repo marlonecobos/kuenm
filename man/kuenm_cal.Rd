@@ -5,7 +5,8 @@
 \title{Creation of candidate models for calibration}
 \usage{
 kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
-  f.clas = "all", background = 10000, maxent.path, run = TRUE)
+  f.clas = "all", background = 10000, maxent.path, wait = TRUE,
+  invisible = TRUE, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -14,7 +15,7 @@ kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 
 \item{M.var.dir}{(character) is the name of the folder containing other folders with different sets of environmental variables.}
 
-\item{batch}{(character) name of the batch file with the code to create all candidate models.}
+\item{batch}{(character) name of the batch (bash) file with the code to create all candidate models.}
 
 \item{out.dir}{(character) name of the folder that will contain all calibration model subfolders.}
 
@@ -31,6 +32,14 @@ Options from the following list can be selected manually:
 \item{background}{(numeric) the numer of pixels be used as background when creating the maxent models.}
 
 \item{maxent.path}{(character) the path were the maxent.jar file is in your computer.}
+
+\item{wait}{(logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
+model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
+candidate models parallelly. Default = TRUE.}
+
+\item{invisible}{(logical) determines wheter or not the terminal executing the batch (bash) file for producing
+maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
+If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.}
 
 \item{run}{(logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
 manual, default = TRUE.}

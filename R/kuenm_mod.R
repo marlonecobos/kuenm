@@ -23,6 +23,12 @@
 #' @param write.mess (logical) if TRUE, grids of MESS analysis results will be written, default = FALSE.
 #' @param write.clamp (logical) if TRUE, a grid of the spatial distribution of clamping will be written, default = FALSE.
 #' @param maxent.path (character) the path were the maxent.jar file is in your computer.
+#' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
+#' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
+#' candidate models parallelly. Default = TRUE.
+#' @param invisible (logical) determines wheter or not the terminal executing the batch (bash) file for producing
+#' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
+#' If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.
 #' @param args (character) additional arguments that can be passed to Maxent. See the Maxent help for more information
 #' on how to write these arguments, default = NULL. Note that some arguments cannot be changed in here because they are
 #' part of the parameters of the function already (e.g., "writemess").
@@ -37,7 +43,7 @@
 kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
                       jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
                       ext.type = "all", write.mess = FALSE, write.clamp = FALSE, maxent.path,
-                      args = NULL, run = TRUE) {
+                      args = NULL, wait = TRUE, invisible = TRUE, run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -371,13 +377,13 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system(paste("bash", batfile_path))
+          system2(paste("bash", batfile_path), wait = wait, invisible = invisible)
         } else {
           batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          shell.exec(batfile_path)
+          system2(batfile_path, wait = wait, invisible = invisible)
         }
         setwd(r_wd) # return actual working directory
       }
@@ -422,13 +428,13 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system(paste("bash", batfile_path))
+          system2(paste("bash", batfile_path), wait = wait, invisible = invisible)
         } else {
           batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          shell.exec(batfile_path)
+          system2(batfile_path, wait = wait, invisible = invisible)
         }
         setwd(r_wd) # return actual working directory
       }
@@ -561,13 +567,13 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system(paste("bash", batfile_path))
+          system2(paste("bash", batfile_path), wait = wait, invisible = invisible)
         } else {
           batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          shell.exec(batfile_path)
+          system2(batfile_path, wait = wait, invisible = invisible)
         }
         setwd(r_wd) # return actual working directory
       }
@@ -612,13 +618,13 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system(paste("bash", batfile_path))
+          system2(paste("bash", batfile_path), wait = wait, invisible = invisible)
         } else {
           batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          shell.exec(batfile_path)
+          system2(batfile_path, wait = wait, invisible = invisible)
         }
         setwd(r_wd) # return actual working directory
       }

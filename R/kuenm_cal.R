@@ -7,7 +7,7 @@
 #' @param occ.joint (character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.
 #' @param occ.tra (character) is the name of the csv file with the calibration occurrences; columns equal to occ.joint.
 #' @param M.var.dir (character) is the name of the folder containing other folders with different sets of environmental variables.
-#' @param batch (character) name of the batch file with the code to create all candidate models.
+#' @param batch (character) name of the batch (bash) file with the code to create all candidate models.
 #' @param out.dir (character) name of the folder that will contain all calibration model subfolders.
 #' @param reg.mult (numeric vector) regularization multiplier(s) to be evaluated.
 #' @param f.clas (character) feature clases can be selected from  five different combination sets or manually.
@@ -19,6 +19,12 @@
 #' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
 #' @param background (numeric) the numer of pixels be used as background when creating the maxent models.
 #' @param maxent.path (character) the path were the maxent.jar file is in your computer.
+#' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
+#' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
+#' candidate models parallelly. Default = TRUE.
+#' @param invisible (logical) determines wheter or not the terminal executing the batch (bash) file for producing
+#' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
+#' If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.
 #' @param run (logical) if true the batch runs after its creation, if false it will only be created and its runnig would be
 #' manual, default = TRUE.
 #'
@@ -32,7 +38,8 @@
 #' Maxent can be downloaded from \url{https://biodiversityinformatics.amnh.org/open_source/maxent/}
 
 kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
-                      f.clas = "all", background = 10000, maxent.path, run = TRUE) {
+                      f.clas = "all", background = 10000, maxent.path, wait = TRUE,
+                      invisible = TRUE, run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -91,10 +98,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   ##Environmental variables sets
   m <- dir(M.var.dir)
   ms <- paste(gsub("/", dl, paste(getwd(), M.var.dir, sep = sl)), sl, m, sep = "")
-  env <- vector()
-  for (i in 1:length(ms)) {
-    env[i] <- paste("environmentallayers=", ms[i], sep = "")
-  }
+  env <- paste("environmentallayers=", ms, sep = "")
 
   ##Species occurrences
   oc <- occ.joint
@@ -176,7 +180,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   #Final code
   if(.Platform$OS.type == "unix") {
     cat("\nCreating directories and maxent batch file, please wait...\n")
-    sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+    sink(paste(batch, ".sh", sep = ""),) # beginning file preparation
     cat("#! /bin/csh\n")
   } else {
     pb <- winProgressBar(title = "Progress bar", min = 0, max = length(reg.mult), width = 300) #progress bar
@@ -221,13 +225,13 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
       r_wd <- getwd() # real working directory
       setwd(maxent.path) # change temporally the working directory
 
-      system(paste("bash", batfile_path))
+      system2(paste("bash", batfile_path), wait = wait, invisible = invisible)
     } else {
       batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
       r_wd <- getwd() # real working directory
       setwd(maxent.path) # change temporally the working directory
 
-      shell.exec(batfile_path)
+      system2(batfile_path, wait = wait, invisible = invisible)
     }
     setwd(r_wd) # return actual working directory
   }
