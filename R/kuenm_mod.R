@@ -253,11 +253,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
         if(write.clamp == FALSE & write.mess == TRUE) {
           if(.Platform$OS.type == "unix") {
             cat("\nCreating directories and maxent batch file, please wait...\n")
+            sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+            cat("#! /bin/csh\n")
           } else {
             pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+            sink(paste(batch, ".bat", sep = "")) # beginning file preparation
           }
-
-          sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
@@ -279,11 +280,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
         if(write.mess == FALSE & write.clamp == TRUE) {
           if(.Platform$OS.type == "unix") {
             cat("\nCreating directories and maxent batch file, please wait...\n")
+            sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+            cat("#! /bin/csh\n")
           } else {
             pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+            sink(paste(batch, ".bat", sep = "")) # beginning file preparation
           }
-
-          sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
@@ -305,11 +307,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
         if(write.clamp == FALSE & write.mess == FALSE) {
           if(.Platform$OS.type == "unix") {
             cat("\nCreating directories and maxent batch file, please wait...\n")
+            sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+            cat("#! /bin/csh\n")
           } else {
             pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+            sink(paste(batch, ".bat", sep = "")) # beginning file preparation
           }
-
-          sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
@@ -331,11 +334,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
       }else {
         if(.Platform$OS.type == "unix") {
           cat("\nCreating directories and maxent batch file, please wait...\n")
+          sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+          cat("#! /bin/csh\n")
         } else {
           pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = "")) # beginning file preparation
         }
-
-        sink(paste(batch, ".bat", sep = ""))
 
         for (i in 1:length(sett1)) {
           Sys.sleep(0.1)
@@ -362,13 +366,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
 
       cat("\nIf asked, allow runing as administrator.")
       if(run == TRUE){
-        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
-        r_wd <- getwd() # real working directory
-        setwd(maxent.path) # change temporally the working directory
-
         if(.Platform$OS.type == "unix") {
-          system(batfile_path)
+          batfile_path <- file.path(getwd(), paste(batch, ".sh", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
+          system(paste("bash", batfile_path))
         } else {
+          batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
           shell.exec(batfile_path)
         }
         setwd(r_wd) # return actual working directory
@@ -380,11 +388,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
     }else {
       if(.Platform$OS.type == "unix") {
         cat("\nCreating directories and maxent batch file, please wait...\n")
+        sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+        cat("#! /bin/csh\n")
       } else {
         pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        sink(paste(batch, ".bat", sep = "")) # beginning file preparation
       }
-
-      sink(paste(batch, ".bat", sep = ""))
 
       for (i in 1:length(sett1)) {
         Sys.sleep(0.1)
@@ -408,13 +417,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
 
       cat("\nIf asked, allow runing as administrator.")
       if(run == TRUE){
-        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
-        r_wd <- getwd() # real working directory
-        setwd(maxent.path) # change temporally the working directory
-
         if(.Platform$OS.type == "unix") {
-          system(batfile_path)
+          batfile_path <- file.path(getwd(), paste(batch, ".sh", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
+          system(paste("bash", batfile_path))
         } else {
+          batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
           shell.exec(batfile_path)
         }
         setwd(r_wd) # return actual working directory
@@ -430,11 +443,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
         if(write.clamp == FALSE & write.mess == TRUE) {
           if(.Platform$OS.type == "unix") {
             cat("\nCreating directories and maxent batch file, please wait...\n")
+            sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+            cat("#! /bin/csh\n")
           } else {
             pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+            sink(paste(batch, ".bat", sep = "")) # beginning file preparation
           }
-
-          sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
@@ -456,11 +470,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
         if(write.mess == FALSE & write.clamp == TRUE) {
           if(.Platform$OS.type == "unix") {
             cat("\nCreating directories and maxent batch file, please wait...\n")
+            sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+            cat("#! /bin/csh\n")
           } else {
             pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+            sink(paste(batch, ".bat", sep = "")) # beginning file preparation
           }
-
-          sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
@@ -482,11 +497,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
         if(write.clamp == FALSE & write.mess == FALSE) {
           if(.Platform$OS.type == "unix") {
             cat("\nCreating directories and maxent batch file, please wait...\n")
+            sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+            cat("#! /bin/csh\n")
           } else {
             pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+            sink(paste(batch, ".bat", sep = "")) # beginning file preparation
           }
-
-          sink(paste(batch, ".bat", sep = ""))
 
           for (i in 1:length(sett1)) {
             Sys.sleep(0.1)
@@ -508,11 +524,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
       }else {
         if(.Platform$OS.type == "unix") {
           cat("\nCreating directories and maxent batch file, please wait...\n")
+          sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+          cat("#! /bin/csh\n")
         } else {
           pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+          sink(paste(batch, ".bat", sep = "")) # beginning file preparation
         }
-
-        sink(paste(batch, ".bat", sep = ""))
 
         for (i in 1:length(sett1)) {
           Sys.sleep(0.1)
@@ -539,13 +556,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
 
       cat("\nIf asked, allow runing as administrator.")
       if(run == TRUE){
-        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
-        r_wd <- getwd() # real working directory
-        setwd(maxent.path) # change temporally the working directory
-
         if(.Platform$OS.type == "unix") {
-          system(batfile_path)
+          batfile_path <- file.path(getwd(), paste(batch, ".sh", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
+          system(paste("bash", batfile_path))
         } else {
+          batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
           shell.exec(batfile_path)
         }
         setwd(r_wd) # return actual working directory
@@ -557,11 +578,12 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
     }else {
       if(.Platform$OS.type == "unix") {
         cat("\nCreating directories and maxent batch file, please wait...\n")
+        sink(paste(batch, ".sh", sep = "")) # beginning file preparation
+        cat("#! /bin/csh\n")
       } else {
         pb <- winProgressBar(title = "Progress bar", min = 0, max = length(sett1), width = 300) #progress bar
+        sink(paste(batch, ".bat", sep = "")) # beginning file preparation
       }
-
-      sink(paste(batch, ".bat", sep = ""))
 
       for (i in 1:length(sett1)) {
         Sys.sleep(0.1)
@@ -585,13 +607,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
 
       cat("\nIf asked, allow runing as administrator.")
       if(run == TRUE){
-        batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
-        r_wd <- getwd() # real working directory
-        setwd(maxent.path) # change temporally the working directory
-
         if(.Platform$OS.type == "unix") {
-          system(batfile_path)
+          batfile_path <- file.path(getwd(), paste(batch, ".sh", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
+          system(paste("bash", batfile_path))
         } else {
+          batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
+          r_wd <- getwd() # real working directory
+          setwd(maxent.path) # change temporally the working directory
+
           shell.exec(batfile_path)
         }
         setwd(r_wd) # return actual working directory
