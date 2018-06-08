@@ -81,7 +81,14 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
   #Data
   ##Source of initial information for model evaluation order
-  bat <- readLines(paste(batch, ".bat", sep = "")) #reading the batch file written to create the calibration models
+  if(.Platform$OS.type == "unix") {
+    bat <- readLines(paste(batch, ".sh", sep = "")) #reading the batch file written to create the calibration models
+
+  } else {
+    bat <- readLines(paste(batch, ".bat", sep = "")) #reading the batch file written to create the calibration models
+
+  }
+
 
   ###Recognizing the folders names and separating them for different procedures
   fol <- gregexpr("outputd.\\S*", bat)
