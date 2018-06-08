@@ -6,7 +6,7 @@
 #' @param occ.joint (character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.
 #' @param M.var.dir (character) name of the forlder containing folders in which calibration environmental
 #' datasets are placed.
-#' @param out.ceval (character) name of the folder where evaluation results were written.
+#' @param out.eval (character) name of the folder where evaluation results (from calibration) were written.
 #' @param batch (character) name of the batch file with the code to create final Maxent models.
 #' @param rep.n (numeric) number of model replicates, default = 10.
 #' @param rep.type (character) the replicate type; it can be: "Crossvalidate", "Bootstrap", or "Subsample".
@@ -34,7 +34,7 @@
 #'
 #' @details Same requirements as in \code{\link{kuenm_cal}}
 
-kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.type = "Bootstrap",
+kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
                       jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
                       ext.type = "all", write.mess = FALSE, write.clamp = FALSE, maxent.path,
                       args = NULL, run = TRUE) {
@@ -56,8 +56,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
                "\neach set of variables must be in a subdirectory inside",
                paste(M.var.dir, ".", sep = "")))
   }
-  if (missing(out.ceval)) {
-    stop(paste("Argument out.ceval is not defined, it is necessary for reading selected",
+  if (missing(out.eval)) {
+    stop(paste("Argument out.eval is not defined, it is necessary for reading selected",
                "\nsets of parameters."))
   }
   if (project == TRUE) {
@@ -91,7 +91,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10, rep.ty
 
   #Data
   ##Data from best models table
-  best <- list.files(path = out.ceval, pattern = "best", full.names = TRUE)
+  best <- list.files(path = out.eval, pattern = "best", full.names = TRUE)
   sett <- read.csv(best)
   sett1 <- as.character(sett[, 1])
   setts <- strsplit(sett1, split = "_")

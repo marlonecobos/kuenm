@@ -4,7 +4,7 @@
 \alias{kuenm_mod}
 \title{Creation of Maxent models with selected parameters}
 \usage{
-kuenm_mod(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10,
+kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
   rep.type = "Bootstrap", jackknife = FALSE, out.dir,
   out.format = "logistic", project = FALSE, G.var.dir, ext.type = "all",
   write.mess = FALSE, write.clamp = FALSE, maxent.path, args = NULL,
@@ -16,7 +16,7 @@ kuenm_mod(occ.joint, M.var.dir, out.ceval, batch, rep.n = 10,
 \item{M.var.dir}{(character) name of the forlder containing folders in which calibration environmental
 datasets are placed.}
 
-\item{out.ceval}{(character) name of the folder where evaluation results were written.}
+\item{out.eval}{(character) name of the folder where evaluation results (from calibration) were written.}
 
 \item{batch}{(character) name of the batch file with the code to create final Maxent models.}
 
