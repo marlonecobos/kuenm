@@ -186,15 +186,15 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                                                       predictive.maps = mod)) #calculating AICc for each model
 
     #pROCs calculation
-    asc_files <- logical() # waiting for ascii files
-    asc_time <- 0
-    suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
-      asc_file <- list.files(dir_names1[i], pattern = "asc",
+    asc_files1 <- logical() # waiting for ascii files
+    asc_time1 <- 0
+    suppressWarnings(while (length(asc_files1) == 0L && asc_time1 == 0) {
+      asc_file1 <- list.files(dir_names1[i], pattern = "asc",
                              full.names = TRUE)
-      asc_files <- file.exists(asc_file)
-      if(asc_files){
-        asc_info <- file.info(asc_file)
-        asc_time <- asc_info$mtime - asc_info$ctime
+      asc_files1 <- file.exists(asc_file1)
+      if(asc_files1){
+        asc_info1 <- file.info(asc_file1)
+        asc_time1 <- asc_info1$mtime - asc_info1$ctime
       }
     })
 
