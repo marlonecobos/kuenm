@@ -22,7 +22,7 @@
 #' a folder, in the working directory, containing a csv file with the final models evaluation
 #' results.
 #'
-#' @details This function is used after finishing the creation of final models.
+#' @details This function is used after or during the creation of final models.
 
 kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500) {
@@ -110,9 +110,33 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
 
     #Models to be evaluated
     if(replicates == TRUE) {
+      asc_files <- logical() # waiting for ascii files
+      asc_time <- 0
+      suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
+        asc_file <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
+                               full.names = TRUE) #ascii models
+        asc_files <- file.exists(asc_file)
+        if(asc_files){
+          asc_info <- file.info(asc_file)
+          asc_time <- asc_info$mtime - asc_info$ctime
+        }
+      })
+
       mods1 <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
                           full.names = TRUE) #ascii models
     } else {
+      asc_files <- logical() # waiting for ascii files
+      asc_time <- 0
+      suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
+        asc_file <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
+                               full.names = TRUE) #ascii models
+        asc_files <- file.exists(asc_file)
+        if(asc_files){
+          asc_info <- file.info(asc_file)
+          asc_time <- asc_info$mtime - asc_info$ctime
+        }
+      })
+
       mods1 <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
                           full.names = TRUE) #ascii models
     }

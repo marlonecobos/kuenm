@@ -35,8 +35,7 @@
 #' omission rates, and an HTML file sumarizing all the information produced after evaluation for helping with
 #' further interpretation.
 #'
-#' @details This function is used after or during the creation of Maxent candidate models for calibration
-#' (waiting until the four first models are completed is recommended).
+#' @details This function is used after or during the creation of Maxent candidate models for calibration.
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500, kept = TRUE, selection = "OR_AICc") {
@@ -156,8 +155,11 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
 
     #AICc calculation
-    suppressWarnings(while (!file.exists(as.vector(list.files(dir_names[i], pattern = ".lambdas",
-                                                              full.names = TRUE)))) {
+    lambdas_files <- logical() # waiting for lambdas files
+    suppressWarnings(while (length(lambdas_files)==0L) {
+
+      lambdas_files <- file.exists(as.vector(list.files(dir_names[i], pattern = ".lambdas",
+                                                        full.names = TRUE)))
       Sys.sleep(1)
     })
 
@@ -166,9 +168,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     lambdas <- readLines(lbds)
     par_num <- n.par(lambdas) #getting the number of parameters for each model
 
-    suppressWarnings(while (!file.exists(list.files(dir_names[i], pattern = "asc",
-                                                    full.names = TRUE))) {
-      Sys.sleep(1)
+    asc_files <- logical() # waiting for ascii files
+    asc_time <- 0
+    suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
+      asc_file <- list.files(dir_names[i], pattern = "asc",
+                             full.names = TRUE)
+      asc_files <- file.exists(asc_file)
+      if(asc_files){
+        asc_info <- file.info(asc_file)
+        asc_time <- asc_info$mtime - asc_info$ctime
+      }
     })
 
     mods <- list.files(dir_names[i], pattern = "asc", full.names = TRUE) #name of ascii model
@@ -177,9 +186,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                                                       predictive.maps = mod)) #calculating AICc for each model
 
     #pROCs calculation
-    suppressWarnings(while (!file.exists(list.files(dir_names1[i], pattern = "asc",
-                                                    full.names = TRUE))) {
-      Sys.sleep(1)
+    asc_files <- logical() # waiting for ascii files
+    asc_time <- 0
+    suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
+      asc_file <- list.files(dir_names1[i], pattern = "asc",
+                             full.names = TRUE)
+      asc_files <- file.exists(asc_file)
+      if(asc_files){
+        asc_info <- file.info(asc_file)
+        asc_time <- asc_info$mtime - asc_info$ctime
+      }
     })
 
     mods1 <- list.files(dir_names1[i], pattern = "asc", full.names = TRUE) #ascii models

@@ -57,6 +57,5 @@ significance (partial ROC), prediction ability (omission rates), and model compl
 After evaluation, this function selects the best models based on user-defined criteria.
 }
 \details{
-This function is used after or during the creation of Maxent candidate models for calibration
-(waiting until the four first models are completed is recommended).
+This function is used after or during the creation of Maxent candidate models for calibration.
 }

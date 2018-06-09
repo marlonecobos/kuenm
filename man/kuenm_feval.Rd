@@ -40,5 +40,5 @@ kuenm_feval evaluates final Maxent models in terms of statistical
 significance (partial ROC) and omission rates with a user-defined threshold (E).
 }
 \details{
-This function is used after finishing the creation of final models.
+This function is used after or during the creation of final models.
 }
