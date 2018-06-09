@@ -21,10 +21,10 @@
 #' @param maxent.path (character) the path were the maxent.jar file is in your computer.
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
-#' candidate models parallelly. Default = TRUE.
+#' candidate models parallelly. Valid only on Windows.  Default = TRUE.
 #' @param invisible (logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
-#' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Default = TRUE.
-#' If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.
+#' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Valid only on Windows.
+#' Default = TRUE. If wait = FALSE it is advisable to set invisible = TRUE to monitor the advance of that process.
 #' @param run (logical) if TRUE the batch runs after its creation, if FALSE it will only be created and its runnig would be
 #' manual, default = TRUE.
 #'
@@ -225,7 +225,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
       r_wd <- getwd() # real working directory
       setwd(maxent.path) # change temporally the working directory
 
-      system2(paste("bash", batfile_path), wait = wait, invisible = invisible)
+      system(paste("bash", batfile_path))
     } else {
       batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
       r_wd <- getwd() # real working directory
