@@ -145,7 +145,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   }
 
   for(i in 1:length(dir_names)) {
-    Sys.sleep(0.1)
+
     if(.Platform$OS.type == "unix") {
       setTxtProgressBar(pb, i)
     } else {
@@ -170,24 +170,29 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
     asc_files <- logical() # waiting for ascii files
     asc_time <- 0
-    suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
-      asc_file <- list.files(dir_names[i], pattern = "asc",
+    suppressWarnings(while (length(asc_files) == 0L && asc_time == 0L) {
+      asc_file <- list.files(dir_names[i], pattern = "*.asc$",
                              full.names = TRUE)
       asc_files <- file.exists(asc_file)
-      if(asc_files){
-        asc_info <- file.info(asc_file)
-        asc_time <- asc_info$mtime - asc_info$ctime
+      asc_info <<- file.info(asc_file)
+
+      if(!is.logical(asc_info)){
+        asc_time <<- asc_info$atime - asc_info$mtime
+
       }
     })
-
+    Sys.sleep(1)
     mods <- list.files(dir_names[i], pattern = "asc", full.names = TRUE) #name of ascii model
+
     mod <- raster::raster(mods) #reading each ascii model created with the complete set of occurrences
+
     aiccs[[i]] <- suppressWarnings(ENMeval::calc.aicc(nparam = par_num, occ = oc,
                                                       predictive.maps = mod)) #calculating AICc for each model
 
     #pROCs calculation
     asc_files1 <- logical() # waiting for ascii files
     asc_time1 <- 0
+<<<<<<< Updated upstream
     suppressWarnings(while (length(asc_files1) == 0L && asc_time1 == 0) {
       asc_file1 <- list.files(dir_names1[i], pattern = "asc",
                              full.names = TRUE)
@@ -195,10 +200,25 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       if(asc_files1){
         asc_info1 <- file.info(asc_file1)
         asc_time1 <- asc_info1$mtime - asc_info1$ctime
+=======
+    suppressWarnings(while (length(asc_files1) == 0L && asc_time1==0) {
+      asc_file1 <- list.files(dir_names1[i], pattern = "*.asc$",
+                             full.names = TRUE)
+      asc_files1 <- file.exists(asc_file1)
+      asc_info1 <<- file.info(asc_file1)
+
+      if(!is.logical(asc_info1) ){
+        asc_time1 <<- asc_info1$atime - asc_info1$mtime
+
+>>>>>>> Stashed changes
       }
     })
 
+    Sys.sleep(1)
+
+
     mods1 <- list.files(dir_names1[i], pattern = "asc", full.names = TRUE) #ascii models
+
     mod1 <- raster::raster(mods1) #reading each ascii model created with the calibration occurrences
 
     proc <- kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
@@ -214,6 +234,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       unlink(dir_names[i], recursive = T)
       unlink(dir_names1[i], recursive = T)
     }
+
   }
   if(.Platform$OS.type != "unix") {
     suppressMessages(close(pb))
