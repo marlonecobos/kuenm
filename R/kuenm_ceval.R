@@ -172,16 +172,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
 
     mod <- try(raster::raster(mods), silent = TRUE)
-    aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                   predictive.maps = mod),silent = TRUE)
+    aicc <- suppressWarnings(try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
+                                   predictive.maps = mod),silent = TRUE))
     aicc_class <- class(aicc)
 
     suppressWarnings(
       while (aicc_class == "try-error") {
       mod <- try(raster::raster(mods), silent = TRUE)
       mod_class <-class(mod)
-      aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                     predictive.maps = mod),silent = TRUE)
+      aicc <- suppressWarnings(try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
+                                     predictive.maps = mod),silent = TRUE))
       aicc_class <- class(aicc)
       if(mod_class == "data.frame") {
         break()
@@ -518,6 +518,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       cat("    and an aditional csv file containing the best models selected by OR.\n")
     }
   }
+
+  options(list(show.error.messages = TRUE, suppressWarnings = FALSE))
 
   cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
   return(list_res)
