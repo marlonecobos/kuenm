@@ -170,13 +170,12 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
     mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
 
-    mod <- try(raster::raster(mods), silent = TRUE)
-
-    aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                   predictive.maps = mod),silent = TRUE)
+    mod <- suppressWarnings(try(raster::raster(mods), silent = TRUE))
+    aicc <- suppressWarnings(try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
+                                   predictive.maps = mod),silent = TRUE))
     aicc_class <- class(aicc)
 
-    while (aicc_class == "try-error") {
+    suppressWarnings(while (aicc_class == "try-error") {
       mod <- try(raster::raster(mods), silent = TRUE)
       mod_class <-class(mod)
       aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
@@ -185,18 +184,18 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       if(mod_class == "data.frame") {
         break()
       }
-    }
+    })
 
     aiccs[[i]] <- aicc
 
     #pROCs calculation
     mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
-    mod1 <- try(raster::raster(mods1), silent = TRUE)
-    proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+    mod1 <- suppressWarnings(try(raster::raster(mods1), silent = TRUE))
+    proc <- suppressWarnings(try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
                            rand.percent = rand.percent, iterations = iterations),
-                silent = TRUE)
+                silent = TRUE))
     proc_class <- class(proc)
-    while (proc_class == "try-error") {
+    suppressWarnings(while (proc_class == "try-error") {
       mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod1 <- try(raster::raster(mods1), silent = TRUE)
       proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
@@ -206,7 +205,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       if(proc_class == "list") {
         break()
       }
-    }
+    })
 
     proc_res[[i]] <- proc[[1]]
 
