@@ -98,6 +98,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
     pb <- winProgressBar(title = "Progress bar", min = 0, max = length(u_fmodels),
                          width = 300) #progress bar
   }
+  options(list(show.error.messages = FALSE, suppressWarnings = TRUE))
 
   for(i in 1:length(u_fmodels)) {
     Sys.sleep(0.1)
@@ -224,6 +225,9 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
   cat("csv file with the final models' evaluation results.\n")
   cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
   cat("\n\nHere a summary of the evaluation process.\n\n")
+
+  options(list(show.error.messages = TRUE, suppressWarnings = FALSE))
+
   print(ku_enm_stats)
 
   return(list_res)
