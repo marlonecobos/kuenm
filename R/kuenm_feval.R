@@ -110,42 +110,52 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
 
     #Models to be evaluated
     if(replicates == TRUE) {
-      asc_files <- logical() # waiting for ascii files
-      asc_time <- 0
-      suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
-        asc_file <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
-                               full.names = TRUE) #ascii models
-        asc_files <- file.exists(asc_file)
-        if(asc_files){
-          asc_info <- file.info(asc_file)
-          asc_time <- asc_info$mtime - asc_info$ctime
-        }
-      })
-
       mods1 <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
                           full.names = TRUE) #ascii models
-    } else {
-      asc_files <- logical() # waiting for ascii files
-      asc_time <- 0
-      suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
-        asc_file <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
-                               full.names = TRUE) #ascii models
-        asc_files <- file.exists(asc_file)
-        if(asc_files){
-          asc_info <- file.info(asc_file)
-          asc_time <- asc_info$mtime - asc_info$ctime
-        }
-      })
+      mod1 <- try(raster::raster(mods1), silent = TRUE)
 
+      #partialROC calculation
+      proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+                             rand.percent = rand.percent, iterations = iterations),
+                  silent = TRUE)
+      proc_class <- class(proc)
+      while (proc_class == "try-error") {
+        mods1 <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
+                            full.names = TRUE) #ascii models
+        mod1 <- try(raster::raster(mods1), silent = TRUE)
+        proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+                               rand.percent = rand.percent, iterations = iterations),
+                    silent = TRUE)
+        proc_class <- class(proc)
+        if(proc_class == "list") {
+          break()
+        }
+      }
+    }else {
       mods1 <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
                           full.names = TRUE) #ascii models
+      mod1 <- try(raster::raster(mods1), silent = TRUE)
+
+      #partialROC calculation
+      proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+                             rand.percent = rand.percent, iterations = iterations),
+                  silent = TRUE)
+      proc_class <- class(proc)
+      while (proc_class == "try-error") {
+        mods1 <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
+                            full.names = TRUE) #ascii models
+        mod1 <- try(raster::raster(mods1), silent = TRUE)
+        proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+                               rand.percent = rand.percent, iterations = iterations),
+                    silent = TRUE)
+        proc_class <- class(proc)
+        if(proc_class == "list") {
+          break()
+        }
+      }
     }
 
-    mod1 <- raster::raster(mods1) #reading each ascii model
-
-    #pROCs calculation
-    proc <- kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                       rand.percent = rand.percent, iterations = iterations) #Partial ROC analyses for each model
+    #pROCs table
     proc_res[[i]] <- proc[[1]]
 
     #Omission rates calculation
