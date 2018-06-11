@@ -180,7 +180,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   #Final code
   if(.Platform$OS.type == "unix") {
     cat("\nCreating directories and maxent batch file, please wait...\n")
-    sink(paste(batch, ".sh", sep = ""),) # beginning file preparation
+    sink(paste(batch, ".sh", sep = "")) # beginning file preparation
     cat("#! /bin/csh\n")
   } else {
     pb <- winProgressBar(title = "Progress bar", min = 0, max = length(reg.mult), width = 300) #progress bar
@@ -226,6 +226,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
       setwd(maxent.path) # change temporally the working directory
 
       system(paste("bash", batfile_path), wait = wait)
+
     } else {
       batfile_path <- file.path(getwd(), paste(batch, ".bat", sep = "")) # bat file
       r_wd <- getwd() # real working directory

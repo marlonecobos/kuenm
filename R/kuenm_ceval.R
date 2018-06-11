@@ -168,46 +168,41 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     lambdas <- readLines(lbds)
     par_num <- n.par(lambdas) #getting the number of parameters for each model
 
-    mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
-
-    mod <- try(raster::raster(mods), silent = TRUE)
-
-    aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                   predictive.maps = mod),silent = TRUE)
-    aicc_class <- class(aicc)
-
-    while (aicc_class == "try-error") {
-      mod <- try(raster::raster(mods), silent = TRUE)
-      mod_class <-class(mod)
-      aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                     predictive.maps = mod),silent = TRUE)
-      aicc_class <- class(aicc)
-      if(mod_class == "data.frame") {
-        break()
+    asc_files <- logical() # waiting for ascii files
+    asc_time <- 0
+    suppressWarnings(while (length(asc_files) == 0L && asc_time == 0) {
+      asc_file <- list.files(dir_names[i], pattern = "asc",
+                             full.names = TRUE)
+      asc_files <- file.exists(asc_file)
+      if(asc_files){
+        asc_info <- file.info(asc_file)
+        asc_time <- asc_info$mtime - asc_info$ctime
       }
-    }
+    })
 
-    aiccs[[i]] <- aicc
+    mods <- list.files(dir_names[i], pattern = "asc", full.names = TRUE) #name of ascii model
+    mod <- raster::raster(mods) #reading each ascii model created with the complete set of occurrences
+    aiccs[[i]] <- suppressWarnings(ENMeval::calc.aicc(nparam = par_num, occ = oc,
+                                                      predictive.maps = mod)) #calculating AICc for each model
 
     #pROCs calculation
-    mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
-    mod1 <- try(raster::raster(mods1),silent = TRUE)
-    proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                           rand.percent = rand.percent, iterations = iterations),
-                silent = TRUE)
-    proc_class <- class(proc)
-    while (proc_class == "try-error") {
-      mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
-      mod1 <- try(raster::raster(mods1), silent = TRUE)
-      proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                             rand.percent = rand.percent, iterations = iterations),
-                  silent = TRUE)
-      proc_class <- class(proc)
-      if(proc_class == "list") {
-        break()
+    asc_files1 <- logical() # waiting for ascii files
+    asc_time1 <- 0
+    suppressWarnings(while (length(asc_files1) == 0L && asc_time1 == 0) {
+      asc_file1 <- list.files(dir_names1[i], pattern = "asc",
+                             full.names = TRUE)
+      asc_files1 <- file.exists(asc_file1)
+      if(asc_files1){
+        asc_info1 <- file.info(asc_file1)
+        asc_time1 <- asc_info1$mtime - asc_info1$ctime
       }
-    }
+    })
 
+    mods1 <- list.files(dir_names1[i], pattern = "asc", full.names = TRUE) #ascii models
+    mod1 <- raster::raster(mods1) #reading each ascii model created with the calibration occurrences
+
+    proc <- kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+                       rand.percent = rand.percent, iterations = iterations) #Partial ROC analyses for each model
     proc_res[[i]] <- proc[[1]]
 
     #Omission rates calculation
@@ -216,8 +211,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
     #Erasing calibration models after evaluating them if kept = FALSE
     if(kept == FALSE) {
-      unlink(dir_names[i], recursive = TRUE)
-      unlink(dir_names1[i], recursive = TRUE)
+      unlink(dir_names[i], recursive = T)
+      unlink(dir_names1[i], recursive = T)
     }
   }
   if(.Platform$OS.type != "unix") {
@@ -227,9 +222,9 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
   ##Erasing main folder of candidate models if kept = FALSE
   if(kept == FALSE) {
-    unlink(path, recursive = TRUE)
+    unlink(path, recursive = T)
     cat("\nAll candidate models were deleted\n")
-  }else {
+  }else{
     cat("\nAll candidate models were kept\n")
   }
 
