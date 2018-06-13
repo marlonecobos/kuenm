@@ -48,7 +48,10 @@ A crucial requirement is to have the maxent.jar application in any user-defined 
 
 <br>
 
-![Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green).](Structure.png)
+<img src="Structure.png" alt="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)." width="4114" />
+<p class="caption">
+Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green).
+</p>
 
 <br>
 
