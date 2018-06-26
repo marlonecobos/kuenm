@@ -19,7 +19,6 @@ Imports:
     ENMeval (>= 0.2),
     fields (>= 9.6),
     knitr (>= 1.20),
-    parallel (>= 3.4),
     raster (>= 2.6),
     rgdal (>= 1.2),
     rmarkdown (>= 1.9),
