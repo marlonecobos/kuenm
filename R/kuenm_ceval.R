@@ -90,7 +90,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
 
   ###Recognizing the folders names and separating them for different procedures
-  fol <- gregexpr("outputd.\\S*", bat)
+  fol <- gregexpr("outputd.*\"", bat)
   fold <- regmatches(bat, fol)
   folde <- unlist(fold)
 
@@ -101,11 +101,11 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
   folder <- gsub(extract, "", folde, fixed = T) #names of all the calibration models folders
 
-  folder_a <- gregexpr("\\S*all", folder)
+  folder_a <- gregexpr(".*all", folder)
   folder_al <- regmatches(folder, folder_a)
   folder_all <- unlist(folder_al) #folders with the models for calculating AICcs
 
-  folder_c <- gregexpr("\\S*cal", folder)
+  folder_c <- gregexpr(".*cal", folder)
   folder_ca <- regmatches(folder, folder_c)
   folder_cal <- unlist(folder_ca) #folder with the models for calculating pROCs and omission rates
 
@@ -156,67 +156,109 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
 
     #AICc calculation
-    lambdas_files <- logical() # waiting for lambdas files
-    suppressWarnings(while (length(lambdas_files)==0L) {
-
-      lambdas_files <- file.exists(as.vector(list.files(dir_names[i], pattern = ".lambdas",
-                                                        full.names = TRUE)))
-      Sys.sleep(1)
-    })
-
     lbds <- as.vector(list.files(dir_names[i], pattern = ".lambdas",
                                  full.names = TRUE)) #lambdas file
-    lambdas <- readLines(lbds)
-    par_num <- n.par(lambdas) #getting the number of parameters for each model
+    lambdas <- try(readLines(lbds), silent = TRUE)
+
+    par_num <- try(n.par(lambdas), silent = TRUE) #getting the number of parameters for each model
 
     mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
-
     mod <- try(raster::raster(mods), silent = TRUE)
-    aicc <- suppressWarnings(try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                   predictive.maps = mod),silent = TRUE))
+
+    aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
+                                   predictive.maps = mod), silent = TRUE)
+    aiccs[[i]] <- aicc
+
+    #If needed, waiting for the model to be created
     aicc_class <- class(aicc)
 
-    suppressWarnings(
-      while (aicc_class == "try-error") {
+    while (aicc_class == "try-error") {
+      lbds <- as.vector(list.files(dir_names[i], pattern = ".lambdas",
+                                   full.names = TRUE)) #lambdas file
+      lambdas <- try(readLines(lbds), silent = TRUE)
+
+      par_num <- try(n.par(lambdas), silent = TRUE) #getting the number of parameters for each model
+
+      mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod <- try(raster::raster(mods), silent = TRUE)
-      mod_class <-class(mod)
-      aicc <- suppressWarnings(try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                     predictive.maps = mod),silent = TRUE))
+
+      aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
+                                     predictive.maps = mod), silent = TRUE)
+
+      aiccs[[i]] <- aicc
+
       aicc_class <- class(aicc)
-      if(mod_class == "data.frame") {
+      if(aicc_class == "data.frame") {
+        break()
+      }
+
+      #For avoiding infinite loops when models cannot be created
+      mxlog <- as.vector(list.files(dir_names[i], pattern = ".log",
+                                    full.names = TRUE)) #maxent log file
+      llin <- try(readLines(mxlog), silent = TRUE)
+      loglin <- tolower(llin)
+
+      e <- gregexpr("error", loglin)
+      ee <- regmatches(loglin, e)
+      eee <- unlist(ee)
+
+      if(length(eee) > 0) {
+        warning(paste("\nModel in folder", dir_names[i], "was not created because of an error.",
+                      "\nCheck your files and software."))
         break()
       }
     }
-    )
 
-    aiccs[[i]] <- aicc
-
-    #pROCs calculation
+    #pROCs and omission rates calculation
     mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
     mod1 <- try(raster::raster(mods1), silent = TRUE)
-    proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+
+    proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold, # pRoc
                            rand.percent = rand.percent, iterations = iterations),
                 silent = TRUE)
+
+    proc_res[[i]] <- proc[[1]]
+
+    om_rates[i] <- try(kuenm_omrat(model = mod1, threshold = threshold, # omission rates
+                                   occ.tra = occ, occ.test = occ1), silent = TRUE)
+
+    #If needed, waiting for the model to be created
     proc_class <- class(proc)
-    suppressWarnings(
-      while (proc_class == "try-error") {
+
+    while (proc_class == "try-error") {
       mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod1 <- try(raster::raster(mods1), silent = TRUE)
-      proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
+
+      proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold, # pRoc
                              rand.percent = rand.percent, iterations = iterations),
                   silent = TRUE)
+
+      proc_res[[i]] <- proc[[1]]
+
+      om_rates[i] <- try(kuenm_omrat(model = mod1, threshold = threshold, # omission rates
+                                 occ.tra = occ, occ.test = occ1), silent = TRUE)
+
       proc_class <- class(proc)
       if(proc_class == "list") {
         break()
       }
+
+      #For avoiding infinite loops when models cannot be created
+      mxlog <- as.vector(list.files(dir_names1[i], pattern = ".log",
+                                    full.names = TRUE)) #maxent log file
+      llin <- try(readLines(mxlog), silent = TRUE)
+      loglin <- tolower(llin)
+
+      e <- gregexpr("error", loglin)
+      ee <- regmatches(loglin, e)
+      eee <- unlist(ee)
+
+      if(length(eee) > 0) {
+        warning(paste("\nModel in folder", dir_names1[i], "was not created because of an error.",
+                      "\nCheck your files and software."))
+        break()
+      }
     }
-    )
-
-    proc_res[[i]] <- proc[[1]]
-
-    #Omission rates calculation
-    om_rates[i] <- kuenm_omrat(model = mod1, threshold = threshold,
-                               occ.tra = occ, occ.test = occ1)
 
     #Erasing calibration models after evaluating them if kept = FALSE
     if(kept == FALSE) {
