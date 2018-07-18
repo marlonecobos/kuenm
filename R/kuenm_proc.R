@@ -33,7 +33,21 @@
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
                         iterations = 1000) {
 
-  suppressMessages(library(dplyr))
+  suppressMessages({
+
+    # Calculate the number of cores
+    no_cores <- parallel::detectCores() - 1
+
+    # Initiate cluster
+    cl <- parallel::makeCluster(no_cores)
+    parallel::clusterEvalQ(cl, {
+
+      to_load <- system.file("helpers/proc_functions.R", package = "kuenm")
+      source(to_load)
+
+      library(dplyr)
+    })
+  })
 
   if(raster::cellStats(model,"min") == raster::cellStats(model,"max")) {
     warning("\nModel with no variability, pROC will return NA.\n")
@@ -71,12 +85,22 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     occurtbl <- cbind(pointid, occurtbl)
     names(occurtbl) <- c("PointID", "Longitude", "Latitude", "ClassID")
 
+    ## Sending objects to the global environment
+    occurtbl <<- occurtbl
+    omissionval <<- omissionval
+    classpixels <<- classpixels
+    rand.percent <<- rand.percent
+    parallel::clusterExport(cl, "occurtbl")
+    parallel::clusterExport(cl, "rand.percent")
+    parallel::clusterExport(cl, "omissionval")
+    parallel::clusterExport(cl, "classpixels")
+
     ## Partial ROC iterations
-    output_auc <- parallel::mclapply(1:(iterations),
-                                     function(x) auc_comp(x, occurtbl,
-                                                          rand.percent,
-                                                          omissionval,
-                                                          classpixels))
+    output_auc <- parallel::parLapply(cl = cl, 1:(iterations),
+                                      function(x) auc_comp(x, occurtbl,
+                                                           rand.percent,
+                                                           omissionval,
+                                                           classpixels))
     auc_ratios <- data.frame(t(sapply(output_auc, c)))
 
 
@@ -87,6 +111,10 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     p_roc_res <- list(p_roc, auc_ratios)
 
+    ## Erasing objects from the GE
+    rm("occurtbl", "omissionval", "classpixels", "rand.percent", pos = ".GlobalEnv")
+
+    ## REturning results
     return(p_roc_res)
   }
 }
