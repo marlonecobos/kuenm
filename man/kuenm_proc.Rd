@@ -5,7 +5,7 @@
 \title{Partial ROC calculation of single models}
 \usage{
 kuenm_proc(occ.test, model, threshold = 5, rand.percent = 50,
-  iterations = 1000)
+  iterations = 500)
 }
 \arguments{
 \item{occ.test}{a numerical matrix containing coordinates of the occurrences used to test
@@ -21,7 +21,7 @@ to be used for performing the bootstrap process for calculating the partial ROC;
 default = 50.}
 
 \item{iterations}{(numeric) number of bootstrap iterations to be performed;
-default = 1000.}
+default = 500.}
 }
 \value{
 A list containing a named vector with the final partial ROC results and

@@ -8,7 +8,7 @@ kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
   rep.type = "Bootstrap", jackknife = FALSE, out.dir,
   out.format = "logistic", project = FALSE, G.var.dir, ext.type = "all",
   write.mess = FALSE, write.clamp = FALSE, maxent.path, args = NULL,
-  wait = TRUE, invisible = TRUE, run = TRUE)
+  wait = TRUE, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -53,10 +53,6 @@ part of the parameters of the function already (e.g., "writemess").}
 \item{wait}{(logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 candidate models parallelly. Default = TRUE.}
-
-\item{invisible}{(logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
-maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Valid only on Windows.
-Default = TRUE. If wait = FALSE it is advisable to set invisible = FALSE to monitor the advance of that process.}
 
 \item{run}{(logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
 would be manual, default = TRUE.}

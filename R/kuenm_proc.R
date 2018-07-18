@@ -11,7 +11,7 @@
 #' to be used for performing the bootstrap process for calculating the partial ROC;
 #' default = 50.
 #' @param iterations (numeric) number of bootstrap iterations to be performed;
-#' default = 1000.
+#' default = 500.
 #'
 #' @return A list containing a named vector with the final partial ROC results and
 #' a matrix containing the AUC values and AUC ratios calculated for each iteration.
@@ -31,7 +31,7 @@
 #'                    rand.percent = rand_perc, iterations = iterac)
 
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
-                        iterations = 1000) {
+                        iterations = 500) {
 
   suppressMessages({
 
