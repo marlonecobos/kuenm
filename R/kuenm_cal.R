@@ -22,9 +22,6 @@
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 #' candidate models parallelly. Default = TRUE.
-#' @param invisible (logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
-#' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Valid only on Windows.
-#' Default = TRUE. If wait = FALSE it is advisable to set invisible = FALSE to monitor the advance of that process.
 #' @param run (logical) if TRUE the batch runs after its creation, if FALSE it will only be created and its runnig would be
 #' manual, default = TRUE.
 #'
@@ -39,7 +36,7 @@
 
 kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
                       f.clas = "all", background = 10000, maxent.path, wait = TRUE,
-                      invisible = TRUE, run = TRUE) {
+                      run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -98,13 +95,15 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   ##Environmental variables sets
   m <- dir(M.var.dir)
   ms <- paste(gsub("/", dl, paste(getwd(), M.var.dir, sep = sl)), sl, m, sep = "")
-  env <- paste("environmentallayers=", ms, sep = "")
+  env <- paste("environmentallayers=", paste("\"", ms, "\"", sep = ""), sep = "")
 
   ##Species occurrences
   oc <- occ.joint
-  samp <- paste("samplesfile=", gsub("/", dl, paste(getwd(), oc, sep = sl)), sep = "")
+  samp <- paste("samplesfile=", gsub("/", dl, paste("\"", paste(getwd(), oc, sep = sl),
+                                                    "\"", sep = "")), sep = "")
   occ <- occ.tra
-  samp1 <- paste("samplesfile=", gsub("/", dl, paste(getwd(), occ, sep = sl)), sep = "")
+  samp1 <- paste("samplesfile=", gsub("/", dl, paste("\"", paste(getwd(), occ, sep = sl),
+                                                     "\"", sep = "")), sep = "")
 
   #Maxent settings
   ##Featire classes combinations
@@ -167,7 +166,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   in.comm <- paste("java", ram,
                    paste("-jar",
                          gsub("/", dl,
-                              paste(maxent.path, "maxent.jar", sep = sl))),
+                              paste("\"", paste(maxent.path, "maxent.jar", sep = sl), "\"", sep = ""))),
                    sep = " ")
 
   ##Autofeature
@@ -197,15 +196,17 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 
     for (j in 1:length(fea)) {
       for (k in 1:length(ms)) {
-        subfol <- paste("outputdirectory=", out.dir, sl,
-                        paste("M", reg.mult[i], "F", names(fea)[j], m[k], "all", sep = "_"), sep = "")
+        subfol <- paste("outputdirectory=", paste("\"", out.dir, sl,
+                        paste("M", reg.mult[i], "F", names(fea)[j], m[k], "all", sep = "_"),
+                        "\"", sep = ""), sep = "")
         dir.create(paste(out.dir, sl,
                          paste("M", reg.mult[i], "F", names(fea)[j], m[k], "all", sep = "_"), sep = ""))
         reg.m <- paste("betamultiplier=", reg.mult[i], sep = "")
         cat(paste(in.comm, env[k], samp, subfol, reg.m, a.fea, fea[j], back, fin.com, sep = " "))
 
-        subfol1 <- paste("outputdirectory=", out.dir, sl,
-                         paste("M", reg.mult[i], "F", names(fea)[j], m[k], "cal", sep = "_"), sep = "")
+        subfol1 <- paste("outputdirectory=", paste("\"", out.dir, sl,
+                         paste("M", reg.mult[i], "F", names(fea)[j], m[k], "cal", sep = "_"),
+                         "\"", sep = ""), sep = "")
         dir.create(paste(out.dir, sl,
                          paste("M", reg.mult[i], "F", names(fea)[j], m[k], "cal", sep = "_"), sep = ""))
         cat(paste(in.comm, env[k], samp1, subfol1, reg.m, a.fea, fea[j], back, fin.com1, sep = " "))
@@ -232,12 +233,18 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
       r_wd <- getwd() # real working directory
       setwd(maxent.path) # change temporally the working directory
 
-      system2(batfile_path, wait = wait, invisible = invisible)
+      system2(batfile_path, wait = wait, invisible = FALSE)
     }
     setwd(r_wd) # return actual working directory
   }
 
   cat("\nProcess finished\n")
-  cat(paste("A maxent batch file for creating", i * j * k, "calibration models has been written", sep = " "))
+
+  if(.Platform$OS.type == "unix") {
+    cat(paste("A maxent shell script for creating", i * j * k, "calibration models has been written", sep = " "))
+  } else {
+    cat(paste("A maxent batch file for creating", i * j * k, "calibration models has been written", sep = " "))
+  }
+
   cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
 }

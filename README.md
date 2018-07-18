@@ -153,14 +153,13 @@ f_clas <- "all"
 background <- 10000
 maxent_path <- "YOUR/DIRECTORY/ku.enm_example_data/A_americanum"
 wait <- TRUE
-invisible <- TRUE
 run <- TRUE
 ```
 
 ``` r
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
-          maxent.path = maxent_path, wait = wait, invisible = invisible, run = run)
+          maxent.path = maxent_path, wait = wait, run = run)
 ```
 
 <br>
@@ -215,7 +214,6 @@ ext_type <- "all"
 write_mess <- FALSE
 write_clamp <- FALSE
 wait1 <- TRUE
-invisible1 <- TRUE
 run1 <- TRUE
 args <- NULL # e.g., "maximumbackground=20000" for increasing the number of pixels in the bacground or
              # "outputgrids=false" which avoids writing grids of replicated models and only writes the 
@@ -228,7 +226,7 @@ args <- NULL # e.g., "maximumbackground=20000" for increasing the number of pixe
 kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
           rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, 
-          maxent.path = maxent_path, args = args, wait = wait1, invisible = invisible1, run = run1)
+          maxent.path = maxent_path, args = args, wait = wait1, run = run1)
 ```
 
 <br>

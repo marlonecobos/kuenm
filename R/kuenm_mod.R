@@ -29,9 +29,6 @@
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 #' candidate models parallelly. Default = TRUE.
-#' @param invisible (logical) determines wheter or not the terminal executing the batch file (bash for Unix) for producing
-#' maxent models can be seen. Seeing the terminal can be useful for detecting potential errors. Valid only on Windows.
-#' Default = TRUE. If wait = FALSE it is advisable to set invisible = FALSE to monitor the advance of that process.
 #' @param run (logical) if TRUE, the batch runs after its creation; if FALSE, it will only be created and its running
 #' would be manual, default = TRUE.
 #'
@@ -43,7 +40,7 @@
 kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
                       jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
                       ext.type = "all", write.mess = FALSE, write.clamp = FALSE, maxent.path,
-                      args = NULL, wait = TRUE, invisible = TRUE, run = TRUE) {
+                      args = NULL, wait = TRUE, run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -119,7 +116,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   for (i in 1:length(setts)) {
     var.di[i] <- paste(setts[[i]][5:length(setts[[i]])], collapse = "_")
   }
-  var.dir <- paste(gsub("/", dl, paste(getwd(), M.var.dir, sep = sl)), var.di, sep = sl)
+  var.dir <- paste("\"", paste(gsub("/", dl, paste(getwd(), M.var.dir, sep = sl)), var.di, sep = sl),
+                   "\"", sep = "")
 
   #output directory
   dir.create(out.dir)
@@ -138,7 +136,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
 
   ##Species occurrences
   samp <- paste("samplesfile=", gsub("/", dl,
-                                     paste(getwd(), occ.joint, sep = sl)), sep = "")
+                                     paste("\"", paste(getwd(), occ.joint, sep = sl),
+                                     "\"", sep = "")), sep = "")
 
   ##Feature classes combinations
   fea <- c("linear=true quadratic=false product=false threshold=false hinge=false",
@@ -186,8 +185,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       dirs <- dir(G.dir[i])
       dires <- vector()
       for (j in 1:length(dirs)) {
-        dires[j] <- paste(gsub("/", dl, paste(getwd(), G.var.dir, sep = sl)),
-                          var.di[i], dirs[j], sep = sl)
+        dires[j] <- paste("\"", paste(gsub("/", dl, paste(getwd(), G.var.dir, sep = sl)),
+                          var.di[i], dirs[j], sep = sl), "\"", sep = "")
       }
       G.dirs[i] <- paste("projectionlayers=", paste(dires, collapse = ","), sep = "")
     }
@@ -242,7 +241,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   in.comm <- paste("java", ram,
                    paste("-jar",
                          gsub("/", dl,
-                              paste(maxent.path, "maxent.jar", sep = sl))),
+                              paste("\"", paste(maxent.path, "maxent.jar", sep = sl), "\"", sep = ""))),
                    sep = " ")
 
   ##Autofeature
@@ -275,7 +274,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
             }
 
             for (j in 1:length(ext.nam)) {
-              subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+              subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                        "\"", sep = ""), sep = "")
               dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
               reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -302,7 +302,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
             }
 
             for (j in 1:length(ext.nam)) {
-              subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+              subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                        "\"", sep = ""), sep = "")
               dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
               reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -329,7 +330,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
             }
 
             for (j in 1:length(ext.nam)) {
-              subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+              subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                        "\"", sep = ""), sep = "")
               dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
               reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -356,7 +358,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
 
           for (j in 1:length(ext.nam)) {
-            subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+            subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                      "\"", sep = ""), sep = "")
             dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
             reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -383,13 +386,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system2(batfile_path, wait = wait, invisible = invisible)
+          system2(batfile_path, wait = wait, invisible = FALSE)
         }
         setwd(r_wd) # return actual working directory
       }
 
       cat("\nProcess finished\n")
-      cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      if(.Platform$OS.type == "unix") {
+        cat(paste("A maxent shell script for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      } else {
+        cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      }
       cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }else {
       if(.Platform$OS.type == "unix") {
@@ -409,7 +416,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
         }
 
-        subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], sep = "")
+        subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i],
+                                                  "\"", sep = ""), sep = "")
         dir.create(paste(out.dir, sl, sett1[i], sep = ""))
 
         reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -434,13 +442,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system2(batfile_path, wait = wait, invisible = invisible)
+          system2(batfile_path, wait = wait, invisible = FALSE)
         }
         setwd(r_wd) # return actual working directory
       }
 
       cat("\nProcess finished\n")
-      cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
+      if(.Platform$OS.type == "unix") {
+        cat(paste("A maxent shell script for creating", length(sett1), "final models without projections has been written", sep = " "))
+      } else {
+        cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
+      }
       cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }
   }else {
@@ -465,7 +477,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
             }
 
             for (j in 1:length(ext.nam)) {
-              subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+              subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                        "\"", sep = ""), sep = "")
               dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
               reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -492,7 +505,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
             }
 
             for (j in 1:length(ext.nam)) {
-              subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+              subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                        "\"", sep = ""), sep = "")
               dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
               reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -519,7 +533,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
             }
 
             for (j in 1:length(ext.nam)) {
-              subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+              subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                        "\"", sep = ""), sep = "")
               dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
               reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -546,7 +561,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           }
 
           for (j in 1:length(ext.nam)) {
-            subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], ext.nam[j], sep = "")
+            subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i], ext.nam[j],
+                                                      "\"", sep = ""), sep = "")
             dir.create(paste(out.dir, sl, sett1[i], ext.nam[j], sep = ""))
 
             reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -573,13 +589,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system2(batfile_path, wait = wait, invisible = invisible)
+          system2(batfile_path, wait = wait, invisible = FALSE)
         }
         setwd(r_wd) # return actual working directory
       }
 
       cat("\nProcess finished\n")
-      cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      if(.Platform$OS.type == "unix") {
+        cat(paste("A maxent shell script for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      } else {
+        cat(paste("A maxent batch file for creating", length(sett1) * length(ext.nam), "final models and their projections has been written", sep = " "))
+      }
       cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }else {
       if(.Platform$OS.type == "unix") {
@@ -599,7 +619,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           setWinProgressBar(pb, i, title = paste(round(i / length(sett1) * 100, 0), "% finished"))
         }
 
-        subfol <- paste("outputdirectory=", out.dir, sl, sett1[i], sep = "")
+        subfol <- paste("outputdirectory=", paste("\"", out.dir, sl, sett1[i],
+                                                  "\"", sep = ""), sep = "")
         dir.create(paste(out.dir, sl, sett1[i], sep = ""))
 
         reg.m <- paste("betamultiplier=", rm[i], sep = "")
@@ -624,13 +645,17 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
           r_wd <- getwd() # real working directory
           setwd(maxent.path) # change temporally the working directory
 
-          system2(batfile_path, wait = wait, invisible = invisible)
+          system2(batfile_path, wait = wait, invisible = FALSE)
         }
         setwd(r_wd) # return actual working directory
       }
 
       cat("\nProcess finished\n")
-      cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
+      if(.Platform$OS.type == "unix") {
+        cat(paste("A maxent shell script for creating", length(sett1), "final models without projections has been written", sep = " "))
+      } else {
+        cat(paste("A maxent batch file for creating", length(sett1), "final models without projections has been written", sep = " "))
+      }
       cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
     }
   }
