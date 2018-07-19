@@ -101,11 +101,11 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
   folder <- gsub(extract, "", folde, fixed = T) #names of all the calibration models folders
 
-  folder_a <- gregexpr(".*all", folder)
+  folder_a <- gregexpr("M_.*all", folder)
   folder_al <- regmatches(folder, folder_a)
   folder_all <- unlist(folder_al) #folders with the models for calculating AICcs
 
-  folder_c <- gregexpr(".*cal", folder)
+  folder_c <- gregexpr("M_.*cal", folder)
   folder_ca <- regmatches(folder, folder_c)
   folder_cal <- unlist(folder_ca) #folder with the models for calculating pROCs and omission rates
 
