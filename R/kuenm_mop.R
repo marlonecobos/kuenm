@@ -8,9 +8,10 @@
 #' @param G.stack a RasterStack of variables representing the full area of interest, and areas
 #' or scenarios to which models are transferred.
 #' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.
-#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 1000).
+#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default = 1000).
 #'
-#' @return A mobility-oriented parity RasterLayer.
+#' @return A mobility-oriented parity RasterLayer where values of 0 represent strict extrapolation,
+#' which means complete dissimilarity of environments between the calibration (M) and projection area (G).
 #'
 #' @details The MOP is calculated following Owens et al.
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}). This function is a modification
@@ -20,10 +21,8 @@
 #' mvars <- mvars_mop
 #' gvars <- gvars_mop
 #' perc <- 10
-#' norm <- TRUE
 #'
-#' mop <- kuenm_mop(M.stack = mvars, G.stack = gvars,
-#'                   percent = perc, normalized = norm)
+#' mop <- kuenm_mop(M.stack = mvars, G.stack = gvars, percent = perc)
 
 kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000) {
   mPoints <- raster::rasterToPoints(M.stack)
