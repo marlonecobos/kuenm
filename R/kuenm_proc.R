@@ -59,7 +59,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     ## As x-axis is not going to change.
     classpixels <- a_pred_pres(inrast)
 
-    occur <- occ.test[, 2:3]
+    occur <- occ.test
     extrast <- raster::extract(inrast, occur)
 
     ## Remove all the occurrences in the class NA. As these points are not used in the calibration.
