@@ -32,7 +32,7 @@ kuenm_proc applies partial ROC tests to single models.
 }
 \details{
 Partial ROC is calculated following Peterson et al.
-(2008; \url{https://doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
+(2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
 of the \code{\link[ENMGadgets]{PartialROC}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 }
 \examples{

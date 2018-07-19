@@ -8,8 +8,7 @@
 #' @param G.stack a RasterStack of variables representing the full area of interest, and areas
 #' or scenarios to which models are transferred.
 #' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.
-#' @param normalized (logical) if true values of similarity are presented from 0 to 1,
-#' default = TRUE.
+#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 1000).
 #'
 #' @return A mobility-oriented parity RasterLayer.
 #'
@@ -26,7 +25,7 @@
 #' mop <- kuenm_mop(M.stack = mvars, G.stack = gvars,
 #'                   percent = perc, normalized = norm)
 
-kuenm_mop <- function(M.stack, G.stack, percent = 10, normalized = TRUE) {
+kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000) {
   mPoints <- raster::rasterToPoints(M.stack)
   gPoints <- raster::rasterToPoints(G.stack)
 
@@ -37,7 +36,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, normalized = TRUE) {
     stop("Stacks must have the same dimensions")
   }
 
-  steps <- seq(1, dim(m2)[1], 1000)
+  steps <- seq(1, dim(m2)[1], comp.each)
   kkk <- c(steps,  dim(m2)[1] + 1)
   out_index <- plot_out(m1, m2)
   long_k <- length(kkk)
@@ -61,15 +60,12 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, normalized = TRUE) {
   mop2 <- unlist(mop1)
   mop_all <- data.frame(gPoints[, 1:2], mop2)
   mop_max <- max(na.omit(mop2))
-  # What about using -1 instead of NA?
-  mop_all[out_index, 3] <- NA
+  mop_all[out_index, 3] <- mop_max * 1.05
   sp::coordinates(mop_all) <- ~x + y
   sp::gridded(mop_all) <- TRUE
   mop_raster <- raster::raster(mop_all)
 
-  if(normalized) {
-    mop_raster <- 1 - (mop_raster / mop_max)
-  }
+  mop_raster <- 1 - (mop_raster / mop_max)
 
   return(mop_raster)
 }

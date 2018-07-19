@@ -4,7 +4,7 @@
 \alias{kuenm_mop}
 \title{Extrapolation risk analysis for single comparisons}
 \usage{
-kuenm_mop(M.stack, G.stack, percent = 10, normalized = TRUE)
+kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 1000)
 }
 \arguments{
 \item{M.stack}{a RasterStack of variables representing the calibration area.}
@@ -14,8 +14,7 @@ or scenarios to which models are transferred.}
 
 \item{percent}{(numeric) percent of values sampled from te calibration region to calculate the MOP.}
 
-\item{normalized}{(logical) if true values of similarity are presented from 0 to 1,
-default = TRUE.}
+\item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 1000).}
 }
 \value{
 A mobility-oriented parity RasterLayer.

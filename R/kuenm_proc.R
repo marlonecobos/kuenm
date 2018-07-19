@@ -17,7 +17,7 @@
 #' a matrix containing the AUC values and AUC ratios calculated for each iteration.
 #'
 #' @details Partial ROC is calculated following Peterson et al.
-#' (2008; \url{https://doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
+#' (2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
 #' of the \code{\link[ENMGadgets]{PartialROC}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 #'
 #' @examples
@@ -31,9 +31,11 @@
 #'                    rand.percent = rand_perc, iterations = iterac)
 
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
-                        iterations = 500) {
+                       iterations = 500) {
 
-  if(raster::cellStats(model,"min") == raster::cellStats(model,"max")) {
+  suppressMessages(library(dplyr))
+
+  if(min(na.omit(raster::getValues(model))) == max(na.omit(raster::getValues(model)))) {
     warning("\nModel with no variability, pROC will return NA.\n")
 
     p_roc <- rep(NA, 2)
@@ -47,7 +49,6 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     return(p_roc_res)
   }else {
-    suppressPackageStartupMessages(library(doParallel))
     omissionval <- (100 - threshold) / 100
 
     inrastlog <- model
@@ -69,21 +70,13 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     pointid <- seq(1:nrow(occurtbl))
     occurtbl <- cbind(pointid, occurtbl)
     names(occurtbl) <- c("PointID", "Longitude", "Latitude", "ClassID")
-    cores <- parallel::detectCores() - 1
-    cl <- parallel::makeCluster(cores)
-    doParallel::registerDoParallel(cl)
-    output_auc <- foreach::foreach(x = 1:(iterations),
-                                   .packages = c("kuenm","raster","dplyr")) %dopar%
 
-                                   {
-                                     auc_comp(x, occurtbl,
-                                              rand.percent,
-                                              omissionval,
-                                              classpixels)
-                                   }
-    parallel::stopCluster(cl)
-
-
+    ## Partial ROC iterations
+    output_auc <- parallel::mclapply(1:(iterations),
+                                     function(x) auc_comp(x, occurtbl,
+                                                          rand.percent,
+                                                          omissionval,
+                                                          classpixels))
     auc_ratios <- data.frame(t(sapply(output_auc, c)))
 
 
