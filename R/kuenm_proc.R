@@ -33,22 +33,6 @@
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
                         iterations = 500) {
 
-  suppressMessages({
-
-    # Calculate the number of cores
-    no_cores <- parallel::detectCores() - 1
-
-    # Initiate cluster
-    cl <- parallel::makeCluster(no_cores)
-    parallel::clusterEvalQ(cl, {
-
-      to_load <- system.file("helpers/proc_functions.R", package = "kuenm")
-      source(to_load)
-
-      library(dplyr)
-    })
-  })
-
   if(raster::cellStats(model,"min") == raster::cellStats(model,"max")) {
     warning("\nModel with no variability, pROC will return NA.\n")
 
@@ -63,6 +47,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     return(p_roc_res)
   }else {
+    suppressPackageStartupMessages(library(doParallel))
     omissionval <- (100 - threshold) / 100
 
     inrastlog <- model
@@ -74,7 +59,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     ## As x-axis is not going to change.
     classpixels <- a_pred_pres(inrast)
 
-    occur <- occ.test
+    occur <- occ.test[, 2:3]
     extrast <- raster::extract(inrast, occur)
 
     ## Remove all the occurrences in the class NA. As these points are not used in the calibration.
@@ -84,23 +69,21 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     pointid <- seq(1:nrow(occurtbl))
     occurtbl <- cbind(pointid, occurtbl)
     names(occurtbl) <- c("PointID", "Longitude", "Latitude", "ClassID")
+    cores <- parallel::detectCores() - 1
+    cl <- parallel::makeCluster(cores)
+    doParallel::registerDoParallel(cl)
+    output_auc <- foreach::foreach(x = 1:(iterations),
+                                   .packages = c("kuenm","raster","dplyr")) %dopar%
 
-    ## Sending objects to the global environment
-    occurtbl <<- occurtbl
-    omissionval <<- omissionval
-    classpixels <<- classpixels
-    rand.percent <<- rand.percent
-    parallel::clusterExport(cl, "occurtbl")
-    parallel::clusterExport(cl, "rand.percent")
-    parallel::clusterExport(cl, "omissionval")
-    parallel::clusterExport(cl, "classpixels")
+                                   {
+                                     auc_comp(x, occurtbl,
+                                              rand.percent,
+                                              omissionval,
+                                              classpixels)
+                                   }
+    parallel::stopCluster(cl)
 
-    ## Partial ROC iterations
-    output_auc <- parallel::parLapply(cl = cl, 1:(iterations),
-                                      function(x) auc_comp(x, occurtbl,
-                                                           rand.percent,
-                                                           omissionval,
-                                                           classpixels))
+
     auc_ratios <- data.frame(t(sapply(output_auc, c)))
 
 
@@ -111,10 +94,6 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     p_roc_res <- list(p_roc, auc_ratios)
 
-    ## Erasing objects from the GE
-    rm("occurtbl", "omissionval", "classpixels", "rand.percent", pos = ".GlobalEnv")
-
-    ## REturning results
     return(p_roc_res)
   }
 }
