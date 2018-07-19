@@ -12,12 +12,11 @@
 #' from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 #' @param out.mop (character) name of the folder to which MOP results will be written.
 #' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
-#' @param normalized (logical) if TRUE, values of similarity are presented scaled linearly from 0 to 1,
-#' default = TRUE.
 #'
 #' @return A folder containing one or multiple mobility-oriented parity raster layers depending on
 #' how many projection areas or scenarios are considered. This results will be organized by the
-#' different sets of variables chosen for creating final models.
+#' different sets of variables chosen for creating final models. Values of 0 in resultant rasters
+#' represent strict extrapolation.
 #'
 #' @details This function can be used after selection of parameters that produce the best
 #' models (when chosen sets of variables are known), or after producing final models
@@ -26,7 +25,7 @@
 #' environmental conditions in the calibration area. MOP is calculated following Owens et al.
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 
-kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10, normalized = TRUE) {
+kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10) {
 
   #MOP directory
   dir.create(out.mop)
@@ -70,7 +69,7 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10, no
 
       #MOP calculation
       mop_res <- kuenm_mop(M.stack = m_vars, G.stack = g_vars,
-                            percent = percent, normalized = normalized)
+                            percent = percent)
 
       #Writing results
       raster::writeRaster(mop_res, filename = paste(dirs_mop[i],".tif", sep = ""), format = "GTiff")
