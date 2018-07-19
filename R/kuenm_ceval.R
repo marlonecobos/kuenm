@@ -203,8 +203,13 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       eee <- unlist(ee)
 
       if(length(eee) > 0) {
-        warning(paste("\nModel in folder", dir_names[i], "was not created because of an error.",
-                      "\nCheck your files and software."))
+        cat(paste("\nModel in folder", dir_names[i], "was not created because of an error.",
+                  "\nCheck your files and software. NA values will be returned.\n"))
+
+        ac <- data.frame(NA, NA, NA, NA)
+        names(ac) <- c("AICc", "delta.AICc", "w.AIC", "nparam")
+        aiccs[[i]] <- ac
+
         break()
       }
     }
@@ -254,8 +259,20 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       eee <- unlist(ee)
 
       if(length(eee) > 0) {
-        warning(paste("\nModel in folder", dir_names1[i], "was not created because of an error.",
-                      "\nCheck your files and software."))
+        cat(paste("\nModel in folder", dir_names1[i], "was not created because of an error.",
+                  "\nCheck your files and software. NA values will be returned.\n"))
+
+        p_roc <- rep(NA, 2)
+        names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+        auc_ratios <- rep(NA, 4)
+        names(auc_ratios) <- c("Iteration", paste("AUC_at_", 100 - threshold, "%", sep = ""),
+                               paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
+        proc_res[[i]] <- list(p_roc, auc_ratios)
+
+        or <- NA
+        names(or) <- "om_rate_5%"
+        om_rates[i] <- or
+
         break()
       }
     }
