@@ -53,8 +53,8 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000) {
     percent <- percent
     mean_quantile <- foreach::foreach(y = 1:dim(eudist)[1],
                                       .packages = c("kuenm")) %dopar% {
-                                        mop_dist(eudist_matrix = eudist,
-                                                 irow=y,
+                                        mop_dist(eudist.matrix = eudist,
+                                                 irow = y,
                                                  percent = percent)
 
                                       }
@@ -78,4 +78,22 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000) {
   mop_raster <- 1 - (mop_raster / mop_max)
 
   return(mop_raster)
+}
+
+#' MOP distance
+#'
+#' @description mop_dist computes a ponderated Euclidean distance for MOP.
+#'
+#' @param eudist.matrix a matrix of Euclidean distance between M and G areas.
+#' @param irow row from eudist_matrix where the pondarated distance will be compute
+#' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.
+#' @return a vector of poderated distances for irow
+
+
+mop_dist <-  function(eudist.matrix, irow, percent) {
+  di <- eudist.matrix[irow, ]
+  qdi <- quantile(di, probs = percent / 100, na.rm = TRUE)
+  ii <-  which(di <= qdi)
+
+  return(mean(di[ii]))
 }
