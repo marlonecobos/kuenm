@@ -15,11 +15,9 @@ Description: This package helps with the development of critical phases of the
     final models, evaluating them, and assesing extrapolation risks are also
     included as part of this package.
 Imports:
-    doParallel (>= 1.0),
     dplyr (>= 0.7),
     ENMeval (>= 0.2),
     fields (>= 9.6),
-    foreach (>= 1.4),
     knitr (>= 1.20),
     raster (>= 2.6),
     rgdal (>= 1.2),
