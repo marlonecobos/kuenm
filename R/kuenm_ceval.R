@@ -493,11 +493,6 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
              pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
              inset = c(0.01, 0))
-    }else {
-      cat("All selected models had NAs as AICc values, imposible to plot them.")
-      legend("bottomright", legend = c("Non significant models", "All candidate models"),
-             pt.cex = c(1.1, 1), pch = c(19, 1), col = c("red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
     }
   }
   dev.off()
@@ -544,11 +539,6 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                col = "orange2", pch = 17, cex = 1.4)
         legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
                pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
-               inset = c(0.01, 0))
-      }else {
-        cat("All selected models had NAs as AICc values, imposible to plot them.")
-        legend("bottomright", legend = c("Non significant models", "All candidate models"),
-               pt.cex = c(1.1, 1), pch = c(19, 1), col = c("red1", "gray35"), bty = "n",
                inset = c(0.01, 0))
       }
     }
