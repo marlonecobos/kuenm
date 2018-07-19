@@ -4,7 +4,8 @@
 \alias{kuenm_mmop}
 \title{Extrapolation risk analysis for multiple comparisons}
 \usage{
-kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10)
+kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
+  comp.each = 1000)
 }
 \arguments{
 \item{G.var.dir}{(character) if project is TRUE, name of the folder containing folders in wHich variables of
@@ -19,6 +20,8 @@ from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 \item{out.mop}{(character) name of the folder to which MOP results will be written.}
 
 \item{percent}{(numeric) percetage of values sampled from the calibration region to calculate the MOP.}
+
+\item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 1000).}
 }
 \value{
 A folder containing one or multiple mobility-oriented parity raster layers depending on

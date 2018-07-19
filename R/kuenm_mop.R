@@ -8,6 +8,7 @@
 #' @param G.stack a RasterStack of variables representing the full area of interest, and areas
 #' or scenarios to which models are transferred.
 #' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.
+#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 1000).
 #'
 #' @return A mobility-oriented parity RasterLayer normalized where values of 0 represent
 #' strict extrapolation.
@@ -25,7 +26,7 @@
 #' mop <- kuenm_mop(M.stack = mvars, G.stack = gvars,
 #'                   percent = perc)
 
-kuenm_mop <- function(M.stack, G.stack, percent = 10) {
+kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000) {
   mPoints <- raster::rasterToPoints(M.stack)
   gPoints <- raster::rasterToPoints(G.stack)
 
@@ -36,7 +37,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10) {
     stop("Stacks must have the same dimensions")
   }
 
-  steps <- seq(1, dim(m2)[1], comp_each)
+  steps <- seq(1, dim(m2)[1], comp.each)
   kkk <- c(steps,  dim(m2)[1] + 1)
   out_index <- plot_out(m1, m2)
   long_k <- length(kkk)
