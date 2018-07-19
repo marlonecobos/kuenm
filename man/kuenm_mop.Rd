@@ -4,7 +4,7 @@
 \alias{kuenm_mop}
 \title{Extrapolation risk analysis for single comparisons}
 \usage{
-kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 1000)
+kuenm_mop(M.stack, G.stack, percent = 10, normalized = TRUE)
 }
 \arguments{
 \item{M.stack}{a RasterStack of variables representing the calibration area.}
@@ -14,11 +14,11 @@ or scenarios to which models are transferred.}
 
 \item{percent}{(numeric) percent of values sampled from te calibration region to calculate the MOP.}
 
-\item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 1000).}
+\item{normalized}{(logical) if true values of similarity are presented from 0 to 1,
+default = TRUE.}
 }
 \value{
-A mobility-oriented parity RasterLayer normalized where values of 0 represent
-strict extrapolation.
+A mobility-oriented parity RasterLayer.
 }
 \description{
 kuenm_mop calculates a mobility-oriented parity layer by
@@ -34,7 +34,8 @@ of the \code{\link[ENMGadgets]{MOP}} funcion, available at \url{https://github.c
 mvars <- mvars_mop
 gvars <- gvars_mop
 perc <- 10
+norm <- TRUE
 
 mop <- kuenm_mop(M.stack = mvars, G.stack = gvars,
-                  percent = perc)
+                  percent = perc, normalized = norm)
 }
