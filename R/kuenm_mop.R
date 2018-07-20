@@ -60,11 +60,13 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000) {
   mop_all <- data.frame(gPoints[, 1:2], mop2)
   mop_max <- max(na.omit(mop2))
   mop_all[out_index, 3] <- mop_max * 1.05
-  sp::coordinates(mop_all) <- ~x + y
-  sp::gridded(mop_all) <- TRUE
-  mop_raster <- raster::raster(mop_all)
+  suppressWarnings({
+    sp::coordinates(mop_all) <- ~ x + y
+    sp::gridded(mop_all) <- TRUE
+    mop_raster <- raster::raster(mop_all)
 
-  mop_raster <- 1 - (mop_raster / mop_max)
+    mop_raster <- 1 - (mop_raster / (mop_max  * 1.05))
+  })
 
   return(mop_raster)
 }
