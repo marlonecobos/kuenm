@@ -13,6 +13,11 @@
 #' @param out.mop (character) name of the folder to which MOP results will be written.
 #' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
 #' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 1000).
+#' @param parallel (logical) option to be passed to the \code{kuenm_mop} function (for each independent
+#' MOP analyses). If TRUE, calculations will be performed in parallel using the available cores of the
+#' computer. This will demand more RAM and almost full use of the CPU; hence, its use is more
+#' recommended in high-performance computers. Using this option will speed up the analyses.
+#' Default = FALSE
 #'
 #' @return A folder containing one or multiple mobility-oriented parity raster layers depending on
 #' how many projection areas or scenarios are considered. This results will be organized by the
@@ -27,7 +32,7 @@
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 
 kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
-                       percent = 10, comp.each = 1000) {
+                       percent = 10, comp.each = 1000, parallel = FALSE) {
 
   #MOP directory
   dir.create(out.mop)
@@ -62,8 +67,8 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
       g_vars <- raster::stack(g_var)
 
       #MOP calculation
-      mop_res <- kuenm_mop(M.stack = m_vars, G.stack = g_vars,
-                            percent = percent, comp.each = comp.each)
+      mop_res <- kuenm_mop(M.stack = m_vars, G.stack = g_vars, percent = percent,
+                           comp.each = comp.each, parallel = parallel)
 
       #Writing results
       raster::writeRaster(mop_res, filename = paste(dirs_mop[i],".tif", sep = ""), format = "GTiff")

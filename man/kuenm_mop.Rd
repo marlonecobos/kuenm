@@ -4,7 +4,8 @@
 \alias{kuenm_mop}
 \title{Extrapolation risk analysis for single comparisons}
 \usage{
-kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 1000)
+kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 1000,
+  parallel = FALSE)
 }
 \arguments{
 \item{M.stack}{a RasterStack of variables representing the calibration area.}
@@ -15,6 +16,11 @@ or scenarios to which models are transferred.}
 \item{percent}{(numeric) percent of values sampled from te calibration region to calculate the MOP.}
 
 \item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default = 1000).}
+
+\item{parallel}{(logical) if TRUE, calculations will be performed in parallel using the available
+cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+is more recommended in high-performance computers. Using this option will speed up the analyses.
+Default = FALSE}
 }
 \value{
 A mobility-oriented parity RasterLayer where values of 0 represent strict extrapolation,
