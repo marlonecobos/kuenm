@@ -8,5 +8,12 @@
 #'   \item{Longitude}{longitude, in decimal degrees.}
 #'   \item{Latitude}{latitude, in decimal degrees.}
 #' }
+#'
 #' @source \url{https://kuscholarworks.ku.edu/handle/1808/26376}
+#'
+#' @examples
+#' occte <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+#'                             pattern = "sp_test.csv", full.names = TRUE))
+#'
+#' head(occte)
 "sp_test"

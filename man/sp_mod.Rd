@@ -18,4 +18,10 @@ sp_mod
 A RasterLayer containing an ecological niche model for the Turkey Tick (*Amblyomma americanum*)
 that was created as part of the candidate models during the calibration process.
 }
+\examples{
+model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
+                                   pattern = "sp_model.tif", full.names = TRUE))
+
+raster::plot(model)
+}
 \keyword{datasets}

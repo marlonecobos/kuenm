@@ -19,4 +19,10 @@ sp_train
 A dataset containing occurrence recods of the Turkey Tick (*Amblyomma americanum*) across
 North America, used to train candidate ecological niche models during calibration.
 }
+\examples{
+occtr <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+                            pattern = "sp_train.csv", full.names = TRUE))
+
+head(occtr)
+}
 \keyword{datasets}

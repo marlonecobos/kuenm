@@ -9,5 +9,12 @@
 #'   \item{Temperature}{temperature, in Celsius degrees times 10.}
 #'   \item{Precipitation}{precipitation, in milimeters.}
 #' }
+#'
 #' @source \url{https://kuscholarworks.ku.edu/handle/1808/26376}
+#'
+#' @examples
+#' gvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
+#'                                   pattern = "Gbio_", full.names = TRUE))
+#'
+#' raster::plot(gvars[[1]])
 "gvars_mop"

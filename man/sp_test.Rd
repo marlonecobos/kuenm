@@ -19,4 +19,10 @@ sp_test
 A dataset containing occurrence recods of the Turkey Tick (*Amblyomma americanum*)
 in North America, used to test candidate ecological niche models during calibration.
 }
+\examples{
+occte <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+                            pattern = "sp_test.csv", full.names = TRUE))
+
+head(occte)
+}
 \keyword{datasets}

@@ -20,4 +20,10 @@ A dataset containing predictor variables for the calibration area for the ecolog
 niche model. Variables represent four current bioclimatic variables dowloaded from the
 WorldClim database (\url{http://www.worldclim.org/}).
 }
+\examples{
+mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
+                                  pattern = "Mbio_", full.names = TRUE))
+
+raster::plot(mvars[[1]])
+}
 \keyword{datasets}

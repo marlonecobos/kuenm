@@ -7,5 +7,12 @@
 #' \describe{
 #'   \item{Suitability}{suitability, in probability values.}
 #' }
+#'
 #' @source \url{https://kuscholarworks.ku.edu/handle/1808/26376}
+#'
+#' @examples
+#' model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
+#'                                    pattern = "sp_model.tif", full.names = TRUE))
+#'
+#' raster::plot(model)
 "sp_mod"

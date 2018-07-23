@@ -20,4 +20,10 @@ A dataset containing predictor variables of the area of projection of the ecolog
 niche model. Variables represent four future bioclimatic variables (2050) of the
 NCAR-CCSM4 general circulation model under the RCP 8.5 emission scenario.
 }
+\examples{
+gvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
+                                  pattern = "Gbio_", full.names = TRUE))
+
+raster::plot(gvars[[1]])
+}
 \keyword{datasets}
