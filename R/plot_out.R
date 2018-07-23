@@ -13,7 +13,7 @@ plot_out <- function (M1, G1) {
 
   for (i in 3:d1[2]) {
     MRange <- range(M1[, i])
-    l1 <- which(G1[, i] < range(M1[, i])[1] | G1[,4] > range(M1[, 4])[2])
+    l1 <- which(G1[, i] < range(M1[, i])[1] | G1[, i] > range(M1[, i])[2])
     AllVec <- c(l1, AllVec)
   }
 
