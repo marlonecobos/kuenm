@@ -22,8 +22,10 @@
 #' of the \code{\link[ENMGadgets]{MOP}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 #'
 #' @examples
-#' mvars <- mvars_mop
-#' gvars <- gvars_mop
+#' mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
+#'                                   pattern = "Mbio_", full.names = TRUE))
+#' gvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
+#'                                   pattern = "Gbio_", full.names = TRUE))
 #' perc <- 10
 #'
 #' mop <- kuenm_mop(M.stack = mvars, G.stack = gvars, percent = perc)

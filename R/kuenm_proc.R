@@ -21,11 +21,13 @@
 #' of the \code{\link[ENMGadgets]{PartialROC}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 #'
 #' @examples
-#' occ <- sp_test
-#' model <- sp_mod
+#' occ <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+#'                            pattern = "sp_test.csv", full.names = TRUE))
+#' model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
+#'                                    pattern = "sp_model.tif", full.names = TRUE))
 #' thres <- 5
 #' rand_perc <- 50
-#' iterac <- 100
+#' iterac <- 500
 #'
 #' p_roc <- kuenm_proc(occ.test = occ, model = model, threshold = thres,
 #'                    rand.percent = rand_perc, iterations = iterac)

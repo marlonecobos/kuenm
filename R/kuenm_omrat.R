@@ -15,10 +15,13 @@
 #'
 #' @examples
 #' # single threshold
-#' model <- sp_mod
+#' model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
+#'                                    pattern = "sp_model.tif", full.names = TRUE))
 #' thres <- 5
-#' octr <- sp_train
-#' octe <- sp_test
+#' octr <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+#'                             pattern = "sp_train.csv", full.names = TRUE))
+#' octe <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+#'                             pattern = "sp_test.csv", full.names = TRUE))
 #'
 #' om_rate <- kuenm_omrat(model, threshold = thres,
 #'                         occ.tra = octr, occ.test = octe)
