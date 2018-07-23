@@ -125,7 +125,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000, parallel
 
   if (parallel == TRUE) {
     if(.Platform$OS.type != "unix"){
-      future:::ClusterRegistry("stop")
+      future::plan(future::sequential)
     }
   }
 
