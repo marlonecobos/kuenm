@@ -152,7 +152,7 @@ reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- "all"
 background <- 10000
 maxent_path <- "YOUR/DIRECTORY/ku.enm_example_data/A_americanum"
-wait <- TRUE
+wait <- FALSE
 run <- TRUE
 ```
 
@@ -213,7 +213,7 @@ project <- TRUE
 ext_type <- "all"
 write_mess <- FALSE
 write_clamp <- FALSE
-wait1 <- TRUE
+wait1 <- FALSE
 run1 <- TRUE
 args <- NULL # e.g., "maximumbackground=20000" for increasing the number of pixels in the bacground or
              # "outputgrids=false" which avoids writing grids of replicated models and only writes the 

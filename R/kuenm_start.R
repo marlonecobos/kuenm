@@ -58,7 +58,7 @@ reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- \"all\"
 background <- 10000
 maxent_path <- \"YOUR/DIRECTORY\"
-wait <- TRUE
+wait <- FALSE
 run <- TRUE
 \```
 
@@ -134,7 +134,7 @@ project <- TRUE
 ext_type <- \"all\"
 write_mess <- FALSE
 write_clamp <- FALSE
-wait1 <- TRUE
+wait1 <- FALSE
 run1 <- TRUE
 args <- NULL
 # Again, some of the variables used here as arguments were already created for the previous functions
