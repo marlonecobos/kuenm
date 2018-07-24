@@ -266,13 +266,12 @@ help(kuenm_mmop)
 sets_var <- "Set3" # here a vector of various sets can be used
 out_mop <- "MOP_results"
 percent <- 10
-normalized <- TRUE
 # Two of the variables used here as arguments were already created for previous functions
 ```
 
 ``` r
 kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
-           percent = percent, normalized = normalized)
+           percent = percent)
 ```
 
 <br>

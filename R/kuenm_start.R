@@ -201,7 +201,6 @@ Below, arguments for this functions will be defined.
 sets_var <- c(\"Set3\")
 out_mop <- \"MOP_results\"
 percent <- 10
-normalized <- TRUE
 # Some of the variables used here as arguments were already created for the previous functions
 \```
 
@@ -211,7 +210,7 @@ The kuenm_mmop function has the following syntax:
 
 \```{r, eval=FALSE}
 kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var,
-           out.mop = out_mop, percent = percent, normalized = normalized)
+           out.mop = out_mop, percent = percent)
 \```"
   )
   sink()
