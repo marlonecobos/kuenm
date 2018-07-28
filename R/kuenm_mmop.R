@@ -4,7 +4,7 @@
 #' comparing environmental values between the calibration area and multiple areas or
 #' scenarios to which ecological niche models are transferred.
 #'
-#' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in wHich variables of
+#' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in which variables of
 #' projection scenarios are placed.
 #' @param M.var.dir (character) name of the forlder containing folders in which calibration environmental
 #' datasets are placed.
@@ -13,7 +13,7 @@
 #' @param out.mop (character) name of the folder to which MOP results will be written.
 #' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
 #' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 1000).
-#' @param parallel (logical) option to be passed to the \code{kuenm_mop} function (for each independent
+#' @param parallel (logical) option to be passed to the \code{\link{kuenm_mop}} function (for each independent
 #' MOP analyses). If TRUE, calculations will be performed in parallel using the available cores of the
 #' computer. This will demand more RAM and almost full use of the CPU; hence, its use is more
 #' recommended in high-performance computers. Using this option will speed up the analyses.
@@ -33,6 +33,30 @@
 
 kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
                        percent = 10, comp.each = 1000, parallel = FALSE) {
+  if (missing(G.var.dir)) {
+    stop("Argument G.var.dir is not defined.")
+  }
+  if (!dir.exists(G.var.dir)) {
+    stop(paste(G.var.dir, "does not exist in the working directory, check folder name",
+               "\nor its existence."))
+  }
+  if (length(list.dirs(G.var.dir)) == 0) {
+    stop(paste(G.var.dir, "does not contain any subdirectory with sets of projection variables;",
+               "\neach subdirectory inside", G.var.dir, "must containg at least one subdirectory",
+               "\nwith the projection variables"))
+  }
+  if (missing(M.var.dir)) {
+    stop("Argument M.var.dir is not defined.")
+  }
+  if (!dir.exists(M.var.dir)) {
+    stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
+               "\nor its existence."))
+  }
+  if (length(list.dirs(M.var.dir)) == 0) {
+    stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
+               "\neach set of variables must be in a subdirectory inside",
+               paste(M.var.dir, ".", sep = "")))
+  }
 
   #MOP directory
   dir.create(out.mop)

@@ -14,8 +14,8 @@
 #' @param out.dir (character) name of the output directory to be created and in which all model subdirectories
 #' will be created.
 #' @param out.format (character) the model output format; it can be: "raw", "logistic", "cloglog", or "cumulative".
-#' @param project (logical) if TRUE, your models will be projected to the scenarios in G.var.dir, default = FALSE.
-#' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in wHich variables of
+#' @param project (logical) if TRUE, your models will be projected to scenarios in G.var.dir, default = FALSE.
+#' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in which variables of
 #' projection scenarios are placed.
 #' @param ext.type (character) if project is TRUE, is the extrapolation type of projections; can be: "all", "ext_clam",
 #' "ext", and "no_ext", default = "all". ext = free extrapolation, ext_clam = extrapolation and clamping,
@@ -52,7 +52,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   }
   if (!dir.exists(M.var.dir)) {
     stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
-               "\nor its existense."))
+               "\nor its existence."))
   }
   if (length(list.dirs(M.var.dir)) == 0) {
     stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
@@ -69,7 +69,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
     }
     if (!dir.exists(G.var.dir)) {
       stop(paste(G.var.dir, "does not exist in the working directory, check folder name",
-                 "\nor its existense."))
+                 "\nor its existence."))
     }
     if (length(list.dirs(G.var.dir)) == 0) {
       stop(paste(G.var.dir, "does not contain any subdirectory with sets of projection variables;",

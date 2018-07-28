@@ -34,7 +34,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
   }
   if (!dir.exists(path)) {
     stop(paste(path, "does not exist in the working directory, check folder name",
-               "\nor its existense."))
+               "\nor its existence."))
   }
   if (!file.exists(occ.joint)) {
     stop(paste(occ.joint, "does not exist in the working directory, check file name",
