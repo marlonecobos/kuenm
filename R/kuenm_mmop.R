@@ -86,6 +86,14 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
     }
 
     for(i in 1:length(dirsg_in)) {
+      Sys.sleep(0.1)
+      if(.Platform$OS.type == "unix") {
+        setTxtProgressBar(pb, i)
+      } else {
+        setWinProgressBar(pb, i, title = paste(round(i / length(dirsg_in) * 100, 2),
+                                               paste("% of the process for", sets.var[h], "has finished")))
+      }
+
       g_var <- list.files(dirsg_in[i], pattern = "asc",
                                full.names = TRUE) #listing var of different Gs
       g_vars <- raster::stack(g_var)
@@ -97,13 +105,6 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
       #Writing results
       raster::writeRaster(mop_res, filename = paste(dirs_mop[i],".tif", sep = ""), format = "GTiff")
 
-      Sys.sleep(0.1)
-      if(.Platform$OS.type == "unix") {
-        setTxtProgressBar(pb, i)
-      } else {
-        setWinProgressBar(pb, i, title = paste(round(i / length(dirsg_in) * 100, 2),
-                                               paste("% of the process for", sets.var[h], "has finished")))
-      }
     }
 
     if(.Platform$OS.type != "unix") {
