@@ -156,7 +156,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     auc_ratios <- partial_AUC
     names(auc_ratios) <- c("Model_partial_AUC", "Random_curve_partial_AUC", "AUC_ratio")
 
-    p_roc_res <- list(pROC_summary = p_roc, pROC_results = partial_AUC)
+    p_roc_res <- list(pROC_summary = p_roc, pROC_results = auc_ratios)
     return(p_roc_res)
   }
 }
