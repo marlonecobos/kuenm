@@ -20,7 +20,7 @@ or scenarios to which models are transferred.}
 \item{parallel}{(logical) if TRUE, calculations will be performed in parallel using the available
 cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 is more recommended in high-performance computers. Using this option will speed up the analyses.
-Default = FALSE}
+Default = FALSE.}
 }
 \value{
 A mobility-oriented parity RasterLayer where values of 0 represent strict extrapolation,

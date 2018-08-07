@@ -5,7 +5,7 @@
 \title{Partial ROC calculation of single models}
 \usage{
 kuenm_proc(occ.test, model, threshold = 5, rand.percent = 50,
-  iterations = 500)
+  iterations = 500, parallel = FALSE)
 }
 \arguments{
 \item{occ.test}{a numerical matrix containing coordinates of the occurrences used to test
@@ -22,10 +22,15 @@ default = 50.}
 
 \item{iterations}{(numeric) number of bootstrap iterations to be performed;
 default = 500.}
+
+\item{parallel}{(logical) if TRUE, calculations will be performed in parallel using the available
+cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+is more recommended in high-performance computers. Using this option will speed up the analyses
+only if \code{model} is a large RasterLayer or if \code{iterations} are more than 5000.
+Default = FALSE.}
 }
 \value{
-A list containing a named vector with the final partial ROC results and
-a matrix containing the AUC values and AUC ratios calculated for each iteration.
+A data.frame containing the AUC values and AUC ratios calculated for each iteration.
 }
 \description{
 kuenm_proc applies partial ROC tests to single models.
@@ -33,7 +38,7 @@ kuenm_proc applies partial ROC tests to single models.
 \details{
 Partial ROC is calculated following Peterson et al.
 (2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
-of the \code{\link[ENMGadgets]{PartialROC}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
+of the \code{\link[ntbox]{pROC}} funcion, available at \url{https://github.com/luismurao/ntbox}.
 }
 \examples{
 occ <- read.csv(list.files(system.file("extdata", package = "kuenm"),
