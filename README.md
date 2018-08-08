@@ -1,7 +1,7 @@
 kuenm: An R package for detailed development of Maxent Ecological Niche Models
 ================
 Marlon E. Cobos, A. Townsend Peterson, Luis Osorio, and Narayani Barve
-2018-08-07
+August 7th 2018
 
 -   [Introduction](#introduction)
 -   [Getting started](#getting-started)
