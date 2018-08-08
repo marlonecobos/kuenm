@@ -94,6 +94,8 @@ rand_percent <- 50
 iterations <- 500
 kept <- TRUE
 selection <- \"OR_AICc\"
+paral_proc <- FALSE # make this true to perform MOP calculations in parallel, recommended
+                    # only if a powerfull computer is used (see function's help)
 # Note, some of the variables used here as arguments were already created for the previous function
 \```
 
@@ -105,7 +107,7 @@ This code also allows evaluating candidate models that were created previously, 
 cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test,
                         batch = batch_cal, out.eval = out_eval, threshold = threshold,
                         rand.percent = rand_percent, iterations = iterations, kept = kept,
-                        selection = selection)
+                        selection = selection, parallel.proc = paral_proc)
 \```
 
 <br>
@@ -178,9 +180,9 @@ out_feval <- \"Final_Models_evaluation\"
 The following is the code for using the function.
 
 \```{r, eval=FALSE}
-fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind,
-                        replicates = replicates, out.eval = out_feval, threshold = threshold,
-                        rand.percent = rand_percent, iterations = iterations)
+fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
+                        out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
+                        iterations = iterations, parallel.proc = paral_proc)
 \```
 
 <br>
@@ -201,6 +203,8 @@ Below, arguments for this functions will be defined.
 sets_var <- c(\"Set3\")
 out_mop <- \"MOP_results\"
 percent <- 10
+paral <- FALSE # make this true to perform MOP calculations in parallel, recommended
+               # only if a powerfull computer is used (see function's help)
 # Some of the variables used here as arguments were already created for the previous functions
 \```
 
@@ -210,7 +214,7 @@ The kuenm_mmop function has the following syntax:
 
 \```{r, eval=FALSE}
 kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var,
-           out.mop = out_mop, percent = percent)
+           out.mop = out_mop, percent = percent, parallel = paral)
 \```"
   )
   sink()

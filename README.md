@@ -1,7 +1,7 @@
-kuenm vignette
+kuenm: An R package for detailed development of Maxent Ecological Niche Models
 ================
-Marlon E. Cobos and A. Townsend Peterson.
-April 25, 2018
+Marlon E. Cobos, A. Townsend Peterson, Luis Osorio, and Narayani Barve
+2018-08-07
 
 -   [Introduction](#introduction)
 -   [Getting started](#getting-started)
@@ -180,13 +180,15 @@ rand_percent <- 50
 iterations <- 100
 kept <- TRUE
 selection <- "OR_AICc"
+paral_proc <- FALSE # make this true to perform MOP calculations in parallel, recommended
+                    # only if a powerfull computer is used (see function's help)
 # Note, some of the variables used here as arguments were already created for previous function
 ```
 
 ``` r
 cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
-                        kept = kept, selection = selection)
+                        kept = kept, selection = selection, parallel.proc = paral_proc)
 ```
 
 <br>
@@ -249,7 +251,7 @@ out_feval <- "Final_Models_evaluation"
 ``` r
 fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
                         out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
-                        iterations = iterations)
+                        iterations = iterations, parallel.proc = paral_proc)
 ```
 
 <br>
@@ -266,12 +268,14 @@ help(kuenm_mmop)
 sets_var <- "Set3" # here a vector of various sets can be used
 out_mop <- "MOP_results"
 percent <- 10
+paral <- FALSE # make this true to perform MOP calculations in parallel, recommended
+               # only if a powerfull computer is used (see function's help)
 # Two of the variables used here as arguments were already created for previous functions
 ```
 
 ``` r
 kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
-           percent = percent)
+           percent = percent, parallel = paral)
 ```
 
 <br>
