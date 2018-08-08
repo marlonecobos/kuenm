@@ -1,7 +1,6 @@
 ---
 title: "kuenm: An R package for detailed development of Maxent Ecological Niche Models"
-author: "Marlon E. Cobos, A. Townsend Peterson, Luis Osorio, and Narayani Barve \n"
-date: "August 7th 2018"
+author: "Marlon E. Cobos, A. Townsend Peterson, Luis Osorio-Olvera, and Narayani Barve"
 output:
   github_document:
     toc: yes
