@@ -26,6 +26,10 @@
 #' and that present omission rates below the threshold, those with delta AICc up to 2 will be
 #' selected. If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
 #' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
+#' @param parallel.proc (logical) if TRUE, pROC calculations will be performed in parallel using the available
+#' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+#' is more recommended in high-performance computers. Using this option will speed up the analyses
+#' only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.
 #'
 #' @return  A list with three dataframes containing results from the calibration process. In addition,
 #' a folder, in the working directory, containing a csv file with information about models meeting
@@ -38,7 +42,8 @@
 #' @details This function is used after or during the creation of Maxent candidate models for calibration.
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
-                        rand.percent = 50, iterations = 500, kept = TRUE, selection = "OR_AICc") {
+                        rand.percent = 50, iterations = 500, kept = TRUE,
+                        selection = "OR_AICc", parallel.proc = FALSE) {
   #Checking potential issues
   if (missing(path)) {
     stop(paste("Argument path is not defined, this is necessary for reading the",
@@ -219,7 +224,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     mod1 <- try(raster::raster(mods1), silent = TRUE)
 
     proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold, # pRoc
-                           rand.percent = rand.percent, iterations = iterations),
+                           rand.percent = rand.percent, iterations = iterations,
+                           parallel = parallel.proc),
                 silent = TRUE)
 
     proc_res[[i]] <- proc[[1]]
@@ -235,7 +241,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       mod1 <- try(raster::raster(mods1), silent = TRUE)
 
       proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold, # pRoc
-                             rand.percent = rand.percent, iterations = iterations),
+                             rand.percent = rand.percent, iterations = iterations,
+                             parallel = parallel.proc),
                   silent = TRUE)
 
       proc_res[[i]] <- proc[[1]]

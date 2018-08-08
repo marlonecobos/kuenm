@@ -6,7 +6,7 @@
 \usage{
 kuenm_ceval(path, occ.joint, occ.tra, occ.test, batch, out.eval,
   threshold = 5, rand.percent = 50, iterations = 500, kept = TRUE,
-  selection = "OR_AICc")
+  selection = "OR_AICc", parallel.proc = FALSE)
 }
 \arguments{
 \item{path}{(character) directory in which folders containig calibration models are being created
@@ -41,6 +41,11 @@ OR = omission rates. Default = "OR_AICc", which means that among models that are
 and that present omission rates below the threshold, those with delta AICc up to 2 will be
 selected. If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
 If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.}
+
+\item{parallel.proc}{(logical) if TRUE, pROC calculations will be performed in parallel using the available
+cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+is more recommended in high-performance computers. Using this option will speed up the analyses
+only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.}
 }
 \value{
 A list with three dataframes containing results from the calibration process. In addition,

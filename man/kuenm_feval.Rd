@@ -5,7 +5,7 @@
 \title{Evaluation of final Maxent models with independent data}
 \usage{
 kuenm_feval(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
-  rand.percent = 50, iterations = 500)
+  rand.percent = 50, iterations = 500, parallel.proc = FALSE)
 }
 \arguments{
 \item{path}{(character) directory in which folders containig final models are being created or
@@ -29,6 +29,11 @@ when calculating partial ROCs; default = 50.}
 
 \item{iterations}{(numeric) the number of times that the bootstrap is going to be repeated;
 default = 500.}
+
+\item{parallel.proc}{(logical) if TRUE, pROC calculations will be performed in parallel using the available
+cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+is more recommended in high-performance computers. Using this option will speed up the analyses
+only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.}
 }
 \value{
 A list with two dataframes containing results from the evaluation process, and

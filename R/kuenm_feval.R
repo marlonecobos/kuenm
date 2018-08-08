@@ -17,6 +17,10 @@
 #' when calculating partial ROCs; default = 50.
 #' @param iterations (numeric) the number of times that the bootstrap is going to be repeated;
 #' default = 500.
+#' @param parallel.proc (logical) if TRUE, pROC calculations will be performed in parallel using the available
+#' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+#' is more recommended in high-performance computers. Using this option will speed up the analyses
+#' only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.
 #'
 #' @return A list with two dataframes containing results from the evaluation process, and
 #' a folder, in the working directory, containing a csv file with the final models evaluation
@@ -25,7 +29,7 @@
 #' @details This function is used after or during the creation of final models.
 
 kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
-                        rand.percent = 50, iterations = 500) {
+                        rand.percent = 50, iterations = 500, parallel.proc = FALSE) {
 
   #Checking potential issues
   if (missing(path)) {
@@ -117,7 +121,8 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
 
       #partialROC calculation
       proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                             rand.percent = rand.percent, iterations = iterations),
+                             rand.percent = rand.percent, iterations = iterations,
+                             parallel = parallel.proc),
                   silent = TRUE)
       proc_class <- class(proc)
       while (proc_class == "try-error") {
@@ -125,7 +130,8 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
                             full.names = TRUE) #ascii models
         mod1 <- try(raster::raster(mods1), silent = TRUE)
         proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
-                               rand.percent = rand.percent, iterations = iterations),
+                               rand.percent = rand.percent, iterations = iterations,
+                               parallel = parallel.proc),
                     silent = TRUE)
         proc_class <- class(proc)
         if(proc_class == "list") {

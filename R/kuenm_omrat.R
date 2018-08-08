@@ -34,16 +34,18 @@
 
 kuenm_omrat <- function(model, threshold = 5, occ.tra, occ.test) {
 
-  if(min(na.omit(raster::getValues(model))) == max(na.omit(raster::getValues(model)))) {
+  if(model@data@min == model@data@max) {
     warning("\nModel imput has no variability, omission rate will return NA.\n")
 
     om_rate <- NA
   }else {
+
+    suit_val_cal <- na.omit(raster::extract(model, occ.tra))
+    suit_val_eval <- na.omit(raster::extract(model, occ.test))
+
     om_rate <- vector("numeric", length = length(threshold))
 
     for (i in 1:length(threshold)) {
-      suit_val_cal <- na.omit(raster::extract(model, occ.tra))
-      suit_val_eval <- na.omit(raster::extract(model, occ.test))
       val <- ceiling(length(occ.tra[, 1]) * threshold[i] / 100) + 1
       omi_val_suit <- sort(suit_val_cal)[val]
       om_rate[i] <- as.numeric(length(suit_val_eval[suit_val_eval < omi_val_suit]) / length(suit_val_eval))
