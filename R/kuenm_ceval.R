@@ -259,6 +259,17 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       mxlog <- as.vector(list.files(dir_names1[i], pattern = ".log",
                                     full.names = TRUE)) #maxent log file
       llin <- try(readLines(mxlog), silent = TRUE)
+      llin_class <- class(llin)
+
+      while (llin_class == "try-error") {
+        llin <- try(readLines(mxlog), silent = TRUE)
+        llin_class <- class(llin)
+
+        if(llin_class != "try-error") {
+          break()
+        }
+      }
+
       loglin <- tolower(llin)
 
       e <- gregexpr("error", loglin)
