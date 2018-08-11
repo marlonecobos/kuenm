@@ -204,6 +204,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       llin_class <- class(llin)
 
       while (llin_class == "try-error") {
+        mxlog <- as.vector(list.files(dir_names[i], pattern = ".log",
+                                      full.names = TRUE)) #maxent log file
         llin <- try(readLines(mxlog), silent = TRUE)
         llin_class <- class(llin)
 
@@ -273,6 +275,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       llin_class <- class(llin)
 
       while (llin_class == "try-error") {
+        mxlog <- as.vector(list.files(dir_names1[i], pattern = ".log",
+                                      full.names = TRUE)) #maxent log file
         llin <- try(readLines(mxlog), silent = TRUE)
         llin_class <- class(llin)
 
