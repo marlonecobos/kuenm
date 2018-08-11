@@ -57,8 +57,8 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     return(p_roc_res)
   }else {
-    model <-round((model/raster::cellStats(model, max)) * 1000)
-    test_value <- raster::extract(model,occ.test)
+    model <- round((model/raster::cellStats(model, max)) * 1000)
+    test_value <- na.omit(raster::extract(model, occ.test))
     #test_value <- unique(test_value)
     classpixels <- data.frame(raster::freq(model))
     classpixels <- data.frame(stats::na.omit(classpixels))
