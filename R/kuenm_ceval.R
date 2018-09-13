@@ -201,6 +201,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       mxlog <- as.vector(list.files(dir_names[i], pattern = ".log",
                                     full.names = TRUE)) #maxent log file
       llin <- try(readLines(mxlog), silent = TRUE)
+
       llin_class <- class(llin)
 
       while (llin_class == "try-error") {
@@ -210,25 +211,23 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
         llin_class <- class(llin)
 
         if(llin_class != "try-error") {
+          loglin <- tolower(llin)
+
+          e <- gregexpr("error", loglin)
+          ee <- regmatches(loglin, e)
+          eee <- unlist(ee)
+
+          if(length(eee) > 0) {
+            cat(paste("\nModel in folder", dir_names[i], "was not created because of an error.",
+                      "\nCheck your files and software. NA values will be returned.\n"))
+
+            ac <- data.frame(NA, NA, NA, NA)
+            names(ac) <- c("AICc", "delta.AICc", "w.AIC", "nparam")
+            aiccs[[i]] <- ac
+          }
+
           break()
         }
-      }
-
-      loglin <- tolower(llin)
-
-      e <- gregexpr("error", loglin)
-      ee <- regmatches(loglin, e)
-      eee <- unlist(ee)
-
-      if(length(eee) > 0) {
-        cat(paste("\nModel in folder", dir_names[i], "was not created because of an error.",
-                  "\nCheck your files and software. NA values will be returned.\n"))
-
-        ac <- data.frame(NA, NA, NA, NA)
-        names(ac) <- c("AICc", "delta.AICc", "w.AIC", "nparam")
-        aiccs[[i]] <- ac
-
-        break()
       }
     }
 
@@ -242,6 +241,8 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                 silent = TRUE)
 
     proc_res[[i]] <- proc[[1]]
+
+
 
     om_rates[i] <- try(kuenm_omrat(model = mod1, threshold = threshold, # omission rates
                                    occ.tra = occ, occ.test = occ1), silent = TRUE)
@@ -261,7 +262,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       proc_res[[i]] <- proc[[1]]
 
       om_rates[i] <- try(kuenm_omrat(model = mod1, threshold = threshold, # omission rates
-                                 occ.tra = occ, occ.test = occ1), silent = TRUE)
+                                     occ.tra = occ, occ.test = occ1), silent = TRUE)
 
       proc_class <- class(proc)
       if(proc_class == "list") {
@@ -281,32 +282,30 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
         llin_class <- class(llin)
 
         if(llin_class != "try-error") {
-          break()
+          loglin <- tolower(llin)
+
+          e <- gregexpr("error", loglin)
+          ee <- regmatches(loglin, e)
+          eee <- unlist(ee)
+
+          if(length(eee) > 0) {
+            cat(paste("\nModel in folder", dir_names1[i], "was not created because of an error.",
+                      "\nCheck your files and software. NA values will be returned.\n"))
+
+            p_roc <- rep(NA, 2)
+            names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+            auc_ratios <- rep(NA, 4)
+            names(auc_ratios) <- c("Iteration", paste("AUC_at_", 100 - threshold, "%", sep = ""),
+                                   paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
+            proc_res[[i]] <- list(p_roc, auc_ratios)
+
+            or <- NA
+            names(or) <- "om_rate_5%"
+            om_rates[i] <- or
+
+            break()
+          }
         }
-      }
-
-      loglin <- tolower(llin)
-
-      e <- gregexpr("error", loglin)
-      ee <- regmatches(loglin, e)
-      eee <- unlist(ee)
-
-      if(length(eee) > 0) {
-        cat(paste("\nModel in folder", dir_names1[i], "was not created because of an error.",
-                  "\nCheck your files and software. NA values will be returned.\n"))
-
-        p_roc <- rep(NA, 2)
-        names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
-        auc_ratios <- rep(NA, 4)
-        names(auc_ratios) <- c("Iteration", paste("AUC_at_", 100 - threshold, "%", sep = ""),
-                               paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
-        proc_res[[i]] <- list(p_roc, auc_ratios)
-
-        or <- NA
-        names(or) <- "om_rate_5%"
-        om_rates[i] <- or
-
-        break()
       }
     }
 
@@ -332,6 +331,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   ##Creating the final tables
   ###From AICc analyses
   aiccs <- do.call(rbind, aiccs) #joining tables
+
   for (i in 1:length(aiccs[, 1])) {
     aiccs[i, 2] <- (aiccs[i, 1] - min(aiccs[, 1], na.rm = TRUE))
     aiccs[i, 3] <- (exp(-0.5 * aiccs[i,2])) / (sum(exp(-0.5 * aiccs[,2]), na.rm = TRUE))
@@ -342,12 +342,14 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   proc_res_m <- data.frame(mod_nam, proc_res1) #adding a new column with the number of AUC ratios interations < 1
 
   #####
+  om_rates <- as.numeric(as.character(om_rates))
   #Joining the results
   ku_enm_eval <- data.frame(proc_res_m, om_rates, aiccs)
   colnames(ku_enm_eval) <- c("Model", "Mean_AUC_ratio", "Partial_ROC",#changing column names in the final table
                              paste("Omission_rate_at_", threshold, "%", sep = ""), "AICc",
                              "delta_AICc", "W_AICc", "num_parameters")
 
+  #str(  ku_enm_eval)
 
   #####
   #Choosing the best models
@@ -356,7 +358,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
     if(selection == "OR_AICc") {
       ku_enm_bes <- na.omit(ku_enm_eval[ku_enm_eval[, 3] <= 0.05, ])
-      ku_enm_best <- ku_enm_bes[ku_enm_bes[, 4] <= threshold / 100, ]
+      ku_enm_best <- ku_enm_bes[which(ku_enm_eval[, 4] <= threshold / 100), ]
       if(length(ku_enm_best[, 4]) != 0) {
         for (i in 1:length(ku_enm_best[,1])) {
           ku_enm_best[i, 6] <- (ku_enm_best[i, 5] - min(ku_enm_best[, 5], na.rm = TRUE))
@@ -601,9 +603,10 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     }
   }
 
+  cat(paste("\nCheck your working directory!!!", getwd(), "\n", sep = "    "))
+
   options(list(show.error.messages = TRUE, suppressWarnings = FALSE))
 
-  cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
   return(list_res)
   }
 
@@ -619,4 +622,3 @@ n.par <- function(x) {
   no.params <- sum(unlist(sapply(lambdas, countNonZeroParams)))
   return(no.params)
 }
-
