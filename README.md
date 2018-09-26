@@ -43,7 +43,7 @@ Before starting the analyses, the user must make sure that the working directory
 -   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in figure 1).
 -   If available, a csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
 
-A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed in the computer. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>.
+A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed in the computer. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it on Windows see <a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank">this guide</a>.
 
 <br>
 
@@ -107,7 +107,7 @@ Doing analyses for a single species project
 
 ### Workflow recording
 
-Once the working directory and data are ready, the function *kuenm\_start* (.Rmd) will allow generating an *R Markdown* file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recomended if recording individual workflows per each species is desired.
+Once the working directory and data are ready, the function *kuenm\_start* (.Rmd) will allow generating an *R Markdown* file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recommended if recording individual workflows per each species is desired.
 
 ``` r
 help(kuenm_start)
@@ -132,7 +132,7 @@ Notice that, from this point, the following procedures will be performed in the 
 
 #### Creation of candidate models
 
-The function *kuenm\_cal* creates and executes a batch file for generating Maxent candidate models that will be written in subdirectories, named as the parameterizations selected, inside the output directory (Figure 1, light green area). Calibration models will be created with multiple combinations of regularization multipliers, feature classes, and sets of environmental predictors. For each combination, this function creates one Maxent model with the complete set of occurrences and another with training occurrences only. On some computers, the user will be asked if ruinning the batch file is allowed before the modeling process starts in Maxent.
+The function *kuenm\_cal* creates and executes a batch file for generating Maxent candidate models that will be written in subdirectories, named as the parameterizations selected, inside the output directory (Figure 1, light green area). Calibration models will be created with multiple combinations of regularization multipliers, feature classes, and sets of environmental predictors. For each combination, this function creates one Maxent model with the complete set of occurrences and another with training occurrences only. On some computers, the user will be asked if ruining the batch file is allowed before the modeling process starts in Maxent.
 
 Maxent will run in command-line interface (**do not close the application**) and its graphic interface will not show up, to avoid interfering with activities other than the modeling process.
 
@@ -165,7 +165,7 @@ kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch
 
 #### Evaluation and selection of best models
 
-The function *kuenm\_ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (*E* = a user-selected proportion of occurrence data that may present meaninful errors; see Peterson et al. (2008)), and model complexity (AICc), and selects best models based on distinct, user-set criteria (see selection in function help). Partial ROC and omission rates are evaluated based on models created with training occurrences, whereas AICc values are calculated for models created with the full set of occurrences (Warren and Seifert 2011). Outputs are stored in a folder that will contain a .csv file with the statistics of models meeting each of the evaluation criteria, another with only the models selected based on the user-specified criteria, a third with performance metrics for all candidate models, a plot of model performance, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Figure 1, purple area).
+The function *kuenm\_ceval* evaluates model performance based on statistical significance (partial ROC), omission rate (*E* = a user-selected proportion of occurrence data that may present meaningful errors; see Peterson et al. (2008)), and model complexity (AICc), and selects best models based on distinct, user-set criteria (see selection in function help). Partial ROC and omission rates are evaluated based on models created with training occurrences, whereas AICc values are calculated for models created with the full set of occurrences (Warren and Seifert 2011). Outputs are stored in a folder that will contain a .csv file with the statistics of models meeting each of the evaluation criteria, another with only the models selected based on the user-specified criteria, a third with performance metrics for all candidate models, a plot of model performance, and an HTML file reporting all the results of the model evaluation and selection process designed to guide further interpretations (Figure 1, purple area).
 
 ``` r
 help(kuenm_ceval)
@@ -179,7 +179,7 @@ rand_percent <- 50
 iterations <- 100
 kept <- TRUE
 selection <- "OR_AICc"
-paral_proc <- FALSE # make this true to perform MOP calculations in parallel, recommended
+paral_proc <- FALSE # make this true to perform pROC calculations in parallel, recommended
                     # only if a powerfull computer is used (see function's help)
 # Note, some of the variables used here as arguments were already created for previous function
 ```

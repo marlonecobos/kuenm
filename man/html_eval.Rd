@@ -22,7 +22,7 @@ the model calibration and selection processes.
 This function is used along with the \code{\link{kuenm_ceval}} function.
 }
 \examples{
-path <- getwd()
+path <- getwd() # directory with outputs of the kuenm_ceval function
 name <- "evaluation_results"
 
 html_file <- html_eval(path = path, file.name = name)

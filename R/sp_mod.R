@@ -1,6 +1,6 @@
-#' An ecological niche model created with Maxent.
+#' An ecological niche model created with Maxent
 #'
-#' A RasterLayer containing an ecological niche model for the Turkey Tick (*Amblyomma americanum*)
+#' A RasterLayer containing an ecological niche model for the a tick (*Amblyomma americanum*)
 #' that was created as part of the candidate models during the calibration process.
 #'
 #' @format A RasterLtack with 150 rows, 249 columns, and 37350 cells:

@@ -23,23 +23,50 @@
 #' @param kept (logical) if FALSE, all candidate models will be erased after evaluation, default = TRUE.
 #' @param selection (character) model selection criterion, can be "OR_AICc", "AICc", or "OR";
 #' OR = omission rates. Default = "OR_AICc", which means that among models that are statistically significant
-#' and that present omission rates below the threshold, those with delta AICc up to 2 will be
-#' selected. If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
-#' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
+#' and that present omission rates below the \code{threshold}, those with delta AICc up to 2 will be
+#' selected. See details for other selection criteria.
 #' @param parallel.proc (logical) if TRUE, pROC calculations will be performed in parallel using the available
 #' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 #' is more recommended in high-performance computers. Using this option will speed up the analyses
 #' only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.
 #'
-#' @return  A list with three dataframes containing results from the calibration process. In addition,
-#' a folder, in the working directory, containing a csv file with information about models meeting
-#' the user-defined selection criterion, another csv file with a summary of the evaluation and selection
-#' process, an extra csv file containing all the statistics of model performance (pROC, AICc, and
+#' @return A list with three dataframes containing results from the calibration process and a scatterplot
+#' of all models based on the AICc values and omission rates. In addition, a folder, in the
+#' working directory, containing a csv file with information about models meeting the user-defined
+#' selection criterion, another csv file with a summary of the evaluation and selection process,
+#' an extra csv file containing all the statistics of model performance (pROC, AICc, and omission
 #' omission rates) for all candidate models, a png scatterplot of all models based on the AICc values and
-#' omission rates, and an HTML file sumarizing all the information produced after evaluation for helping with
+#' rates, and an HTML file sumarizing all the information produced after evaluation for helping with
 #' further interpretation.
 #'
 #' @details This function is used after or during the creation of Maxent candidate models for calibration.
+#'
+#' Other selecton criteria are described below:
+#' If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
+#' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
+#'
+#' @examples
+#' # To run this function the kuenm_cal function needs te be used first. This previous function will
+#' # create the models that kuenm_ceval evaluates.
+#'
+#' # Variables with information to be used as arguments.
+#' occ_joint <- "aame_joint.csv"
+#' occ_tra <- "aame_train.csv"
+#' batch_cal <- "Candidate_models"
+#' out_dir <- "Candidate_Models"
+#' occ_test <- "aame_test.csv"
+#' out_eval <- "Calibration_results"
+#' threshold <- 5
+#' rand_percent <- 50
+#' iterations <- 100
+#' kept <- TRUE
+#' selection <- "OR_AICc"
+#' paral_proc <- FALSE # make this true to perform pROC calculations in parallel
+#'
+#' cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
+#'                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
+#'                         kept = kept, selection = selection, parallel.proc = paral_proc)
+
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500, kept = TRUE,
@@ -92,7 +119,6 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     bat <- readLines(paste(batch, ".bat", sep = "")) #reading the batch file written to create the calibration models
 
   }
-
 
   ###Recognizing the folders names and separating them for different procedures
   fol <- gregexpr("outputd.*\"", bat)

@@ -10,13 +10,10 @@
 #' @param batch (character) name of the batch file (bash for Unix) with the code to create all candidate models.
 #' @param out.dir (character) name of the folder that will contain all calibration model subfolders.
 #' @param reg.mult (numeric vector) regularization multiplier(s) to be evaluated.
-#' @param f.clas (character) feature clases can be selected from  five different combination sets or manually.
+#' @param f.clas (character) feature clases can be selected from five different combination sets or manually.
 #' Combination sets are: "all", "basic", "no.t.h", "no.h", and "no.t". Default = "all".
 #' basic = "l", "lq", "lqp", "lqpt", "lqpth". Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h.
-#' Options from the following list can be selected manually:
-#' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
-#' "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-#' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
+#' See details for all the available potential combinations of feature classes.
 #' @param background (numeric) the numer of pixels be used as background when creating the maxent models.
 #' @param maxent.path (character) the path were the maxent.jar file is in your computer.
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
@@ -33,6 +30,34 @@
 #' Java can be obtained from \url{https://java.com/es/download/manual.jsp}. Users of Linux and Mac need the entire
 #' Java Development Kit available in \url{http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html}.
 #' Maxent can be downloaded from \url{https://biodiversityinformatics.amnh.org/open_source/maxent/}
+#'
+#' Below all potential combinations of feature classes are shown. Manual selection can be done by creating
+#' a vector of one or more of the combinations of this list. l = linear, q = quadratic, p = product,
+#' t = threshold, and h = hinge.
+#' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
+#' "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
+#' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
+#'
+#' @examples
+#' # To replicate this example dowload the data from the following link:
+#' # https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=3&isAllowed=y
+#'
+#' # Variables with information to be used as arguments.
+#' occ_joint <- "aame_joint.csv"
+#' occ_tra <- "aame_train.csv"
+#' M_var_dir <- "M_variables"
+#' batch_cal <- "Candidate_models"
+#' out_dir <- "Candidate_Models"
+#' reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
+#' f_clas <- "all"
+#' background <- 10000
+#' maxent_path <- "YOUR/DIRECTORY/WITH/MAXENT"
+#' wait <- FALSE
+#' run <- TRUE
+#'
+#' kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
+#'           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
+#'           maxent.path = maxent_path, wait = wait, run = run)
 
 kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
                       f.clas = "all", background = 10000, maxent.path, wait = TRUE,
@@ -159,7 +184,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   out.dir <- gsub("/", dl, paste(getwd(), out.dir, sep = sl))
 
   #Getting ram to be used
-  ram <- paste("-mx", (round((get_free_ram()/1000)*0.5)), "m", sep = "")
+  ram <- paste("-mx", (round((get_free_ram()/1000)*0.25)), "m", sep = "")
 
   #Fixed commands
   ##Intitial command

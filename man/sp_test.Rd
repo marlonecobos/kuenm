@@ -3,7 +3,7 @@
 \docType{data}
 \name{sp_test}
 \alias{sp_test}
-\title{A set of occurrence records for testing candidate ecological niche models.}
+\title{A set of occurrence records for testing candidate ecological niche models}
 \format{A data frame with 89 rows and 2 columns.
 \describe{
   \item{Longitude}{longitude, in decimal degrees.}
@@ -16,8 +16,8 @@
 sp_test
 }
 \description{
-A dataset containing occurrence recods of the Turkey Tick (*Amblyomma americanum*)
-in North America, used to test candidate ecological niche models during calibration.
+A dataset containing occurrence recods of a tick (*Amblyomma americanum*) in
+North America, used to test candidate ecological niche models during calibration.
 }
 \examples{
 occte <- read.csv(list.files(system.file("extdata", package = "kuenm"),

@@ -1,10 +1,14 @@
-#' Detection of environmental values ouside the calibration area of a model
+#' Helper function for detecting values out of the environmental range of M
 #'
-#' @description plot.out for calculating a mobility-oriented parity layer.
-#' This function is designed to be used specifically in the \code{\link{kuenm_mop}} function.
+#' @description plot.out detects which environmental values in an area of projection are
+#' out of the range of environmental values in the area where ecological niche models are
+#' calibrated. This function is designed to be used specifically in the \code{\link{kuenm_mop}} function.
 #'
 #' @param M1 a numeric matrix containing values of all environmental variables in the calibration area.
 #' @param G1 a numeric matrix containing values of all environmental variables in the full area of interest.
+#'
+#' @return A vector of environmental values in a projection area that are outside the range of values
+#' in the calibration area of an ecological niche model.
 
 
 plot_out <- function (M1, G1) {

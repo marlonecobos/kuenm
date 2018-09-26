@@ -24,7 +24,7 @@
 #' @param write.clamp (logical) if TRUE, a grid of the spatial distribution of clamping will be written, default = FALSE.
 #' @param maxent.path (character) the path were the maxent.jar file is in your computer.
 #' @param args (character) additional arguments that can be passed to Maxent. See the Maxent help for more information
-#' on how to write these arguments, default = NULL. Note that some arguments cannot be changed in here because they are
+#' on how to write these arguments, default = NULL. Note that some arguments cannot be changed here because they are
 #' part of the parameters of the function already (e.g., "writemess").
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
@@ -35,7 +35,35 @@
 #' @return A folder named as out.dir with all the subfolders to save Maxent final model results when running the .bat file
 #' (.sh for Unix). A batch file (bash for Unix) for creating all the final Maxent models with their projections if project = TRUE.
 #'
-#' @details Same requirements as in \code{\link{kuenm_cal}}
+#' @details Same requirements regarding Java and maxent than in \code{\link{kuenm_cal}}.
+#'
+#' @examples
+#' # To run this function model evaluation and selection using the kuenm_ceval function should have been used before.
+#' # The evaluation function generates one of the imputs needed.
+#'
+#' # Variables with information to be used as arguments.
+#' occ_joint <- "aame_joint.csv"
+#' M_var_dir <- "M_variables"
+#' out_eval <- "Calibration_results"
+#' batch_fin <- "Final_models"
+#' mod_dir <- "Final_Models"
+#' rep_n <- 10
+#' rep_type <- "Bootstrap"
+#' jackknife <- FALSE
+#' G_var_dir <- "G_variables"
+#' out_format <- "logistic"
+#' project <- TRUE
+#' ext_type <- "all"
+#' write_mess <- FALSE
+#' write_clamp <- FALSE
+#' wait1 <- FALSE
+#' run1 <- TRUE
+#' args <- NULL
+#'
+#' kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
+#'           rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
+#'           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp,
+#'           maxent.path = maxent_path, args = args, wait = wait1, run = run1)
 
 kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
                       jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
@@ -124,7 +152,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   out.dir <- gsub("/", dl, paste(getwd(), out.dir, sep = sl))
 
   #Defining maximum ram to be used (50% of free memory)
-  ram <- paste("-mx", (round((get_free_ram()/1000)*0.5)), "m", sep = "")
+  ram <- paste("-mx", (round((get_free_ram()/1000)*0.25)), "m", sep = "")
 
   #####
   #Maxent settings

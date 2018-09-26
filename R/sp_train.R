@@ -1,6 +1,6 @@
-#' A set of occurrence records for training candidate ecological niche models.
+#' A set of occurrence records for training candidate ecological niche models
 #'
-#' A dataset containing occurrence recods of the Turkey Tick (*Amblyomma americanum*) across
+#' A dataset containing occurrence recods of a tick (*Amblyomma americanum*) across
 #' North America, used to train candidate ecological niche models during calibration.
 #'
 #' @format A data frame with 89 rows and 2 columns.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_out.R
 \name{plot_out}
 \alias{plot_out}
-\title{Detection of environmental values ouside the calibration area of a model}
+\title{Helper function for detecting values out of the environmental range of M}
 \usage{
 plot_out(M1, G1)
 }
@@ -11,7 +11,12 @@ plot_out(M1, G1)
 
 \item{G1}{a numeric matrix containing values of all environmental variables in the full area of interest.}
 }
+\value{
+A vector of environmental values in a projection area that are outside the range of values
+in the calibration area of an ecological niche model.
+}
 \description{
-plot.out for calculating a mobility-oriented parity layer.
-This function is designed to be used specifically in the \code{\link{kuenm_mop}} function.
+plot.out detects which environmental values in an area of projection are
+out of the range of environmental values in the area where ecological niche models are
+calibrated. This function is designed to be used specifically in the \code{\link{kuenm_mop}} function.
 }

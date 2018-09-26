@@ -11,11 +11,11 @@ A numeric value representing the amount of RAM that is not being used in other p
 }
 \description{
 get_free_ram is used by the \code{\link{kuenm_cal}} and \code{\link{kuenm_mod}} functions.
-At the moment this functions works well in Windows OS, for MAC and Linux it returns 4 GB.
+At the moment this functions works well on Windows, for MAC and Linux it returns 4 GB.
 }
 \details{
 Although this function was designed to be used with the \code{\link{kuenm_cal}} and
-\code{\link{kuenm_mod}} functions, it may be used to know how much RAM is free in a specific time.
+\code{\link{kuenm_mod}} functions, it may be used to know how much RAM is free at any time.
 }
 \examples{
 fre_ram <- get_free_ram()
