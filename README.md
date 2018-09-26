@@ -15,7 +15,7 @@ Marlon E. Cobos, A. Townsend Peterson, Luis Osorio-Olvera, and Narayani Barve
     -   [Final model creation](#final-model-creation)
     -   [Final model evaluation](#final-model-evaluation)
     -   [Extrapolation risk analysis](#extrapolation-risk-analysis)
-    -   [References](#references)
+-   [References](#references)
 
 <br>
 
@@ -279,7 +279,8 @@ kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, ou
 
 <br>
 
-### References
+References
+----------
 
 Muscarella, R. et al. 2014. ENMeval: An R package for conducting spatially independent evaluations and estimating optimal model complexity for Maxent ecological niche models. - Methods in Ecology and Evolution 5: 1198–1205.
 
