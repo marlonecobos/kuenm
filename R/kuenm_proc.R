@@ -48,7 +48,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     warning("\nModel with no variability, pROC will return NA.\n")
 
     p_roc <- rep(NA, 2)
-    names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+    names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "pval_pROC")
 
     auc_ratios <- rep(NA, 3)
     names(auc_ratios) <- c("Model_partial_AUC", "Random_curve_partial_AUC", "AUC_ratio")
@@ -151,7 +151,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     mauc <- mean(partial_AUC$auc_ratio, na.rm = TRUE)
     proc <- sum(partial_AUC$auc_ratio <= 1) / length(partial_AUC$auc_ratio)
     p_roc <- c(mauc, proc)
-    names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+    names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "pval_pROC")
 
     auc_ratios <- partial_AUC
     names(auc_ratios) <- c("Model_partial_AUC", "Random_curve_partial_AUC", "AUC_ratio")

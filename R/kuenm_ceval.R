@@ -319,7 +319,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                       "\nCheck your files and software. NA values will be returned.\n"))
 
             p_roc <- rep(NA, 2)
-            names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "Partial_ROC")
+            names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "pval_pROC")
             auc_ratios <- rep(NA, 4)
             names(auc_ratios) <- c("Iteration", paste("AUC_at_", 100 - threshold, "%", sep = ""),
                                    paste("AUC_at_", threshold, "%", sep = ""), "AUC_ratio")
@@ -371,7 +371,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   om_rates <- as.numeric(as.character(om_rates))
   #Joining the results
   ku_enm_eval <- data.frame(proc_res_m, om_rates, aiccs)
-  colnames(ku_enm_eval) <- c("Model", "Mean_AUC_ratio", "Partial_ROC",#changing column names in the final table
+  colnames(ku_enm_eval) <- c("Model", "Mean_AUC_ratio", "pval_pROC",#changing column names in the final table
                              paste("Omission_rate_at_", threshold, "%", sep = ""), "AICc",
                              "delta_AICc", "W_AICc", "num_parameters")
 
@@ -635,6 +635,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   }
 
 #' Helper function to calculate the AICc values.
+#'
 #' @param x An objects derived from reading the lambdas file created for Maxent.
 
 n.par <- function(x) {
