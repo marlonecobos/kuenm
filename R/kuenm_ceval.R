@@ -375,8 +375,6 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                              paste("Omission_rate_at_", threshold, "%", sep = ""), "AICc",
                              "delta_AICc", "W_AICc", "num_parameters")
 
-  #str(  ku_enm_eval)
-
   #####
   #Choosing the best models
   cat("\nSelecting the best candidate models...\n")
@@ -384,7 +382,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
     if(selection == "OR_AICc") {
       ku_enm_bes <- na.omit(ku_enm_eval[ku_enm_eval[, 3] <= 0.05, ])
-      ku_enm_best <- ku_enm_bes[which(ku_enm_eval[, 4] <= threshold / 100), ]
+      ku_enm_best <- na.omit(ku_enm_bes[which(ku_enm_eval[, 4] <= threshold / 100), ])
       if(length(ku_enm_best[, 4]) != 0) {
         for (i in 1:length(ku_enm_best[,1])) {
           ku_enm_best[i, 6] <- (ku_enm_best[i, 5] - min(ku_enm_best[, 5], na.rm = TRUE))
