@@ -37,11 +37,11 @@
 #' raster::plot(mop)
 
 kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel = FALSE) {
-  mop_raster <- G_stack[[1]]
-  mValues <- raster::getValues(M_stack)
+  mop_raster <- G.stack[[1]]
+  mValues <- raster::getValues(M.stack)
   m_noNA <- stats::na.omit(mValues)
   m_naIDs <- attr(m_noNA, "na.action")
-  gValues <- raster::getValues(G_stack)
+  gValues <- raster::getValues(G.stack)
   g_noNA <- stats::na.omit(gValues)
   g_naIDs <- attr(g_noNA, "na.action")
 
