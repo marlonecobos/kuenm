@@ -5,7 +5,7 @@
 \title{Extrapolation risk analysis for multiple comparisons}
 \usage{
 kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
-  comp.each = 1000, parallel = FALSE)
+  comp.each = 2000, parallel = FALSE)
 }
 \arguments{
 \item{G.var.dir}{(character) if project is TRUE, name of the folder containing folders in which variables of
@@ -21,7 +21,7 @@ from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 
 \item{percent}{(numeric) percetage of values sampled from the calibration region to calculate the MOP.}
 
-\item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 1000).}
+\item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 2000).}
 
 \item{parallel}{(logical) option to be passed to the \code{\link{kuenm_mop}} function (for each independent
 MOP analyses). If TRUE, calculations will be performed in parallel using the available cores of the

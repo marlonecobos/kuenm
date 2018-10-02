@@ -8,7 +8,7 @@
 #' @param G.stack a RasterStack of variables representing the full area of interest, and areas
 #' or scenarios to which models are transferred.
 #' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.
-#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default = 1000).
+#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default = 2000).
 #' @param parallel (logical) if TRUE, calculations will be performed in parallel using the available
 #' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 #' is more recommended in high-performance computers. Using this option will speed up the analyses.
@@ -21,6 +21,10 @@
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}). This function is a modification
 #' of the \code{\link[ENMGadgets]{MOP}} funcion, available at \url{https://github.com/narayanibarve/ENMGadgets}.
 #'
+#' @importFrom future %<-%
+#' @import future
+#' @export
+#'
 #' @examples
 #' mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
 #'                                   pattern = "Mbio_", full.names = TRUE))
@@ -29,21 +33,28 @@
 #' perc <- 10
 #'
 #' mop <- kuenm_mop(M.stack = mvars, G.stack = gvars, percent = perc)
+#'
+#' raster::plot(mop)
 
-kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000, parallel = FALSE) {
-  mPoints <- raster::rasterToPoints(M.stack)
-  m_nona <- na.omit(mPoints)
-  m_naID <- attr(m_nona,"na.action")
-  gPoints <- raster::rasterToPoints(G.stack)
-  g_nona <- na.omit(gPoints)
-  g_naID <- attr(g_nona,"na.action")
+kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel = FALSE) {
+  mop_raster <- G_stack[[1]]
+  mValues <- raster::getValues(M_stack)
+  m_noNA <- stats::na.omit(mValues)
+  m_naIDs <- attr(m_noNA, "na.action")
+  gValues <- raster::getValues(G_stack)
+  g_noNA <- stats::na.omit(gValues)
+  g_naIDs <- attr(g_noNA, "na.action")
 
-  m1 <- m_nona[, -(1:2)]
-  m2 <- g_nona[, -(1:2)]
+  ids_raster <- 1:dim(gValues)[1]
+  ids_raster <- ids_raster[- g_naIDs]
+  m1 <- m_noNA
+  m2 <- g_noNA
 
   if(dim(m1)[2] != dim(m2)[2]) {
     stop("Stacks must have the same dimensions.")
   }
+
+  out_index <- plot_out(mValues, gValues)
 
   steps <- seq(1, dim(m2)[1], comp.each)
   kkk <- c(steps,  dim(m2)[1] + 1)
@@ -54,7 +65,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000, parallel
     mop1 <- lapply(1:(length(kkk) - 1), function(x) {
       seq_rdist <- kkk[x]:(kkk[x + 1] - 1)
       eudist <- fields::rdist(m2[seq_rdist, ], m1)
-      mean_quantile <- parallel::mclapply(1:dim(eudist)[1], function(y) {
+      mean_quantile <- lapply(1:dim(eudist)[1], function(y) {
         di <- eudist[y, ]
         qdi <- quantile(di, probs = percent / 100, na.rm = TRUE)
         ii <-  which(di <= qdi)
@@ -70,7 +81,6 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000, parallel
     mop_vals <- unlist(mop1)
 
   }else {
-    suppressPackageStartupMessages(library("future"))
     future::plan(multiprocess)
 
     mop_env <- new.env()
@@ -88,7 +98,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000, parallel
           qdi <- quantile(di, probs = percent / 100,
                           na.rm = TRUE)
           ii <-  which(di <= qdi)
-          pond_mean <- mean(di,na.rm = TRUE)
+          pond_mean <- mean(di, na.rm = TRUE)
           return(pond_mean)
         })
         mop <-unlist(mop_dist)
@@ -98,36 +108,18 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 1000, parallel
       cat("Computation progress: ", avance,"%" ,"\n")
     }
 
+    future::plan(future::sequential)
+
     mop_list <- as.list(mop_env)
-    mop_names <- sort(as.numeric(names(mop_list)))
+    mop_names <- sort(as.numeric(as.character(names(mop_list))))
     mop_names <- as.character(mop_names)
     mop_vals <- unlist(mop_list[mop_names])
   }
 
-  if(!is.null(g_naID)){
-    mop_all <- data.frame(gPoints[,1:2])
-    mop_all$mop <- NA
-    mop_all$mop[-g_naID] <- mop_vals
-
-  }else{
-    mop_all <- data.frame(gPoints[, 1:2], mop = mop_vals)
-  }
-
-  mop_max <- max(na.omit(mop_vals)) * 1.05
-  mop_all[out_index, 3] <- mop_max
-  suppressWarnings({
-    sp::coordinates(mop_all) <- ~ x + y
-    sp::gridded(mop_all) <- TRUE
-    mop_raster <- raster::raster(mop_all)
-
+  mop_raster[ids_raster] <- mop_vals
+  mop_max <- raster::cellStats(mop_raster,"max")* 1.05
+  mop_raster[out_index] <- mop_max
+  if(normalized)
     mop_raster <- 1 - (mop_raster / mop_max)
-  })
-
-  if (parallel == TRUE) {
-    if(.Platform$OS.type != "unix"){
-      future::plan(future::sequential)
-    }
-  }
-
   return(mop_raster)
 }

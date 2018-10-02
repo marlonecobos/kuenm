@@ -12,7 +12,7 @@
 #' from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 #' @param out.mop (character) name of the folder to which MOP results will be written.
 #' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
-#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 1000).
+#' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 2000).
 #' @param parallel (logical) option to be passed to the \code{\link{kuenm_mop}} function (for each independent
 #' MOP analyses). If TRUE, calculations will be performed in parallel using the available cores of the
 #' computer. This will demand more RAM and almost full use of the CPU; hence, its use is more
@@ -32,7 +32,7 @@
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 
 kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
-                       percent = 10, comp.each = 1000, parallel = FALSE) {
+                       percent = 10, comp.each = 2000, parallel = FALSE) {
   if (missing(G.var.dir)) {
     stop("Argument G.var.dir is not defined.")
   }
