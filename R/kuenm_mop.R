@@ -117,9 +117,8 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
   }
 
   mop_raster[ids_raster] <- mop_vals
-  mop_max <- raster::cellStats(mop_raster,"max")* 1.05
+  mop_max <- raster::cellStats(mop_raster,"max") * 1.05
   mop_raster[out_index] <- mop_max
-  if(normalized)
-    mop_raster <- 1 - (mop_raster / mop_max)
+  mop_raster <- 1 - (mop_raster / mop_max)
   return(mop_raster)
 }
