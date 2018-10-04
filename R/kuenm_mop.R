@@ -58,7 +58,6 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
 
   steps <- seq(1, dim(m2)[1], comp.each)
   kkk <- c(steps,  dim(m2)[1] + 1)
-  out_index <- plot_out(m1, m2)
   long_k <- length(kkk)
 
   if (parallel == FALSE) {
@@ -82,7 +81,6 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
 
   }else {
     future::plan(multiprocess)
-
     mop_env <- new.env()
 
     pasos <- 1:(length(kkk) - 1)
@@ -101,7 +99,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
           pond_mean <- mean(di, na.rm = TRUE)
           return(pond_mean)
         })
-        mop <-unlist(mop_dist)
+        mop <- unlist(mop_dist)
         return(mop)
       }
       avance <- (x / long_k) * 100
@@ -117,7 +115,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
   }
 
   mop_raster[ids_raster] <- mop_vals
-  mop_max <- raster::cellStats(mop_raster,"max") * 1.05
+  mop_max <- raster::cellStats(mop_raster, "max") * 1.05
   mop_raster[out_index] <- mop_max
   mop_raster <- 1 - (mop_raster / mop_max)
   return(mop_raster)
