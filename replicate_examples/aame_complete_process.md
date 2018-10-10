@@ -1,4 +1,4 @@
-*A. ammericanum*: modeling process
+*A. americanum*: modeling process
 ================
 
 -   [Getting started](#getting-started)
