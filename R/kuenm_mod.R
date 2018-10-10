@@ -82,7 +82,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
     stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
                "\nor its existence."))
   }
-  if (length(list.dirs(M.var.dir)) == 0) {
+  if (length(list.dirs(M.var.dir, recursive = FALSE)) == 0) {
     stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
                "\neach set of variables must be in a subdirectory inside",
                paste(M.var.dir, ".", sep = "")))
@@ -99,7 +99,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       stop(paste(G.var.dir, "does not exist in the working directory, check folder name",
                  "\nor its existence."))
     }
-    if (length(list.dirs(G.var.dir)) == 0) {
+    if (length(list.dirs(G.var.dir, recursive = FALSE)) == 0) {
       stop(paste(G.var.dir, "does not contain any subdirectory with sets of projection variables;",
                  "\neach subdirectory inside", G.var.dir, "must containg at least one subdirectory",
                  "\nwith the projection variables"))

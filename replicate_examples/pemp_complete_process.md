@@ -18,11 +18,11 @@ Package loading and working directory setting.
 
 ``` r
 if(!require(devtools)){
-    install.packages("devtools")
+  install.packages("devtools")
 }
 
 if(!require(kuenm)){
-    devtools::install_github("marlonecobos/kuenm")
+  devtools::install_github("marlonecobos/kuenm")
 }
 
 library(kuenm)
@@ -46,15 +46,17 @@ help(kuenm_cal)
 The next chunk of code is for preparing the arguments for using the function following the modularity principle. These variables can be changed according to each case.
 
 ``` r
+# Variables with information to be used as arguments. Change "YOUR/DIRECTORY" by your actual directory.
 occ_joint <- "pemp_joint.csv"
 occ_tra <- "pemp_train.csv"
 M_var_dir <- "M_variables"
 batch_cal <- "Candidate_models"
 out_dir <- "Candidate_Models"
-reg_mult <- c(seq(0.1,1,0.1),seq(2,6,1),8,10)
+reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- "all"
 background <- 10000
 maxent_path <- getwd()
+wait <- FALSE
 run <- TRUE
 ```
 
@@ -65,7 +67,7 @@ The following is the code for using the function.
 ``` r
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
-          maxent.path = maxent_path, run = run)
+          maxent.path = maxent_path, wait = wait, run = run)
 ```
 
 <br>
@@ -87,9 +89,10 @@ occ_test <- "pemp_test.csv"
 out_eval <- "Calibration_results"
 threshold <- 5
 rand_percent <- 50
-iterations <- 100
+iterations <- 500
 kept <- TRUE
 selection <- "OR_AICc"
+paral_proc <- FALSE
 # Notice, some of the variables used here as arguments were already created for the previous function
 ```
 
@@ -100,7 +103,7 @@ This code also allows evaluating candidate models that were created previously, 
 ``` r
 cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, batch = batch_cal,
                         out.eval = out_eval, threshold = threshold, rand.percent = rand_percent, iterations = iterations,
-                        kept = kept, selection = selection)
+                        kept = kept, selection = selection, parallel.proc = paral_proc)
 ```
 
 <br>
@@ -129,6 +132,7 @@ project <- TRUE
 ext_type <- "all"
 write_mess <- FALSE
 write_clamp <- FALSE
+wait1 <- FALSE
 run1 <- TRUE
 args <- "outputgrids=false"
 # Again, some of the variables used here as arguments were already created for the previous functions
@@ -142,7 +146,7 @@ The kuenm\_mod function has the following syntax:
 kuenm_mod(occ.joint = occ_joint, M.var.dir = M_var_dir, out.eval = out_eval, batch = batch_fin, rep.n = rep_n,
           rep.type = rep_type, jackknife = jackknife, out.dir = mod_dir, out.format = out_format, project = project,
           G.var.dir = G_var_dir, ext.type = ext_type, write.mess = write_mess, write.clamp = write_clamp, 
-          run = run1, args = args)
+          maxent.path = maxent_path, args = args, wait = wait1, run = run1)
 ```
 
 <br>
@@ -173,7 +177,7 @@ The following is the code for using the function.
 ``` r
 fin_eval <- kuenm_feval(path = mod_dir, occ.joint = occ_joint, occ.ind = occ_ind, replicates = replicates,
                         out.eval = out_feval, threshold = threshold, rand.percent = rand_percent,
-                        iterations = iterations)
+                        iterations = iterations, parallel.proc = paral_proc)
 ```
 
 <br>
@@ -194,7 +198,7 @@ Below, arguments for this functions will be defined.
 sets_var <- "Set3"
 out_mop <- "MOP_results"
 percent <- 10
-normalized <- TRUE
+paral <- TRUE
 # Again, some of the variables used here as arguments were already created for the previous functions
 ```
 
@@ -204,5 +208,5 @@ The kuenm\_mmop function has the following syntax:
 
 ``` r
 kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
-           percent = percent, normalized = normalized)
+           percent = percent, parallel = paral)
 ```

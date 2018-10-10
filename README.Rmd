@@ -118,7 +118,7 @@ kuenm_start(file.name = file_name)
 
 ### Calibration of models
 
-Notice that, from this point, the following procedures will be performed in the *R Markdown* file previously created, but only if the *kuenm_start* function was used.
+Note that, from this point, the following procedures will be performed in the *R Markdown* file previously created, but only if the *kuenm_start* function was used.
 
 <br>
 

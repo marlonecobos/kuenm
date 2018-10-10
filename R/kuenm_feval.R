@@ -36,7 +36,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
     stop(paste("Argument path is not defined, this is necessary for reading the",
                "\nfinal models created with the kuenm_mod function."))
   }
-  if (!dir.exists(path)) {
+  if (!dir.exists(path, recursive = FALSE)) {
     stop(paste(path, "does not exist in the working directory, check folder name",
                "\nor its existence."))
   }

@@ -79,7 +79,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
     stop(paste(M.var.dir, "does not exist in the working directory, check folder name",
                "\nor its existence."))
   }
-  if (length(list.dirs(M.var.dir)) == 0) {
+  if (length(list.dirs(M.var.dir, recursive = FALSE)) == 0) {
     stop(paste(M.var.dir, "does not contain any subdirectory with environmental variables,",
                "\neach set of variables must be in a subdirectory inside",
                paste(M.var.dir, ".", sep = "")))
