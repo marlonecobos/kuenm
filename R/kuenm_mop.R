@@ -80,7 +80,7 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
     mop_vals <- unlist(mop1)
 
   }else {
-    future::plan(multiprocess)
+    future::plan(future::multiprocess)
     mop_env <- new.env()
 
     pasos <- 1:(length(kkk) - 1)
