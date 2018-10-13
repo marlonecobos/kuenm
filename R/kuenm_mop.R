@@ -37,6 +37,9 @@
 #' raster::plot(mop)
 
 kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel = FALSE) {
+
+  suppressPackageStartupMessages(library(future))
+
   mop_raster <- G.stack[[1]]
   mValues <- raster::getValues(M.stack)
   m_noNA <- stats::na.omit(mValues)
