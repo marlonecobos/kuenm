@@ -109,12 +109,12 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
       cat("Computation progress: ", avance,"%" ,"\n")
     }
 
-    future::plan(future::sequential)
-
     mop_list <- as.list(mop_env)
     mop_names <- sort(as.numeric(as.character(names(mop_list))))
     mop_names <- as.character(mop_names)
     mop_vals <- unlist(mop_list[mop_names])
+
+    future::plan(future::sequential)
   }
 
   mop_raster[ids_raster] <- mop_vals
