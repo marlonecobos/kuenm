@@ -42,7 +42,8 @@
 
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
                        iterations = 500, parallel = FALSE){
-  suppressMessages(library(dplyr))
+  suppressPackageStartupMessages(library(dplyr))
+  suppressPackageStartupMessages(library(future))
 
   if(model@data@min == model@data@max){
     warning("\nModel with no variability, pROC will return NA.\n")
