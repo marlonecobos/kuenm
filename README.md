@@ -107,7 +107,7 @@ Doing analyses for a single species project
 
 ### Workflow recording
 
-Once the working directory and data are ready, the function *kuenm\_start* (.Rmd) will allow generating an *R Markdown* file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recommended if recording individual workflows per each species is desired.
+Once the working directory and data are ready, the function *kuenm\_start* will allow generating an *R Markdown* (.Rmd) file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recommended if recording individual workflows per each species is desired.
 
 ``` r
 help(kuenm_start)
