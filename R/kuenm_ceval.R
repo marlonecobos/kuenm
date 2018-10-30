@@ -382,7 +382,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
     if(selection == "OR_AICc") {
       ku_enm_bes <- na.omit(ku_enm_eval[ku_enm_eval[, 3] <= 0.05, ])
-      ku_enm_best <- na.omit(ku_enm_bes[which(ku_enm_eval[, 4] <= threshold / 100), ])
+      ku_enm_best <- na.omit(ku_enm_bes[which(ku_enm_bes[, 4] <= threshold / 100), ])
       if(length(ku_enm_best[, 4]) != 0) {
         for (i in 1:length(ku_enm_best[,1])) {
           ku_enm_best[i, 6] <- (ku_enm_best[i, 5] - min(ku_enm_best[, 5], na.rm = TRUE))
@@ -408,7 +408,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     if(selection == "AICc") {
       ku_enm_bes <- na.omit(ku_enm_eval[ku_enm_eval[, 3] <= 0.05, ])
       ku_enm_best <- ku_enm_bes[ku_enm_bes[, 6] <= 2, ]
-      if(length(ku_enm_best[, 6] != 0)) {
+      if(length(ku_enm_best[, 6]) != 0) {
         ku_enm_best <- ku_enm_best[order(ku_enm_best[, 6]), ]
       }else {
         cat(paste("\nNone of the significant candidate models met the AICc criterion,",
@@ -453,7 +453,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   ku_enm_sign <- ku_enm_eval[!is.na(ku_enm_eval[, 3]), ]
   ku_enm_sign <- ku_enm_sign[ku_enm_sign[, 3] <= 0.05, ]
 
-  ku_enm_or <- ku_enm_eval[ku_enm_eval[, 4] <= 0.05, ]
+  ku_enm_or <- ku_enm_eval[ku_enm_eval[, 4] <= threshold / 100, ]
 
   ku_enm_AICc <- ku_enm_eval[!is.na(ku_enm_eval[, 6]), ]
   ku_enm_AICc <- ku_enm_AICc[ku_enm_AICc[, 6] <= 2, ]
