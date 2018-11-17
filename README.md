@@ -43,7 +43,7 @@ Before starting the analyses, the user must make sure that the working directory
 -   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in figure 1).
 -   If available, a csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
 
-A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed in the computer. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, for Windows users, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it see <a href="https://github.com/stan-dev/rstan/wiki/Install-Rtools-for-Windows" target="_blank">this guide</a>.
+A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed in the computer. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, for Windows users, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it see <a href="http://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/#1" target="_blank">this guide</a>.
 
 <br>
 
@@ -264,7 +264,7 @@ help(kuenm_mmop)
 ```
 
 ``` r
-sets_var <- "Set3" # here a vector of various sets can be used
+sets_var <- "Set3" # a vector of various sets can be used
 out_mop <- "MOP_results"
 percent <- 10
 paral <- FALSE # make this true to perform MOP calculations in parallel, recommended

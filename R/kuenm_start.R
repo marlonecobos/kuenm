@@ -130,9 +130,9 @@ mod_dir <- \"Final_Models\"
 rep_n <- 10
 rep_type <- \"Bootstrap\"
 jackknife <- FALSE
-G_var_dir <- \"G_variables\"
 out_format <- \"logistic\"
 project <- TRUE
+G_var_dir <- \"G_variables\"
 ext_type <- \"all\"
 write_mess <- FALSE
 write_clamp <- FALSE
