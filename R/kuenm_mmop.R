@@ -64,9 +64,9 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
   #Calculating MOP for each comparison set by set
   for (h in 1:length(sets.var)) {
 
-    dirsm <- dir(M.var.dir, pattern = sets.var[h], full.names = TRUE)
+    dirsm <- dir(M.var.dir, pattern = paste0("^", sets.var[h], "$"), full.names = TRUE)
 
-    dirsg <- dir(G.var.dir, pattern = sets.var[h], full.names = TRUE)
+    dirsg <- dir(G.var.dir, pattern = paste0("^", sets.var[h], "$"), full.names = TRUE)
     dirsg_in <- dir(dirsg, full.names = TRUE)
     namesg <- dir(dirsg)
 
