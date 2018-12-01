@@ -14,17 +14,17 @@
 
 plot_out <- function (M1, G1) {
   if(class(M1) == "RasterBrick" | class(M1) == "RasterStack" | class(M1) == "raster"){
-    M1 <- raster::rasterToPoints(M1)
+    M1 <- raster::values(M1)
   }
 
   if(class(G1) == "RasterBrick" | class(G1) == "RasterStack" | class(G1) == "raster"){
-    G1 <- raster::rasterToPoints(G1)
+    G1 <- raster::values(G1)
   }
 
   d1 <- dim(M1)
-  AllVec <- matrix(0, 0, 0)
+  AllVec <- vector()
 
-  for (i in 3:d1[2]) {
+  for (i in 1:d1[2]) {
     MRange <- range(M1[, i])
     l1 <- which(G1[, i] < range(M1[, i], na.rm = T)[1] | G1[, i] > range(M1[, i], na.rm = T)[2])
     AllVec <- c(l1, AllVec)
