@@ -4,8 +4,9 @@
 \alias{kuenm_feval}
 \title{Evaluation of final Maxent models with independent data}
 \usage{
-kuenm_feval(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
-  rand.percent = 50, iterations = 500, parallel.proc = FALSE)
+kuenm_feval(path, occ.joint, occ.ind, replicates, out.eval,
+  threshold = 5, rand.percent = 50, iterations = 500,
+  parallel.proc = FALSE)
 }
 \arguments{
 \item{path}{(character) directory in which folders containig final models are being created or

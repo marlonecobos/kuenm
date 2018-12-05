@@ -6,9 +6,9 @@
 \usage{
 kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
   rep.type = "Bootstrap", jackknife = FALSE, out.dir,
-  out.format = "logistic", project = FALSE, G.var.dir, ext.type = "all",
-  write.mess = FALSE, write.clamp = FALSE, maxent.path, args = NULL,
-  wait = TRUE, run = TRUE)
+  out.format = "logistic", project = FALSE, G.var.dir,
+  ext.type = "all", write.mess = FALSE, write.clamp = FALSE,
+  maxent.path, args = NULL, wait = TRUE, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}
