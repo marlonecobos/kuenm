@@ -36,6 +36,7 @@
 #' (.sh for Unix). A batch file (bash for Unix) for creating all the final Maxent models with their projections if project = TRUE.
 #'
 #' @details Same requirements regarding Java and maxent than in \code{\link{kuenm_cal}}.
+#' @export
 #'
 #' @examples
 #' # To run this function model evaluation and selection using the kuenm_ceval function should have been used before.

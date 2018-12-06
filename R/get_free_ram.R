@@ -7,6 +7,7 @@
 #'
 #' @details Although this function was designed to be used with the \code{\link{kuenm_cal}} and
 #' \code{\link{kuenm_mod}} functions, it may be used to know how much RAM is free at any time.
+#' @export
 #'
 #' @examples
 #' fre_ram <- get_free_ram()

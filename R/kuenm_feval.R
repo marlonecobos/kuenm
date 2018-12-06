@@ -26,6 +26,8 @@
 #' a folder, in the working directory, containing a csv file with the final models evaluation
 #' results.
 #'
+#' @export
+#'
 #' @details This function is used after or during the creation of final models.
 
 kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,

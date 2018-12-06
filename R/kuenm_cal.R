@@ -38,6 +38,8 @@
 #' "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
 #' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
 #'
+#' @export
+#'
 #' @examples
 #' # To replicate this example dowload the data from the following link:
 #' # https://kuscholarworks.ku.edu/bitstream/handle/1808/26376/ku.enm_example_data.zip?sequence=3&isAllowed=y

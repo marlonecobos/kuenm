@@ -9,6 +9,8 @@
 #' @return An R markdown file with instructions and code for performing all
 #' analyses included in this package.
 #'
+#' @export
+#'
 #' @examples
 #' kuenm_start("complete_process")
 #' kuenm_start("bird_modeling_process")

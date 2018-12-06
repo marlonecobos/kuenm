@@ -9,6 +9,7 @@
 #' @return An HTML file summarizing results from the model calibration and selection process.
 #'
 #' @details This function is used along with the \code{\link{kuenm_ceval}} function.
+#' @export
 #'
 #' @examples
 #' path <- getwd() # directory with outputs of the kuenm_ceval function

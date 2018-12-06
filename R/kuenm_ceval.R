@@ -45,6 +45,8 @@
 #' If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
 #' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
 #'
+#' @export
+#'
 #' @examples
 #' # To run this function the kuenm_cal function needs te be used first. This previous function will
 #' # create the models that kuenm_ceval evaluates.

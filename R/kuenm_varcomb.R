@@ -22,6 +22,8 @@
 #' Time of processing will be reduced considerably if \code{in.format} and \code{out.format} coincide
 #' because files will be copied and not loaded and written.
 #'
+#' @export
+#'
 #' @examples
 #' # This example depends on data stored in your directory
 #' var_dir <- "Variables" # your directory with variables to be combined

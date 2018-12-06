@@ -13,6 +13,8 @@
 #'
 #' @return A named numeric value or numeric vector with the result(s).
 #'
+#' @export
+#'
 #' @examples
 #' # single threshold
 #' model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
