@@ -9,7 +9,6 @@
 #' }
 #'
 #' @source \url{https://kuscholarworks.ku.edu/handle/1808/26376}
-#' @export
 #'
 #' @examples
 #' model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
