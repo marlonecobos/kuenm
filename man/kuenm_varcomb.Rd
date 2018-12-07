@@ -44,6 +44,6 @@ min_n <- 2
 in_format <- "ascii"
 out_format <- "GTiff"
 
-comb <- kuenm_varcomb(var.dir = var_dir, out.dir = var_dir, min.number = min_n,
+comb <- kuenm_varcomb(var.dir = var_dir, out.dir = out_dir, min.number = min_n,
                       in.format = in_format, out.format = out_format)
 }
