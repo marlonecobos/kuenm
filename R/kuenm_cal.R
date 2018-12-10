@@ -200,8 +200,8 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   a.fea <- "autofeature=false"
 
   ##Other maxent settings
-  fin.com <- "extrapolate=false doclamp=false replicates=1 replicatetype=Bootstrap responsecurves=false jackknife=false plots=false pictures=false outputformat=raw warnings=false visible=false redoifexists autorun\n"
-  fin.com1 <- "extrapolate=false doclamp=false replicates=1 replicatetype=Bootstrap responsecurves=false jackknife=false plots=false pictures=false outputformat=logistic warnings=false visible=false redoifexists autorun\n"
+  fin.com <- "extrapolate=false doclamp=false replicates=1 replicatetype=Crossvalidate responsecurves=false jackknife=false plots=false pictures=false outputformat=raw warnings=false visible=false redoifexists autorun\n"
+  fin.com1 <- "extrapolate=false doclamp=false replicates=1 replicatetype=Crossvalidate responsecurves=false jackknife=false plots=false pictures=false outputformat=logistic warnings=false visible=false redoifexists autorun\n"
 
   #Final code
   if(.Platform$OS.type == "unix") {

@@ -22,9 +22,9 @@ Marlon E. Cobos, A. Townsend Peterson, Luis Osorio-Olvera, and Narayani Barve
 Introduction
 ------------
 
-**kuenm** is an R package designed to make the process of model calibration and final model creation easier and more reproducible, and at the same time more robust. The aim of this package is to design suites of candidate models to create diverse calibrations of Maxent models to allow selection of optimal parameterizations for each study. Other objectives of this program are to make the task of creating final models and their transfers easier, as well to permit assessing extrapolation risks when model transfers are needed.
+**kuenm** is an R package designed to make the process of model calibration and final model creation easier and more reproducible, and at the same time more robust. The aim of this package is to design suites of candidate models to create diverse calibrations of Maxent models and enable selection of optimal parameterizations for each study. Other objectives of this program are to make the task of creating final models and their transfers easier, as well to permit assessing extrapolation risks when model transfers are needed.
 
-This document is a brief tutorial for using the functions of the **kuenm** R package. An example of a disease vector (a tick) is used in this tutorial to make it more clear and understandable. Functions help can be checked while performing the processes.
+This document is a brief tutorial for using the functions of the **kuenm** R package. The example of a disease vector (a tick) is used in this tutorial to make it more clear and understandable. Functions help can be checked while performing the processes.
 
 <br>
 
@@ -33,17 +33,17 @@ Getting started
 
 ### Directory structure and necessary data
 
-Since this package was designed to perform complex analyses while avoiding excessive demands on the computer (especially related to RAM memory used for R), it needs certain data and to be organized carefully in the working directory. Following this structure (Figure 1) will allow working with one or more species in a project, and avoid potential problems during the analyses.
+Since this package was designed to perform complex analyses while avoiding excessive demands on the computer (especially related to RAM memory used for R), it needs certain data that are organized carefully in the working directory. Following this structure (Figure 1) will allow working with one or more species in a project, and avoid potential problems during the analyses.
 
 Before starting the analyses, the user must make sure that the working directory (the folder with information for an individual species) has the following components:
 
--   A folder containing the distinct sets of environmental variables (i.e., M\_variables in Figure 1) to be used (more than one is highly recommended, but not mandatory). These variables must represent the area over which models are calibrated.
+-   A folder containing the distinct sets of environmental variables (i.e., M\_variables in Figure 1) to be used (more than one is highly recommended, but not mandatory). These variables must represent environmental variation across the area over which models are calibrated.
 -   A csv file containing training and testing occurrence data together (preferably after cleaning and thinning original data to avoid problems like wrong records and spatial auto-correlation). This data set consists of three fields: species name, longitude, and latitude. See Sp\_joint.csv, in Figure 1.
--   A csv file containing occurrence data for training models. This file and the next file generally represent exclusive subsets of the full set of records. Occurrences can be subsetted in multiple ways (Muscarella et al. 2014), but some degree of independence of training and testing data is desired. See Sp\_train.csv in figure 1.
--   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in figure 1).
--   If available, a csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv, in Figure 1.
+-   A csv file containing occurrence data for training models. This file and the next file generally represent exclusive subsets of the full set of records. Occurrences can be subsetted in multiple ways (Muscarella et al. 2014), but some degree of independence of training and testing data is desired. See Sp\_train.csv in Figure 1.
+-   A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp\_test.csv in Figure 1).
+-   If available, a csv file containing a completely independent subset of occurrence data—external to training and testing data—for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp\_ind.csv in Figure 1.
 
-A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed in the computer. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, for Windows users, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it see <a href="http://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/#1" target="_blank">this guide</a>.
+A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, for Windows users, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it see <a href="http://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/#1" target="_blank">this guide</a>.
 
 <br>
 
@@ -107,7 +107,7 @@ Doing analyses for a single species project
 
 ### Workflow recording
 
-Once the working directory and data are ready, the function *kuenm\_start* will allow generating an *R Markdown* (.Rmd) file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recommended if recording individual workflows per each species is desired.
+Once the working directory and data are ready, the function *kuenm\_start* will allow generating an R Markdown (.Rmd) file as a guide to performing all the analyses that this package includes (Figure 1, yellow area). By recording all the code chunks used in the process, this file also helps to make analyses more reproducible. This file will be written in the working directory. The usage of this function is optional, but it is recommended if recording individual workflows per each species is desired.
 
 ``` r
 help(kuenm_start)
@@ -126,7 +126,7 @@ kuenm_start(file.name = file_name)
 
 ### Calibration of models
 
-Note that, from this point, the following procedures will be performed in the *R Markdown* file previously created, but only if the *kuenm\_start* function was used.
+Note that, from this point, the following procedures will be performed in the R Markdown file previously created, but only if the *kuenm\_start* function was used.
 
 <br>
 
@@ -134,7 +134,7 @@ Note that, from this point, the following procedures will be performed in the *R
 
 The function *kuenm\_cal* creates and executes a batch file for generating Maxent candidate models that will be written in subdirectories, named as the parameterizations selected, inside the output directory (Figure 1, light green area). Calibration models will be created with multiple combinations of regularization multipliers, feature classes, and sets of environmental predictors. For each combination, this function creates one Maxent model with the complete set of occurrences and another with training occurrences only. On some computers, the user will be asked if ruining the batch file is allowed before the modeling process starts in Maxent.
 
-Maxent will run in command-line interface (**do not close the application**) and its graphic interface will not show up, to avoid interfering with activities other than the modeling process.
+Maxent will run in command-line interface (do not close the application) and its graphic interface will not show up, to avoid interfering with activities other than the modeling process.
 
 ``` r
 help(kuenm_cal)
@@ -196,7 +196,7 @@ cal_eval <- kuenm_ceval(path = out_dir, occ.joint = occ_joint, occ.tra = occ_tra
 
 After selecting parameterizations producing the best models, the next step is that of creating final models and, if needed, transferring them to other areas or scenarios. The *kuenm\_mod* function takes the .csv file with the best models from the model selection process, and writes and executes a batch file for creating final models with the selected parameterizations. Models and projections are stored in subdirectories inside an output folder; these subdirectories will be named as with the candidate models. By allowing projections (i.e., project = TRUE) and defining the folder holding the data for transfers (i.e., folder name in G.var.dir argument), this function automatically performs those transfers.
 
-Maxent will run in command-line interface, as it did when creating the calibration models (**again, do not close the application**). However, the process of creating final models may take considerably more time, especially when transferring to other regions or scenarios.
+Maxent will run in command-line interface, as it did when creating the calibration models (again, do not close the application). However, the process of creating final models may take considerably more time, especially when transferring to other regions or scenarios.
 
 ``` r
 help(kuenm_mod)
