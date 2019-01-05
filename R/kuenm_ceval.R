@@ -198,8 +198,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
     mod <- try(raster::raster(mods), silent = TRUE)
 
-    aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                   predictive.maps = mod), silent = TRUE)
+    aicc <- try(kuenm_aicc(occ = oc, model = mod, npar = par_num), silent = TRUE)
     aiccs[[i]] <- aicc
 
     #If needed, waiting for the model to be created
@@ -215,8 +214,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod <- try(raster::raster(mods), silent = TRUE)
 
-      aicc <- try(ENMeval::calc.aicc(nparam = par_num, occ = oc,
-                                     predictive.maps = mod), silent = TRUE)
+      aicc <- try(kuenm_aicc(occ = oc, model = mod, npar = par_num), silent = TRUE)
 
       aiccs[[i]] <- aicc
 
@@ -636,9 +634,12 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   return(list_res)
   }
 
-#' Helper function to calculate the AICc values.
+#' Helper function to calculate the AICc values (number of parameters).
 #'
-#' @param x An objects derived from reading the lambdas file created for Maxent.
+#' @param x An object derived from reading the lambdas file created for Maxent.
+#' Use \code{\link[base]{readLines}} function to read the file.
+#'
+#' @export
 
 n.par <- function(x) {
   lambdas <- x[1:(length(x) - 4)]

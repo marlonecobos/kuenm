@@ -22,13 +22,13 @@
 #' By default c("med", "min", "max", "range") are calculated, unless a character vector with the desired
 #' statistics is provided.
 #' @param replicated (logical) whether or not final models were created performing replicates.
-#' @param proj.scenarios (character) valid if \code{project] = TRUE, vector of pattern(s) that identify
+#' @param proj.scenarios (character) valid if \code{project} = TRUE, vector of pattern(s) that identify
 #' each projection area (scenario) to which models were projected.
-#' @param ext.type (character) valid if \code{project] = TRUE, vector of pattern(s) to be searched in the
+#' @param ext.type (character) valid if \code{project} = TRUE, vector of pattern(s) to be searched in the
 #' folders inside \code{fmod.dir} that identify the extrapolation type(s) of model projections. This pattern(s)
 #' need to be clearly distinguishable from the rest of the name of the model folder name. For instance,
-#' capital letter can be used to separate this pattern from the rest of the folder name (e.g., "EC" will
-#' be the patter that denotes extrapolation and clamping in the folder named "M_0.1_F_l_set1_EC").
+#' capital letter can be used to separate this pattern from the rest of the folder name (e.g., "EC" will be
+#' the patter that denotes extrapolation and clamping in the folder named "M_0.1_F_l_set1_EC").
 #' @param out.dir (character) name of the output directory to be created in which subdirectories
 #' containing raster layers of model statistics will be written. Default = "Final_Model_Stats".
 #'

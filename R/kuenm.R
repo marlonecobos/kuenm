@@ -10,7 +10,9 @@
 #' @section kuenm functions:
 #' \code{\link{kuenm_start}}, \code{\link{kuenm_cal}}, \code{\link{kuenm_ceval}},
 #' \code{\link{kuenm_mod}}, \code{\link{kuenm_feval}}, \code{\link{kuenm_mmop}},
-#' \code{\link{kuenm_omrat}}, \code{\link{kuenm_proc}}, and \code{\link{kuenm_mop}}
+#' \code{\link{kuenm_modstats}}, \code{\link{kuenm_projchanges}}, \code{\link{kuenm_modvar}},
+#' \code{\link{kuenm_hierpart}}, \code{\link{kuenm_omrat}}, \code{\link{kuenm_proc}},
+#' \code{\link{kuenm_mop}}, \code{\link{kuenm_aicc}}, \code{\link{kuenm_varcomb}}
 #'
 #' @docType package
 #' @name kuenm

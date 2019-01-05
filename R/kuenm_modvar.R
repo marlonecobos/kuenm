@@ -27,7 +27,7 @@
 #' @param clim.models (character) names that identify climatic models used for project ENMs.
 #' If not defined it is assumed that only one climate model was used. Therefore, this source of
 #' variation will not be considered.
-#' @param ext.type (character) valid if \code{project] = TRUE, vector of pattern(s) to be searched in the
+#' @param ext.type (character) valid if \code{project} = TRUE, vector of pattern(s) to be searched in the
 #' folders inside \code{fmod.dir} that identify the extrapolation type(s) of model projections. This pattern(s)
 #' need to be clearly distinguishable from the rest of the name of the model folder name. For instance,
 #' capital letter can be used to separate this pattern from the rest of the folder name (e.g., "EC" will

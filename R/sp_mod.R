@@ -3,7 +3,7 @@
 #' A RasterLayer containing an ecological niche model for the a tick (*Amblyomma americanum*)
 #' that was created as part of the candidate models during the calibration process.
 #'
-#' @format A RasterLtack with 150 rows, 249 columns, and 37350 cells:
+#' @format A RasterLayer with 150 rows, 249 columns, and 37350 cells:
 #' \describe{
 #'   \item{Suitability}{suitability, in probability values.}
 #' }

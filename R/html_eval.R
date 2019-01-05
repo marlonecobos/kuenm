@@ -116,10 +116,13 @@ The figure below shows the position of the selected models in the distribution o
 
 ### Performance statistics for all models
 
-Following are the performance statistics for a sample of 500 candidate models. See file calibration_results.csv for the complete list.
+Following are the performance statistics for all candidate models (a sample if more than 500 models). See file calibration_results.csv for the complete list.
 
 \```{r, echo=FALSE}
-st4 <- read.csv(\"calibration_results.csv\")[1:500, ]
+st4 <- read.csv(\"calibration_results.csv\")
+if (dim(st4)[1] > 500) {
+   st4 <- st4[1:500, ]
+}
 colnames(st4) <-  c(\"Model\",	\"Mean_AUC_ratio\",	\"Partial_ROC\", gsub(\"[.]\", \"%\", colnames(st4)[4]), \"AICc\",	\"delta_AICc\",	\"W_AICc\",	\"num_parameters\")
 knitr::kable(st4, digits=c(0,3,3,3,3,3,3,0), caption = \"Table 4. Performance statistics for all candidate models.\")
 \```"

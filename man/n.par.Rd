@@ -2,13 +2,14 @@
 % Please edit documentation in R/kuenm_ceval.R
 \name{n.par}
 \alias{n.par}
-\title{Helper function to calculate the AICc values.}
+\title{Helper function to calculate the AICc values (number of parameters).}
 \usage{
 n.par(x)
 }
 \arguments{
-\item{x}{An objects derived from reading the lambdas file created for Maxent.}
+\item{x}{An object derived from reading the lambdas file created for Maxent.
+Use \code{\link[base]{readLines}} function to read the file.}
 }
 \description{
-Helper function to calculate the AICc values.
+Helper function to calculate the AICc values (number of parameters).
 }
