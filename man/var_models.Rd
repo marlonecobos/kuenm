@@ -4,11 +4,13 @@
 \alias{var_models}
 \title{Helper function to calculate raster layers of model variance}
 \usage{
-var_models(model.names, sp.name, source.codes, source,
+var_models(model.names, format = "asc", sp.name, source.codes, source,
   split.length = 100)
 }
 \arguments{
 \item{model.names}{(character) vector of model names.}
+
+\item{format}{(character) format of model raster files. Options are: "asc" or "tif"; default = "asc".}
 
 \item{sp.name}{(character) species names. This name must be the one that appears as part
 of the raster file of each model repliate.}

@@ -107,7 +107,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
   }
   if (project == TRUE) {
     if (missing(current)) {
-      cat("Argument current is not defined, not current projection will be assumed.")
+      cat("Argument current is not defined, no current projection will be assumed.")
     }
     if (missing(time.periods)) {
       cat("Argument time.periods is not defined, an only time period will be assumed.")
@@ -197,7 +197,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
     ### Var from replicates
     if (length(nrepli) > 1) {
       cat("\n   Variation from replicates:\n")
-      cal_var <- var_models(model.names = calib, sp.name = sp.name, source.codes = nrepli,
+      cal_var <- var_models(model.names = calib, format = format, sp.name = sp.name, source.codes = nrepli,
                             source = "replicates", split.length = split.length)
 
       raster::writeRaster(cal_var, filename = paste(in_folder, "Cal_var_replicates.tif",
@@ -207,7 +207,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
     ### Var from parameters
     if (length(paramet) > 1) {
       cat("\n   Variation from parameters:\n")
-      cal_var <- var_models(model.names = calib, sp.name = sp.name, source.codes = paramet,
+      cal_var <- var_models(model.names = calib, format = format, sp.name = sp.name, source.codes = paramet,
                             source = "parameters", split.length = split.length)
 
       raster::writeRaster(cal_var, filename = paste(in_folder, "Cal_var_parameters.tif",
@@ -247,7 +247,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
       ### Var from replicates
       if (length(nrepli) > 1) {
         cat("\n   Calibration area, variation from replicates:\n")
-        cal_var <- var_models(model.names = calib, sp.name = sp.name, source.codes = nrepli,
+        cal_var <- var_models(model.names = calib, format = format, sp.name = sp.name, source.codes = nrepli,
                               source = "replicates", split.length = split.length)
 
         raster::writeRaster(cal_var, filename = paste(in_folder, "Cal_var_replicates.tif",
@@ -257,7 +257,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
       ### Var from parameters
       if (length(paramet) > 1) {
         cat("\n   Calibration area, variation from parameters:\n")
-        cal_var <- var_models(model.names = calib, sp.name = sp.name, source.codes = paramet,
+        cal_var <- var_models(model.names = calib, format = format, sp.name = sp.name, source.codes = paramet,
                               source = "parameters", split.length = split.length)
 
         raster::writeRaster(cal_var, filename = paste(in_folder, "Cal_var_parameters.tif",
@@ -278,7 +278,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
         ### Var from replicates
         if (length(nrepli) > 1) {
           cat("\n   Projection area (Current), variation from replicates:\n")
-          cal_var <- var_models(model.names = currente, sp.name = sp.name, source.codes = nrepli,
+          cal_var <- var_models(model.names = currente, format = format, sp.name = sp.name, source.codes = nrepli,
                                 source = "replicates", split.length = split.length)
 
           raster::writeRaster(cal_var, filename = paste(in_folder, "Cur_proj_var_replicates.tif",
@@ -288,7 +288,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
         ### Var from parameters
         if (length(paramet) > 1) {
           cat("\n   Projection area (Current), variation from parameters:\n")
-          cal_var <- var_models(model.names = currente, sp.name = sp.name, source.codes = paramet,
+          cal_var <- var_models(model.names = currente, format = format, sp.name = sp.name, source.codes = paramet,
                                 source = "parameters", split.length = split.length)
 
           raster::writeRaster(cal_var, filename = paste(in_folder, "Cur_proj_var_parameters.tif",
@@ -326,7 +326,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
           ### Var from replicates
           if (length(nrepli) > 1) {
             cat("\n   Projection area", paste("(Time ", j, "),", sep = ""), "variation from replicates:\n")
-            cal_var <- var_models(model.names = timeper[[j]], sp.name = sp.name, source.codes = nrepli,
+            cal_var <- var_models(model.names = timeper[[j]], format = format, sp.name = sp.name, source.codes = nrepli,
                                   source = "replicates", split.length = split.length)
 
             raster::writeRaster(cal_var, filename = paste(in_folder,
@@ -338,7 +338,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
           ### Var from parameters
           if (length(paramet) > 1) {
             cat("\n   Projection area", paste("(Time ", j, "),", sep = ""), "variation from parameters:\n")
-            cal_var <- var_models(model.names = timeper[[j]], sp.name = sp.name, source.codes = paramet,
+            cal_var <- var_models(model.names = timeper[[j]], format = format, sp.name = sp.name, source.codes = paramet,
                                   source = "parameters", split.length = split.length)
 
             raster::writeRaster(cal_var, filename = paste(in_folder,
@@ -351,7 +351,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
           if (!missing(clim.models)) {
             if (length(clim.models) > 1) {
               cat("\n   Projection area", paste("(Time ", j, "),", sep = ""), "variation from climatic models:\n")
-              cal_var <- var_models(model.names = timeper[[j]], sp.name = sp.name, source.codes = clim.models,
+              cal_var <- var_models(model.names = timeper[[j]], format = format, sp.name = sp.name, source.codes = clim.models,
                                     source = "clim_models", split.length = split.length)
 
               raster::writeRaster(cal_var, filename = paste(in_folder,
@@ -365,7 +365,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
           if (!missing(emi.scenarios)) {
             if (length(emi.scenarios) > 1) {
               cat("\n   Projection area", paste("(Time ", j, "),", sep = ""), "variation from emission scenarios:\n")
-              cal_var <- var_models(model.names = timeper[[j]], sp.name = sp.name, source.codes = emi.scenarios,
+              cal_var <- var_models(model.names = timeper[[j]], format = format, sp.name = sp.name, source.codes = emi.scenarios,
                                     source = "emi_scenarios", split.length = split.length)
 
               raster::writeRaster(cal_var, filename = paste(in_folder,
@@ -386,6 +386,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
 #' Helper function to calculate raster layers of model variance
 #'
 #' @param model.names (character) vector of model names.
+#' @param format (character) format of model raster files. Options are: "asc" or "tif"; default = "asc".
 #' @param sp.name (character) species names. This name must be the one that appears as part
 #' of the raster file of each model repliate.
 #' @param source.codes (character or numeric) vector of names or numbers that will be
@@ -397,7 +398,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
 #'
 #' @export
 
-var_models <- function(model.names, sp.name, source.codes, source, split.length = 100) {
+var_models <- function(model.names, format = "asc", sp.name, source.codes, source, split.length = 100) {
   means <- list()
   for (i in 1:length(source.codes)) {
     if (source == "replicates") {

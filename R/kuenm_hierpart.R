@@ -114,7 +114,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
   }
   if (project == TRUE) {
     if (missing(current)) {
-      cat("Argument current is not defined, not current projection will be assumed.\n")
+      cat("Argument current is not defined, no current projection will be assumed.\n")
     }
     if (missing(time.periods)) {
       cat("Argument time.periods is not defined, an only time period will be assumed.\n")

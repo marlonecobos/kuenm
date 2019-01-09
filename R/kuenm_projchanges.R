@@ -88,7 +88,7 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
                "\nwith the projection variables"))
   }
   if (missing(current)) {
-    cat("Argument current is not defined, not current projection will be assumed.\n")
+    cat("Argument current is not defined, no current projection will be assumed.\n")
   }
   if (missing(time.periods)) {
     cat("Argument time.periods is not defined, only one time projection will be assumed.\n")
