@@ -1,0 +1,23 @@
+citHeader("To cite kuenm in publications use:")
+
+citEntry(entry = "Article",
+        title        = "kuenm: an R package for detailed development of ecological niche models using Maxent",
+        author       = personList(as.person("Marlon E. Cobos"),
+                            as.person("A. Townsend Peterson"),
+                            as.person("Narayani Barve"),
+                            as.person("Luis Osorio-Olvera")),
+        journal      = "PeerJ",
+        year         = "2019",
+        volume       = "7",
+        number       = "e6281",
+        month        = "jan",
+        publisher    = "PeerJ",
+        url          = "http://doi.org/10.7717/peerj.6281",
+        doi          = "10.7717/peerj.6281",
+
+        textVersion  =
+        paste("Cobos ME, Peterson AT, Barve N, Osorio-Olvera L. (2019)",
+            "kuenm: an R package for detailed development of ecological niche models using Maxent",
+            "PeerJ, 7:e6281",
+            "URL http://doi.org/10.7717/peerj.6281")
+        )
