@@ -29,7 +29,9 @@ Imports:
     rmarkdown (>= 1.9),
     sp (>= 1.2)
 Suggests:
+	  knitr, 
 	  maptools,
+	  rmarkdown,
     yaml
 Depends:
     R (>= 3.4.0)
