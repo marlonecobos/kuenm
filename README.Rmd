@@ -270,4 +270,12 @@ kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, ou
 
 <br>
 
+## Other functionalities of kuenm
+
+Other analyses **kuenm** allows are:
+
+* <a href="https://github.com/marlonecobos/kuenm/tree/master/extra_vignettes/post-modeling.md" target="_blank">Post-modeling analyses</a>
+
+<br>
+
 ## References

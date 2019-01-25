@@ -15,6 +15,7 @@ Marlon E. Cobos, A. Townsend Peterson, Luis Osorio-Olvera, and Narayani Barve
     -   [Final model creation](#final-model-creation)
     -   [Final model evaluation](#final-model-evaluation)
     -   [Extrapolation risk analysis](#extrapolation-risk-analysis)
+-   [Other functionalities of kuenm](#other-functionalities-of-kuenm)
 -   [References](#references)
 
 <br>
@@ -47,7 +48,7 @@ A crucial requirement is to have the maxent.jar application in any user-defined 
 
 <br>
 
-<img src="Structure.png" alt="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)." width="4114" />
+<img src="Structure.png" alt="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)." width="1371" />
 <p class="caption">
 Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green).
 </p>
@@ -276,6 +277,15 @@ paral <- FALSE # make this true to perform MOP calculations in parallel, recomme
 kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var, out.mop = out_mop,
            percent = percent, parallel = paral)
 ```
+
+<br>
+
+Other functionalities of kuenm
+------------------------------
+
+Other analyses **kuenm** allows are:
+
+-   <a href="https://github.com/marlonecobos/kuenm/tree/master/extra_vignettes/post-modeling.md" target="_blank">Post-modeling analyses</a>
 
 <br>
 

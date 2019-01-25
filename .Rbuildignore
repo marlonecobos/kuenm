@@ -1,5 +1,5 @@
 ^Meta$
-^doc$
+^extra_vignettes$
 ^data-raw$
 ^.*\.Rproj$
 ^\.Rproj\.user$
