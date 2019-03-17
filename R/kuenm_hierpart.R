@@ -186,7 +186,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
     if(length(x) !=length(lower) | length(lower) != length(upper))
       stop("vectors must have the same length")
     arrows(x, upper, x, lower, angle = 90, code = 3, length = length, ...)
-    }
+  }
 
   #####
   # No projection
@@ -231,9 +231,9 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
       hp_lcl <- hp_mean - (2 * hp_se)
 
       ## Figure
-    if (missing(factors.col)) {
-      factors.col <- "#E6E6E6"
-    }
+      if (missing(factors.col)) {
+        factors.col <- "#E6E6E6"
+      }
 
       par(mar = c(4.5,4.5,0.5,0.5), cex = 1.2)
       barx <- barplot(hp_mean, ylim = c(0, 100), border = "gray25", space = 1.6,
@@ -469,18 +469,18 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
         }
       }
 
-      if (length(time_hp_mean) == 0 & missing(current) & exists("cal_hp_mean")) {
+      if (!exists("time_hp_mean") & !exists("cur_hp_mean") & !exists("cal_hp_mean")) {
         stop(paste("None of the areas where the models were projected to has at least two sources of",
                    "\nvariation with contribution of more than one class."))
       }
 
-      if (!missing(time.periods) | !missing(emi.scenarios) | !missing(clim.models)) {
+      if (exists("time_hp_mean")) {
         ## Preparing data for figures
         time_hp_mean <- do.call(rbind, time_hp_mean)
         time_hp_lcu <- do.call(rbind, time_hp_lcu)
         time_hp_lcl <- do.call(rbind, time_hp_lcl)
 
-        if (missing(current) & exists("cal_hp_mean")) {
+        if (!exists("cur_hp_mean") & exists("cal_hp_mean")) {
           cal_hp_mean <- c(cal_hp_mean, rep(0, (dim(time_hp_mean)[2] - 2)))
           cal_hp_lcu <- c(cal_hp_lcu, rep(0, (dim(time_hp_mean)[2] - 2)))
           cal_hp_lcl <- c(cal_hp_lcl, rep(0, (dim(time_hp_mean)[2] - 2)))
@@ -492,14 +492,14 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
           colnames(hp_lcu) <- colnames(time_hp_lcu)
           colnames(hp_lcl) <- colnames(time_hp_lcl)
 
-          if (!missing(time.periods)) {
-            time_names <- paste("Projection in time", time.periods)
+          if (missing(time.periods)) {
+            time_names <- paste("Projection in time", timeps)
             area_names <- c("Calibration area", time_names)
           }else {
             area_names <- c("Calibration area", "Projection in time")
           }
         }
-        if (!missing(current) & exists("cal_hp_mean")) {
+        if (exists("cur_hp_mean") & exists("cal_hp_mean")) {
           cal_hp_mean <- c(cal_hp_mean, rep(0, (dim(time_hp_mean)[2] - 2)))
           cal_hp_lcu <- c(cal_hp_lcu, rep(0, (dim(time_hp_mean)[2] - 2)))
           cal_hp_lcl <- c(cal_hp_lcl, rep(0, (dim(time_hp_mean)[2] - 2)))
@@ -515,8 +515,8 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
           colnames(hp_lcu) <- colnames(time_hp_lcu)
           colnames(hp_lcl) <- colnames(time_hp_lcl)
 
-          if (!missing(time.periods)) {
-            time_names <- paste("Projection in time", time.periods)
+          if (missing(time.periods)) {
+            time_names <- paste("Projection in time", timeps)
             area_names <- c("Calibration area", "Current projection", time_names)
           }else {
             area_names <- c("Calibration area", "Current projection", "Projection in time")
@@ -524,7 +524,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
 
         }
 
-        if (!missing(current) & !exists("cal_hp_mean")) {
+        if (exists("cur_hp_mean") & !exists("cal_hp_mean")) {
           cur_hp_mean <- c(cur_hp_mean, rep(0, (dim(time_hp_mean)[2] - 2)))
           cur_hp_lcu <- c(cur_hp_lcu, rep(0, (dim(time_hp_mean)[2] - 2)))
           cur_hp_lcl <- c(cur_hp_lcl, rep(0, (dim(time_hp_mean)[2] - 2)))
@@ -536,15 +536,15 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
           colnames(hp_lcu) <- colnames(time_hp_lcu)
           colnames(hp_lcl) <- colnames(time_hp_lcl)
 
-          if (!missing(time.periods)) {
-            time_names <- paste("Projection in time", time.periods)
+          if (missing(time.periods)) {
+            time_names <- paste("Projection in time", timeps)
             area_names <- c("Current projection", time_names)
           }else {
             area_names <- c("Current projection", "Projection in time")
           }
         }
 
-        if (missing(current) & !exists("cal_hp_mean")) {
+        if (!exists("cur_hp_mean") & !exists("cal_hp_mean")) {
           hp_mean <- time_hp_mean
           hp_lcu <-  time_hp_lcu
           hp_lcl <- time_hp_lcl
@@ -552,36 +552,36 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
           colnames(hp_lcu) <- colnames(time_hp_lcu)
           colnames(hp_lcl) <- colnames(time_hp_lcl)
 
-          if (!missing(time.periods)) {
-            time_names <- paste("Projection in time", time.periods)
+          if (missing(time.periods)) {
+            time_names <- paste("Projection in time", timeps)
             area_names <- time_names
           }else {
             area_names <- "Projection in time"
           }
         }
       }else {
-        if (missing(current) & exists("cal_hp_mean")) {
+        if (!exists("cur_hp_mean") & exists("cal_hp_mean")) {
           hp_mean <- cal_hp_mean
           hp_lcu <- cal_hp_lcu
           hp_lcl <- cal_hp_lcl
 
           area_names <- c("Calibration area")
         }
-        if (!missing(current) & exists("cal_hp_mean")) {
+        if (exists("cur_hp_mean") & exists("cal_hp_mean")) {
           hp_mean <- rbind(cal_hp_mean, cur_hp_mean)
           hp_lcu <- rbind(cal_hp_lcu, cur_hp_lcu)
           hp_lcl <- rbind(cal_hp_lcl, cur_hp_lcl)
 
           area_names <- c("Calibration area", "Current projection")
         }
-        if (!missing(current) & !exists("cal_hp_mean")) {
+        if (exists("cur_hp_mean") & !exists("cal_hp_mean")) {
           hp_mean <- cur_hp_mean
           hp_lcu <- cur_hp_lcu
           hp_lcl <- cur_hp_lcl
 
           area_names <- c("Current projection")
         }
-        if (missing(current) & !exists("cal_hp_mean")) {
+        if (!exists("cur_hp_mean") & !exists("cal_hp_mean")) {
           stop(paste("None of the areas where the models were projected to has at least two sources of",
                      "\nvariation with contribution of more than one class."))
         }
@@ -593,21 +593,21 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
       }
 
       suppressWarnings({
-      par(mar = c(4.5,4.5,0.5,0.5), cex = 1.2)
-      barx <- barplot(hp_mean, ylim = c(0, 100), border = "gray25",
-                      main = NULL, xlab = "", ylab = "", las = 1,
-                      beside = TRUE, col = factors.col)
+        par(mar = c(4.5,4.5,0.5,0.5), cex = 1.2)
+        barx <- barplot(hp_mean, ylim = c(0, 100), border = "gray25",
+                        main = NULL, xlab = "", ylab = "", las = 1,
+                        beside = TRUE, col = factors.col)
 
-      title(xlab = "Sources of variation", ylab = "Total effects (%)", cex.lab = 1.2)
-      legend("topright", legend = "Means and 95% CIs for  ", bty = "n", cex = 0.9,
-             inset = -0.01)
-      legend("topright", legend = area_names, pch = 22, col = "gray25", pt.bg = factors.col,
-             bty = "n", cex = 0.9, inset = 0.03)
+        title(xlab = "Sources of variation", ylab = "Total effects (%)", cex.lab = 1.2)
+        legend("topright", legend = "Means and 95% CIs for  ", bty = "n", cex = 0.9,
+               inset = -0.01)
+        legend("topright", legend = area_names, pch = 22, col = "gray25", pt.bg = factors.col,
+               bty = "n", cex = 0.9, inset = 0.03)
 
-      box(bty = "l")
-      error_whiskers(x = barx, upper = hp_lcu, lower = hp_lcl)
+        box(bty = "l")
+        error_whiskers(x = barx, upper = hp_lcu, lower = hp_lcl)
 
-      ## Saving the figure
+        ## Saving the figure
 
         jpeg(paste(var_folders[i], "Hier_par_results.jpg", sep = "/"), width = 166,
              height = 166, units = "mm", res = 600) #image to be saved
