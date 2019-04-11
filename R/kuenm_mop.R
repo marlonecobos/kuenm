@@ -49,7 +49,10 @@ kuenm_mop <- function(M.stack, G.stack, percent = 10, comp.each = 2000, parallel
   g_naIDs <- attr(g_noNA, "na.action")
 
   ids_raster <- 1:dim(gValues)[1]
-  ids_raster <- ids_raster[- g_naIDs]
+  if (!is.null(g_naIDs)) {
+    ids_raster <- ids_raster[-g_naIDs]
+  }
+
   m1 <- m_noNA
   m2 <- g_noNA
 
