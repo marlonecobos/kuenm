@@ -6,9 +6,10 @@
 \usage{
 kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
   rep.type = "Bootstrap", jackknife = FALSE, out.dir,
-  out.format = "logistic", project = FALSE, G.var.dir,
-  ext.type = "all", write.mess = FALSE, write.clamp = FALSE,
-  maxent.path, args = NULL, wait = TRUE, run = TRUE)
+  max.memory = 1000, out.format = "logistic", project = FALSE,
+  G.var.dir, ext.type = "all", write.mess = FALSE,
+  write.clamp = FALSE, maxent.path, args = NULL, wait = TRUE,
+  run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -28,6 +29,8 @@ datasets are placed.}
 
 \item{out.dir}{(character) name of the output directory to be created and in which all model subdirectories
 will be created.}
+
+\item{max.memory}{(numeric) maximum memory (in megabytes) to be used by maxent while creating the models. Default = 1000.}
 
 \item{out.format}{(character) the model output format; it can be: "raw", "logistic", "cloglog", or "cumulative".}
 

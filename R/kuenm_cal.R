@@ -9,6 +9,7 @@
 #' @param M.var.dir (character) is the name of the folder containing other folders with different sets of environmental variables.
 #' @param batch (character) name of the batch file (bash for Unix) with the code to create all candidate models.
 #' @param out.dir (character) name of the folder that will contain all calibration model subfolders.
+#' @param max.memory (numeric) maximum memory (in megabytes) to be used by maxent while creating the models. Default = 1000.
 #' @param reg.mult (numeric vector) regularization multiplier(s) to be evaluated.
 #' @param f.clas (character) feature clases can be selected from five different combination sets or manually.
 #' Combination sets are: "all", "basic", "no.t.h", "no.h", and "no.t". Default = "all".
@@ -61,9 +62,8 @@
 #'           out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
 #'           maxent.path = maxent_path, wait = wait, run = run)
 
-kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
-                      f.clas = "all", background = 10000, maxent.path, wait = TRUE,
-                      run = TRUE) {
+kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, max.memory = 1000, reg.mult,
+                      f.clas = "all", background = 10000, maxent.path, wait = TRUE, run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -186,7 +186,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
   out.dir <- gsub("/", dl, paste(getwd(), out.dir, sep = sl))
 
   #Getting ram to be used
-  ram <- paste("-mx", (round((get_free_ram()/1000)*0.25)), "m", sep = "")
+  ram <- paste("-mx", max.memory, "m", sep = "")
 
   #Fixed commands
   ##Intitial command

@@ -4,9 +4,9 @@
 \alias{kuenm_cal}
 \title{Creation of candidate models for calibration}
 \usage{
-kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
-  f.clas = "all", background = 10000, maxent.path, wait = TRUE,
-  run = TRUE)
+kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir,
+  max.memory = 1000, reg.mult, f.clas = "all", background = 10000,
+  maxent.path, wait = TRUE, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.}
@@ -18,6 +18,8 @@ kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, reg.mult,
 \item{batch}{(character) name of the batch file (bash for Unix) with the code to create all candidate models.}
 
 \item{out.dir}{(character) name of the folder that will contain all calibration model subfolders.}
+
+\item{max.memory}{(numeric) maximum memory (in megabytes) to be used by maxent while creating the models. Default = 1000.}
 
 \item{reg.mult}{(numeric vector) regularization multiplier(s) to be evaluated.}
 

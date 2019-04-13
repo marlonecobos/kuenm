@@ -13,6 +13,7 @@
 #' @param jackknife (logical) if TRUE, a jackknife process is performed while runing Maxent models, default = FALSE.
 #' @param out.dir (character) name of the output directory to be created and in which all model subdirectories
 #' will be created.
+#' @param max.memory (numeric) maximum memory (in megabytes) to be used by maxent while creating the models. Default = 1000.
 #' @param out.format (character) the model output format; it can be: "raw", "logistic", "cloglog", or "cumulative".
 #' @param project (logical) if TRUE, your models will be projected to scenarios in G.var.dir, default = FALSE.
 #' @param G.var.dir (character) if project is TRUE, name of the folder containing folders in which variables of
@@ -67,9 +68,9 @@
 #'           maxent.path = maxent_path, args = args, wait = wait1, run = run1)
 
 kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
-                      jackknife = FALSE, out.dir, out.format = "logistic", project = FALSE, G.var.dir,
-                      ext.type = "all", write.mess = FALSE, write.clamp = FALSE, maxent.path,
-                      args = NULL, wait = TRUE, run = TRUE) {
+                      jackknife = FALSE, out.dir, max.memory = 1000, out.format = "logistic",
+                      project = FALSE, G.var.dir, ext.type = "all", write.mess = FALSE,
+                      write.clamp = FALSE, maxent.path, args = NULL, wait = TRUE, run = TRUE) {
 
   #Checking potential issues
   if (!file.exists(occ.joint)) {
@@ -153,7 +154,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   out.dir <- gsub("/", dl, paste(getwd(), out.dir, sep = sl))
 
   #Defining maximum ram to be used (50% of free memory)
-  ram <- paste("-mx", (round((get_free_ram()/1000)*0.25)), "m", sep = "")
+  ram <- paste("-mx", max.memory, "m", sep = "")
 
   #####
   #Maxent settings
