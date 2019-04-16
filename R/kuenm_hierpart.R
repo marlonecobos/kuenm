@@ -224,7 +224,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
       names(hp_mean) <- colnames(hp_res)
 
       hp_se <- apply(hp_res, 2, function(x){
-        sd(apply(matrix(sample(x, size = length(x) * 500, replace = TRUE), 1000, length(x) / 2),
+        sd(apply(matrix(sample(x, size = length(x) * 1000, replace = TRUE), 1000, length(x)),
                  1, mean))
       })
       hp_lcu <- hp_mean + (2 * hp_se)
@@ -310,7 +310,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
         names(cal_hp_mean) <- colnames(hp_res)
 
         cal_hp_se <- apply(hp_res, 2, function(x){
-          sd(apply(matrix(sample(x, size = length(x) * 500, replace = TRUE), 1000, length(x) / 2),
+          sd(apply(matrix(sample(x, size = length(x) * 1000, replace = TRUE), 1000, length(x)),
                    1, mean))
         })
         cal_hp_lcu <- cal_hp_mean + (2 * cal_hp_se)
@@ -348,7 +348,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
           names(cur_hp_mean) <- colnames(hp_res)
 
           cur_hp_se <- apply(hp_res, 2, function(x){
-            sd(apply(matrix(sample(x, size = length(x) * 500, replace = TRUE), 1000, length(x) / 2),
+            sd(apply(matrix(sample(x, size = length(x) * 1000, replace = TRUE), 1000, length(x)),
                      1, mean))
           })
           cur_hp_lcu <- cur_hp_mean + (2 * cur_hp_se)
@@ -454,7 +454,7 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
             names(time_hp_mean[[j]]) <- colnames(hp_res)
 
             time_hp_se <- apply(hp_res, 2, function(x){
-              sd(apply(matrix(sample(x, size = length(x) * 500, replace = TRUE), 1000, length(x) / 2),
+              sd(apply(matrix(sample(x, size = length(x) * 1000, replace = TRUE), 1000, length(x)),
                        1, mean))
             })
             time_hp_lcu[[j]] <- time_hp_mean[[j]] + (2 * time_hp_se)
