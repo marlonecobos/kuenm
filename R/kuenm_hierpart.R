@@ -50,8 +50,8 @@
 #' effects of the sourcen of variation on the total variance of the models. The plot will return to the
 #' plot window as well. All results will be written inside \code{out.dir}.
 #'
-#' @details If any of the potential sources of variation is equal to one (e.g., only one parameter, or
-#' only one climate model), this source of variation will not be considered.
+#' @details If the length of any of the potential sources of variation is equal to one (e.g., only one parameter,
+#' or only one climate model), this source of variation will not be considered.
 #'
 #' Error whiskers in resultant plots represent the 95% Confidence Interval of the mean. This interval is
 #' calculated using a bootstrap approach.

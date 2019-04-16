@@ -77,8 +77,8 @@ replicates, parameterizations, general circulation models (GCMs), and emission s
 The last two considered only when projections in time are performed.
 }
 \details{
-If any of the potential sources of variation is equal to one (e.g., only one parameter, or
-only one climate model), this source of variation will not be considered.
+If the length of any of the potential sources of variation is equal to one (e.g., only one parameter,
+or only one climate model), this source of variation will not be considered.
 
 Error whiskers in resultant plots represent the 95% Confidence Interval of the mean. This interval is
 calculated using a bootstrap approach.
