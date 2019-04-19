@@ -33,6 +33,7 @@
 #' @details
 #' If \code{var.scale} = TRUE, variables are centered to cero and scaled using \code{\link[base]{scale}}.
 #'
+#' @export
 #'
 #' @examples
 #' # Data
@@ -203,7 +204,7 @@ kuenm_rpca <- function(variables, in.format, var.scale = TRUE, write.result = TR
       ppcras <- list()
 
       p_stackp <- na.omit(raster::values(p_stack))
-      names(p_stackp) <- names(pca[[4]])
+      colnames(p_stackp) <- names(pca[[4]])
       p_pcs <- predict(pca, newdata = p_stackp)
 
       for (i in 1:n.pcs) {

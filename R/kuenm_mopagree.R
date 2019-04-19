@@ -27,6 +27,8 @@
 #' must be part of the mop layer names so the function can locate each file without problems.
 #' This function uses this system of work to avoid high demands of RAM while perfomring these analyses.
 #'
+#' @export
+#'
 #' @examples
 #' # MOP layers must be already created before using this function.
 #'
