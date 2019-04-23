@@ -58,27 +58,21 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
     stop(paste("Logical argument replicates is not defined, this is necessary for",
                "\nselecting the layer that will be evaluated; it can be TRUE or FALSE."))
   }
+  if (missing(project)) {
+    stop(paste("Logical argument project is not defined, this is necessary for finding",
+               "\nthe parameters of models that will be evaluated; it can be TRUE or FALSE."))
+  }
 
   #####
   #Data
-  ##Source of initial information for model evaluation
-  fmodels <- dir(path)
-
   ###Model(s) for evaluation
-  fm <- strsplit(fmodels, split = "_")
-
-  fms <- vector()
-  for (i in 1:length(fm)) {
-    fms[i] <- paste(fm[[i]][-length(fm[[i]])], collapse = "_")
-  }
-
-  u_fmodels <- vector()
-  for (i in 1:length(unique(fms))) {
-    u_fmodels[i] <- dir(path, pattern = unique(fms)[i], full.names = TRUE)[1]
-  }
+  u_fmodels <- dir(path, full.names = TRUE)
+  u_fmodels <- gsub("_E$", "", u_fmodels)
+  u_fmodels <- gsub("_EC$", "", u_fmodels)
+  u_fmodels <- unique(gsub("_NE$", "", u_fmodels))
 
   ###Names of the models to be evaluated
-  mod_nam <- unique(fms)
+  mod_nam <- dir(path)
 
   ##Joint set and independent occurrences
   occ <- read.csv(occ.joint) #read joint occurrences
