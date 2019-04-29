@@ -476,7 +476,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   ##Preparing the table
   r_names <- c("All candidate models", "Statistically significant models", "Models meeting omission rate criteria",
                "Models meeting AICc criteria", "Statistically significant models meeting omission rate criteria",
-               "Statistically significant models meeting AICc critera",
+               "Statistically significant models meeting AICc criteria",
                "Statistically significant models meeting omission rate and AICc criteria")
   statis <- c(length(ku_enm_eval[, 1]),
               length(ku_enm_sign[, 3]),
