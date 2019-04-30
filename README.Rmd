@@ -141,7 +141,8 @@ batch_cal <- "Candidate_models"
 out_dir <- "Candidate_Models"
 reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- "all"
-background <- 10000
+args <- NULL # e.g., "maximumbackground=20000" for increasing the number of pixels in the bacground or
+             # note that some arguments are fixed in the function and should not be changed
 maxent_path <- "YOUR/DIRECTORY/ku.enm_example_data/A_americanum"
 wait <- FALSE
 run <- TRUE
@@ -149,7 +150,7 @@ run <- TRUE
 
 ```{r, eval=FALSE, include=TRUE}
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
-          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, args = args,
           maxent.path = maxent_path, wait = wait, run = run)
 ```
 

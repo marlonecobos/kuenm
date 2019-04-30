@@ -58,7 +58,7 @@ batch_cal <- \"Candidate_models\"
 out_dir <- \"Candidate_Models\"
 reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- \"all\"
-background <- 10000
+args <- NULL
 maxent_path <- \"YOUR/DIRECTORY\"
 wait <- FALSE
 run <- TRUE
@@ -70,7 +70,7 @@ The following is the code for using the function.
 
 \```{r, eval=FALSE}
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
-          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, args = args,
           maxent.path = maxent_path, wait = wait, run = run)
 \```
 
