@@ -5,7 +5,7 @@
 \title{Creation of candidate models for calibration}
 \usage{
 kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir,
-  max.memory = 1000, reg.mult, f.clas = "all", background = 10000,
+  max.memory = 1000, reg.mult, f.clas = "all", args = NULL,
   maxent.path, wait = TRUE, run = TRUE)
 }
 \arguments{
@@ -28,7 +28,9 @@ Combination sets are: "all", "basic", "no.t.h", "no.h", and "no.t". Default = "a
 basic = "l", "lq", "lqp", "lqpt", "lqpth". Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h.
 See details for all the available potential combinations of feature classes.}
 
-\item{background}{(numeric) the numer of pixels be used as background when creating the maxent models.}
+\item{args}{(character) additional arguments that can be passed to Maxent. See the Maxent help for more information
+on how to write these arguments, default = NULL. Note that some arguments cannot be changed here because they are
+part of the parameters of the function already (e.g., "betamultiplier" or "plots"). See details for other options.}
 
 \item{maxent.path}{(character) the path were the maxent.jar file is in your computer.}
 
@@ -61,6 +63,64 @@ t = threshold, and h = hinge.
 "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
 "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
 "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
+
+The way to include further arguments is as follows: \code{args} = "maximumbackground=20000 biasfile=bias.asc".
+
+Note: If a file is in a subfolder it needs to include the path, for instance: \code{args} = "biasfile=folder\bias.asc"
+in windows, or \code{args} = "biasfile=folder/bias.asc" in Unix based computers. If the path contains spaces the way to
+write it is: \code{args} = "biasfile=\"folder data\bias.asc\"" in windows, or \code{args} = "biasfile=\"folder data/bias.asc\""
+in Unix based computers.
+
+Other options that can be included in \code{args} are:
+
+Flag | Abbrv | Type | Default | Meaning
+
+maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number,
+                                           then this number of cells is chosen randomly for background points.
+
+togglelayertype | t | string |  | Toggle continuous/categorical for environmental layers whose names begin with this prefix
+                                  (default: all continuous).
+
+biasfile |  | file |  | Sampling is assumed to be biased according to the sampling distribution given in this grid file.
+                        Values in this file must not be zero or negative. MaxEnt will factor out the bias.
+
+writebackgroundpredictions |  | boolean | FALSE | Write .csv file with predictions at background points.
+
+maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
+
+convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.
+
+threads |  | integer | 1 | Number of processor threads to use. Matching this number to the number of cores on your computer
+                           speeds up some operations, especially variable jackknifing.
+
+logfile |  | string | maxent.log | File name to be used for writing debugging information about a run in output directory.
+
+cache |  | boolean | TRUE | Make a .mxe cached version of ascii files, for faster access.
+
+defaultprevalence |  | double | 0.5 | Default prevalence of the species: probability of presence at ordinary occurrence points.
+                                      See Elith et al., Diversity and Distributions, 2011 for details.
+
+
+
+Other more advanced arguments are (use these ones only if you understand them completely):
+
+lq2lqptthreshold |  | integer | 80 | Number of samples at which product and threshold features start being used.
+
+l2lqthreshold |  | integer | 10 | Number of samples at which quadratic features start being used.
+
+hingethreshold |  | integer | 15 | Number of samples at which hinge features start being used.
+
+beta_threshold |  | double | -1 | Regularization parameter to be applied to all threshold features; negative value enables
+                                  automatic setting.
+
+beta_categorical |  | double | -1 | Regularization parameter to be applied to all categorical features; negative value enables
+                                    automatic setting.
+
+beta_lqp |  | double | -1 | Regularization parameter to be applied to all linear, quadratic and product features; negative
+                            value enables automatic setting.
+
+beta_hinge |  | double | -1 | Regularization parameter to be applied to all hinge features; negative value enables automatic
+                              setting.
 }
 \examples{
 # To replicate this example dowload the data from the following link:
@@ -74,12 +134,11 @@ batch_cal <- "Candidate_models"
 out_dir <- "Candidate_Models"
 reg_mult <- c(seq(0.1, 1, 0.1), seq(2, 6, 1), 8, 10)
 f_clas <- "all"
-background <- 10000
 maxent_path <- "YOUR/DIRECTORY/WITH/MAXENT"
 wait <- FALSE
 run <- TRUE
 
 kuenm_cal(occ.joint = occ_joint, occ.tra = occ_tra, M.var.dir = M_var_dir, batch = batch_cal,
-          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, background = background,
-          maxent.path = maxent_path, wait = wait, run = run)
+          out.dir = out_dir, reg.mult = reg_mult, f.clas = f_clas, maxent.path = maxent_path,
+          wait = wait, run = run)
 }

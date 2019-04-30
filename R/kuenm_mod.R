@@ -26,7 +26,7 @@
 #' @param maxent.path (character) the path were the maxent.jar file is in your computer.
 #' @param args (character) additional arguments that can be passed to Maxent. See the Maxent help for more information
 #' on how to write these arguments, default = NULL. Note that some arguments cannot be changed here because they are
-#' part of the parameters of the function already (e.g., "writemess").
+#' part of the parameters of the function already (e.g., "writemess"). See details for other options.
 #' @param wait (logical) if TRUE R will wait until all the Maxent models are created. If FALSE the process of
 #' model creation will be performed separately and R could be used at the same time. This may be useful for evaluating
 #' candidate models parallelly. Default = TRUE.
@@ -37,6 +37,76 @@
 #' (.sh for Unix). A batch file (bash for Unix) for creating all the final Maxent models with their projections if project = TRUE.
 #'
 #' @details Same requirements regarding Java and maxent than in \code{\link{kuenm_cal}}.
+#'
+#' The way to include further arguments is as follows: \code{args} = "maximumbackground=20000 biasfile=bias.asc".
+#'
+#' Note: If a file is in a subfolder it needs to include the path, for instance: \code{args} = "biasfile=folder\bias.asc"
+#' in windows, or \code{args} = "biasfile=folder/bias.asc" in Unix based computers. If the path contains spaces the way to
+#' write it is: \code{args} = "biasfile=\"folder data\bias.asc\"" in windows, or \code{args} = "biasfile=\"folder data/bias.asc\""
+#' in Unix based computers.
+#'
+#' Other options that can be included in \code{args} are:
+#'
+#' Flag | Abbrv | Type | Default | Meaning
+#'
+#' maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number,
+#'                                            then this number of cells is chosen randomly for background points.
+#'
+#' togglelayertype | t | string |  | Toggle continuous/categorical for environmental layers whose names begin with this prefix
+#'                                   (default: all continuous).
+#'
+#' biasfile |  | file |  | Sampling is assumed to be biased according to the sampling distribution given in this grid file.
+#'                         Values in this file must not be zero or negative. MaxEnt will factor out the bias.
+#'
+#' writebackgroundpredictions |  | boolean | FALSE | Write .csv file with predictions at background points.
+#'
+#' applythresholdrule |  | string |  | Apply a threshold rule, generating a binary output grid in addition to the regular
+#'                                     prediction grid. Use the full name of the threshold rule in Maxent's html output as
+#'                                     the argument. For example, 'applyThresholdRule=Fixed cumulative value 1'.
+#'
+#' outputfiletype |  | string | asc | File format used for writing output grids.
+#'
+#' outputgrids | x | boolean | TRUE | Write output grids. Turning this off when doing replicate runs causes only the summary
+#'                                    grids (average, std deviation etc.) to be written, not those for the individual runs.
+#'
+#' plots |  | boolean | TRUE | Write various plots for inclusion in .html output.
+#'
+#' maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
+#'
+#' convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.
+#'
+#' threads |  | integer | 1 | Number of processor threads to use. Matching this number to the number of cores on your computer
+#'                            speeds up some operations, especially variable jackknifing.
+#'
+#' logfile |  | string | maxent.log | File name to be used for writing debugging information about a run in output directory.
+#'
+#' cache |  | boolean | TRUE | Make a .mxe cached version of ascii files, for faster access.
+#'
+#' defaultprevalence |  | double | 0.5 | Default prevalence of the species: probability of presence at ordinary occurrence points.
+#'                                       See Elith et al., Diversity and Distributions, 2011 for details.
+#'
+#'
+#'
+#' Other more advanced arguments are (use these ones only if you understand them completely):
+#'
+#' lq2lqptthreshold |  | integer | 80 | Number of samples at which product and threshold features start being used.
+#'
+#' l2lqthreshold |  | integer | 10 | Number of samples at which quadratic features start being used.
+#'
+#' hingethreshold |  | integer | 15 | Number of samples at which hinge features start being used.
+#'
+#' beta_threshold |  | double | -1 | Regularization parameter to be applied to all threshold features; negative value enables
+#'                                   automatic setting.
+#'
+#' beta_categorical |  | double | -1 | Regularization parameter to be applied to all categorical features; negative value enables
+#'                                     automatic setting.
+#'
+#' beta_lqp |  | double | -1 | Regularization parameter to be applied to all linear, quadratic and product features; negative
+#'                             value enables automatic setting.
+#'
+#' beta_hinge |  | double | -1 | Regularization parameter to be applied to all hinge features; negative value enables automatic
+#'                               setting.
+#'
 #' @export
 #'
 #' @examples
