@@ -64,12 +64,10 @@ t = threshold, and h = hinge.
 "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
 "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
 
-The way to include further arguments is as follows: \code{args} = "maximumbackground=20000 biasfile=bias.asc".
-
-Note: If a file is in a subfolder it needs to include the path, for instance: \code{args} = "biasfile=folder\bias.asc"
-in windows, or \code{args} = "biasfile=folder/bias.asc" in Unix based computers. If the path contains spaces the way to
-write it is: \code{args} = "biasfile=\"folder data\bias.asc\"" in windows, or \code{args} = "biasfile=\"folder data/bias.asc\""
-in Unix based computers.
+The way to include further arguments is as follows: \code{args} = "biasfile=COMPLETE_PATH\bias.asc biastype=3"
+in windows, or \code{args} = "biasfile=COMPLETE_PATH/bias.asc biastype=3" in Unix based computers. If the path
+contains spaces the way to write it is: \code{args} = "biasfile=\"COMPLETE PATH\bias.asc\"  biastype=3" in windows,
+or \code{args} = "biasfile=\"COMPLETE PATH/bias.asc\" biastype=3" in Unix based systems.
 
 Other options that can be included in \code{args} are:
 
@@ -82,7 +80,13 @@ togglelayertype | t | string |  | Toggle continuous/categorical for environmenta
                                   (default: all continuous).
 
 biasfile |  | file |  | Sampling is assumed to be biased according to the sampling distribution given in this grid file.
-                        Values in this file must not be zero or negative. MaxEnt will factor out the bias.
+                        Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend
+                        to create this file as a kernell density of geographic points representing all localities
+                        were samplings of similar organisms have been performed. IMPORTANT: A biasfile must be included
+                        with its entire path, as described above.
+
+biastype |  | integer |  | If biasfile is defined, this integer needs to be definef depending on the type of bias added.
+                           If the bias file is prepared as recomended, biastype=3.
 
 writebackgroundpredictions |  | boolean | FALSE | Write .csv file with predictions at background points.
 
