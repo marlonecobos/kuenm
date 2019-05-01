@@ -71,9 +71,9 @@ parameters previously selected with the \code{\link{kuenm_ceval}} function.
 \details{
 Same requirements regarding Java and maxent than in \code{\link{kuenm_cal}}.
 
-The way to include further arguments is as follows: \code{args} = "biasfile=COMPLETE_PATH\bias.asc biastype=3"
-in windows, or \code{args} = "biasfile=COMPLETE_PATH/bias.asc biastype=3" in Unix based computers. If the path
-contains spaces the way to write it is: \code{args} = "biasfile=\"COMPLETE PATH\bias.asc\"  biastype=3" in windows,
+The way to include further arguments is as follows: \code{args} = "biasfile=COMPLETE_PATH\\bias.asc biastype=3"
+in windows, or \code{args} = "biasfile=COMPLETE_PATH/bias.asc biastype=3" in Unix based systems. If the path
+contains spaces the way to write it is: \code{args} = "biasfile=\"COMPLETE PATH\\bias.asc\"  biastype=3" in windows,
 or \code{args} = "biasfile=\"COMPLETE PATH/bias.asc\" biastype=3" in Unix based systems.
 
 Other options that can be included in \code{args} are:
@@ -89,8 +89,9 @@ togglelayertype | t | string |  | Toggle continuous/categorical for environmenta
 biasfile |  | file |  | Sampling is assumed to be biased according to the sampling distribution given in this grid file.
                         Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend
                         to create this file as a kernell density of geographic points representing all localities
-                        were samplings of similar organisms have been performed. IMPORTANT: A biasfile must be included
-                        with its entire path, as described above.
+                        were samplings of similar organisms have been performed (multiply this layer by 1000 and round it
+                        to reduce number of decimals). IMPORTANT: A biasfile must be included with its entire path,
+                        as indicated above above.
 
 biastype |  | integer |  | If biasfile is defined, this integer needs to be definef depending on the type of bias added.
                            If the bias file is prepared as recomended, biastype=3.
