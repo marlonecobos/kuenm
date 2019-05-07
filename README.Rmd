@@ -36,8 +36,6 @@ Before starting the analyses, the user must make sure that the working directory
 * A csv file containing species occurrence data for testing models as part of the calibration process (i.e., Sp_test.csv in Figure 1).
 * If available, a csv file containing a completely independent subset of occurrence data&mdash;external to training and testing data&mdash;for a final, formal model evaluation. This dataset (i.e., for final model evaluation) is given as Sp_ind.csv in Figure 1. 
 
-A crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, for Windows users, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it see <a href="http://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/#1" target="_blank">this guide</a>.
-
 <br>
 
 ```{r Fig.1, echo=FALSE, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, fig.cap="Figure 1. Directory structure and data for starting processing, as well as directory structure when the processes finish using the kuenm R package. Background colors represent data necessary before starting the analyses (blue) and data generated after the following steps: running the start function (yellow), creating candidate models (lighter green), evaluating candidate models (purple), preparing projection layers (light orange), generating final models and its projections (light gray), evaluating final models with independent data (brown), and analyzing extrapolation risks in projection areas or scenarios (darker green)."}
@@ -50,7 +48,7 @@ knitr::include_graphics("Structure.png")
 
 ### Installing the package
 
-The **kuenm** R package is in a GitHub repository and can be installed and/or loaded using the following code (make sure to have Internet connection). 
+The **kuenm** R package is in a GitHub repository and can be installed and/or loaded using the following code (make sure to have Internet connection). To warranty the package functionality, a crucial requirement is to have the maxent.jar application in any user-defined directory (we encourage you to maintain it in a fixed directory). This software is available in the <a href="https://biodiversityinformatics.amnh.org/open_source/maxent/" target="_blank">Maxent repository</a>. Another important requirement for using Maxent and therefore the kuenm package is to have the Java Development Kit installed. The Java Development Kit is available in <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">this repository</a>. Finally, for Windows users, Rtools needs to be installed in the computer; it is important that this software is added to the PATH. For instructions on how to download and install it see <a href="http://jtleek.com/modules/01_DataScientistToolbox/02_10_rtools/#1" target="_blank">this guide</a>. Users of other operative systems may need to install other compiling tools.
 
 ```{r, eval=FALSE, include=TRUE}
 # Installing and loading packages
