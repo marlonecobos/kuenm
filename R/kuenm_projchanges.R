@@ -63,13 +63,6 @@
 kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.periods, emi.scenarios,
                               clim.models, ext.type, out.dir = "Projection_changes") {
 
-  # installing needed packages if required
-  # pcakages <- c("raster", "rgdal")
-  # req_packages <- pcakages[!(pcakages %in% installed.packages()[, "Package"])]
-  # if (length(req_packages) > 0) {
-  #  install.packages(req_packages, dependencies = TRUE)
-  #}
-
   cat("Preparing data for starting analyses, please wait...\n")
 
   if (missing(occ)) {
@@ -189,7 +182,6 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
         comp_models <- model_changes(calibration.model = calib, current.model = curre,
                                      fclim.models = escen, result = "continuous")
 
-
         ### Writing files
         raster::writeRaster(comp_models, filename = paste(in_folder, "continuous_comparison.tif",
                                                   sep = "/"), format = "GTiff")
@@ -211,7 +203,26 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
     }
     cat(paste(i, "of", length(ext_types), "complete processes\n"))
   }
-  cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+
+  # preparing description table
+  vals <- na.omit(unique(comp_models[]))
+  loss <- ceiling(max(vals)/2)
+
+  l_val <- c(loss, vals[vals > loss & vals != max(vals)])
+  g_val <- vals[vals < loss & vals != 0]
+
+  gains <- paste0("suitability gain in ", g_val, " GCMs")
+  losses <- paste0("suitability loss in ", max(vals) - l_val, " GCMs")
+
+  descriptions <- c("stable, unsuitable in current period and all GCMs", gains,
+                    losses, "stable, suitable in current period and all GCMs")
+
+  res_table <- data.frame(Raster_value = vals, Description = descriptions)
+
+  # writting desciption table
+  result_description(process = "kuenm_projchanges", result.table = res_table, out.dir = out.dir)
+
+  cat(paste("\nCheck your working directory:", getwd(), "\n", sep = "\t"))
 }
 
 #' Helper function to calculate model changes

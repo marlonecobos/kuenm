@@ -76,12 +76,6 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
                          emi.scenarios, clim.models, ext.type, split.length = 100,
                          out.dir = "Variation_from_sources") {
 
-  # pcakages <- c("raster", "rgdal")
-  # req_packages <- pcakages[!(pcakages %in% installed.packages()[, "Package"])]
-  # if (length(req_packages) > 0) {
-  #  install.packages(req_packages, dependencies = TRUE)
-  # }
-
   cat("Preparing data for starting analyses, please wait...\n")
 
   if (missing(sp.name)) {
@@ -380,7 +374,11 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
       cat(paste(i, "of", length(ext_types), "complete processes\n"))
     }
   }
-  cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+
+  # writting desciption
+  result_description(process = "kuenm_modvar", out.dir = out.dir)
+
+  cat(paste("\nCheck your working directory:", getwd(), "\n", sep = "\t"))
 }
 
 #' Helper function to calculate raster layers of model variance

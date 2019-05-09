@@ -186,5 +186,18 @@ kuenm_mopagree <- function(mop.dir, in.format, out.format = "GTiff", current,
     }
     cat(paste(i, "of", length(sets), "sets\n"))
   }
-  cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+
+  # preparing description table
+  vals <- na.omit(unique(a[]))
+
+  mopag <- paste0("Strict extrapolation in ", vals[-1], " GCMs")
+
+  descriptions <- c("No strict extrapolation", mopag)
+
+  res_table <- data.frame(Raster_value = vals, Description = descriptions)
+
+  # writting desciption table
+  result_description(process = "kuenm_mopagree", result.table = res_table, out.dir = out.dir)
+
+  cat(paste("\nCheck your working directory:", getwd(), sep = "\t"))
 }

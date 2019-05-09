@@ -636,5 +636,9 @@ kuenm_hierpart <- function(sp.name, fmod.dir, replicated, format = "asc", projec
       cat(paste(i, "of", length(ext_types), "complete processes\n"))
     }
   }
-  cat(paste("\nCheck your working directory!!!", getwd(), sep = "    "))
+
+  # writting desciption
+  result_description(process = "kuenm_hierpart", out.dir = out.dir)
+
+  cat(paste("\nCheck your working directory:", getwd(), sep = "\t"))
 }
