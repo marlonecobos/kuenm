@@ -301,7 +301,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
 
         if (missing(time.periods)) {
           timeper <- list(timep)
-          time.periods <- 1
+          timpe <- 1
         }else {
           timeper <- list()
           for (j in 1:length(time.periods)) {
@@ -314,7 +314,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
         }
 
         for (j in 1:length(timeper)) {
-          in_folder <- paste(var_folders[i], paste("Time", time.periods[j] ,"proj_area", sep = "_"), sep = "/")
+          in_folder <- paste(var_folders[i], paste("Time", timpe[j] ,"proj_area", sep = "_"), sep = "/")
           dir.create(in_folder)
 
           ### Var from replicates
@@ -324,7 +324,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
                                   source = "replicates", split.length = split.length)
 
             raster::writeRaster(cal_var, filename = paste(in_folder,
-                                                          paste("Time", time.periods[j],
+                                                          paste("Time", timpe[j],
                                                                 "var_replicates.tif", sep = "_"),
                                                           sep = "/"), format = "GTiff")
           }
@@ -336,7 +336,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
                                   source = "parameters", split.length = split.length)
 
             raster::writeRaster(cal_var, filename = paste(in_folder,
-                                                          paste("Time", time.periods[j],
+                                                          paste("Time", timpe[j],
                                                                 "var_parameters.tif", sep = "_"),
                                                           sep = "/"), format = "GTiff")
           }
@@ -349,7 +349,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
                                     source = "clim_models", split.length = split.length)
 
               raster::writeRaster(cal_var, filename = paste(in_folder,
-                                                            paste("Time", time.periods[j],
+                                                            paste("Time", timpe[j],
                                                                   "var_clim_models.tif", sep = "_"),
                                                             sep = "/"), format = "GTiff")
             }
@@ -363,12 +363,12 @@ kuenm_modvar <- function(sp.name, fmod.dir, replicated, format = "asc", project,
                                     source = "emi_scenarios", split.length = split.length)
 
               raster::writeRaster(cal_var, filename = paste(in_folder,
-                                                            paste("Time", time.periods[j],
+                                                            paste("Time", timpe[j],
                                                                   "var_emi_scenarios.tif", sep = "_"),
                                                             sep = "/"), format = "GTiff")
             }
           }
-          cat(paste(" ", j, "of", length(time.periods), "time periods\n"))
+          cat(paste(" ", j, "of", length(timpe), "time periods\n"))
         }
       }
       cat(paste(i, "of", length(ext_types), "complete processes\n"))
