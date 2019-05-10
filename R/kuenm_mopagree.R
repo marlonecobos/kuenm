@@ -188,7 +188,7 @@ kuenm_mopagree <- function(mop.dir, in.format, out.format = "GTiff", current,
   }
 
   # preparing description table
-  vals <- na.omit(unique(a[]))
+  vals <- sort(na.omit(unique(a[])))
 
   mopag <- paste0("Strict extrapolation in ", vals[-1], " GCMs")
 

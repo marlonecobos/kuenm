@@ -205,7 +205,7 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
   }
 
   # preparing description table
-  vals <- na.omit(unique(comp_models[]))
+  vals <- sort(na.omit(unique(comp_models[])))
   loss <- ceiling(max(vals)/2)
 
   l_val <- c(loss, vals[vals > loss & vals != max(vals)])
