@@ -58,10 +58,6 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
     stop(paste("Logical argument replicates is not defined, this is necessary for",
                "\nselecting the layer that will be evaluated; it can be TRUE or FALSE."))
   }
-  if (missing(project)) {
-    stop(paste("Logical argument project is not defined, this is necessary for finding",
-               "\nthe parameters of models that will be evaluated; it can be TRUE or FALSE."))
-  }
 
   #####
   #Data
