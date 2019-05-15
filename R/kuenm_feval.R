@@ -62,13 +62,10 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
   #####
   #Data
   ###Model(s) for evaluation
-  u_fmodels <- dir(path, full.names = TRUE)
+  u_fmodels <- dir(path)
   u_fmodels <- gsub("_E$", "", u_fmodels)
   u_fmodels <- gsub("_EC$", "", u_fmodels)
   u_fmodels <- unique(gsub("_NE$", "", u_fmodels))
-
-  ###Names of the models to be evaluated
-  mod_nam <- dir(path)
 
   ##Joint set and independent occurrences
   occ <- read.csv(occ.joint) #read joint occurrences
@@ -105,9 +102,13 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
                                              "% of the evaluation process has finished"))
     }
 
+    # Path to model for evaluation
+    pathm <- dir(path = path, pattern = u_fmodels[i], full.names = TRUE)
+    pathm <- pathm[length(pathm)]
+
     #Models to be evaluated
     if(replicates == TRUE) {
-      mods1 <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
+      mods1 <- list.files(pathm, pattern = paste(sp, "median.asc", sep = "_"),
                           full.names = TRUE) #ascii models
       mod1 <- try(raster::raster(mods1), silent = TRUE)
 
@@ -118,7 +119,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
                   silent = TRUE)
       proc_class <- class(proc)
       while (proc_class == "try-error") {
-        mods1 <- list.files(u_fmodels[i], pattern = paste(sp, "median.asc", sep = "_"),
+        mods1 <- list.files(pathm, pattern = paste(sp, "median.asc", sep = "_"),
                             full.names = TRUE) #ascii models
         mod1 <- try(raster::raster(mods1), silent = TRUE)
         proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
@@ -131,7 +132,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
         }
       }
     }else {
-      mods1 <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
+      mods1 <- list.files(pathm, pattern = paste0(sp, ".asc"),
                           full.names = TRUE) #ascii models
       mod1 <- try(raster::raster(mods1), silent = TRUE)
 
@@ -141,7 +142,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
                   silent = TRUE)
       proc_class <- class(proc)
       while (proc_class == "try-error") {
-        mods1 <- list.files(u_fmodels[i], pattern = paste(sp, ".asc", sep = "_"),
+        mods1 <- list.files(pathm, pattern = paste0(sp, ".asc"),
                             full.names = TRUE) #ascii models
         mod1 <- try(raster::raster(mods1), silent = TRUE)
         proc <- try(kuenm_proc(occ.test = occ1, model = mod1, threshold = threshold,
@@ -170,7 +171,7 @@ kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshol
   ##Creating final tables
   ###From pROC analyses
   proc_res1 <- do.call(rbind, proc_res) #joining tables of the pROC results
-  proc_res_m <- data.frame(mod_nam, proc_res1) #adding a new column with the number of AUC ratios interations < 1
+  proc_res_m <- data.frame(u_fmodels, proc_res1) #adding a new column with the number of AUC ratios interations < 1
 
   #####
   #Joining the results
