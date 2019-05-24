@@ -5,7 +5,7 @@
 #'
 #' @param occ_file (character) name of the csv file with all the occurrences; columns must be:
 #' species, longitude, latitude.
-#' @train.proportion (numeric) proportion (from 0 to 1) of data to be used as training
+#' @param train.proportion (numeric) proportion (from 0 to 1) of data to be used as training
 #' occurrences. The remaining data will be used for testing.
 #' @param method (character) method for selecting training and testing occurrences. Current
 #' option is "random".
@@ -59,7 +59,7 @@ kuenm_occsplit <- function(occ.file, train.proportion = 0.5, method = "random", 
 #'
 #' @param occ matrix or data.frame with the occurrences to be split. Columns may vary but
 #' species, longitude, and latitue are recommended.
-#' @train.proportion (numeric) proportion (from 0 to 1) of data to be used as training
+#' @param train.proportion (numeric) proportion (from 0 to 1) of data to be used as training
 #' occurrences. The remaining data will be used for testing.
 #'
 #' @return

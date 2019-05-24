@@ -8,6 +8,9 @@ kuenm_occsplit(occ.file, train.proportion = 0.5, method = "random",
   name = "occ")
 }
 \arguments{
+\item{train.proportion}{(numeric) proportion (from 0 to 1) of data to be used as training
+occurrences. The remaining data will be used for testing.}
+
 \item{method}{(character) method for selecting training and testing occurrences. Current
 option is "random".}
 

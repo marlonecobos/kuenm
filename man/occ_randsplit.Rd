@@ -9,6 +9,9 @@ occ_randsplit(occ, train.proportion = 0.5)
 \arguments{
 \item{occ}{matrix or data.frame with the occurrences to be split. Columns may vary but
 species, longitude, and latitue are recommended.}
+
+\item{train.proportion}{(numeric) proportion (from 0 to 1) of data to be used as training
+occurrences. The remaining data will be used for testing.}
 }
 \value{
 List with all occurrences (joint), training occurrences (train), and testing (test)
