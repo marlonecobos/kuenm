@@ -116,5 +116,5 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
   }
 
   # writting desciption
-  result_description(process = "kuenm_mmop", out.dir = out.dir)
+  result_description(process = "kuenm_mmop", out.dir = out.mop)
 }

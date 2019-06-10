@@ -3,7 +3,7 @@
 #' @description kuenm_occsplit splits occurrences contained in a csv file to obtain training
 #' and testing data based on distinct methods for calibrating models.
 #'
-#' @param occ_file (character) name of the csv file with all the occurrences; columns must be:
+#' @param occ.file (character) name of the csv file with all the occurrences; columns must be:
 #' species, longitude, latitude.
 #' @param train.proportion (numeric) proportion (from 0 to 1) of data to be used as training
 #' occurrences. The remaining data will be used for testing.

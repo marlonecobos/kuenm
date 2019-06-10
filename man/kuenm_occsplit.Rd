@@ -8,6 +8,9 @@ kuenm_occsplit(occ.file, train.proportion = 0.5, method = "random",
   name = "occ")
 }
 \arguments{
+\item{occ.file}{(character) name of the csv file with all the occurrences; columns must be:
+species, longitude, latitude.}
+
 \item{train.proportion}{(numeric) proportion (from 0 to 1) of data to be used as training
 occurrences. The remaining data will be used for testing.}
 
@@ -16,9 +19,6 @@ option is "random".}
 
 \item{name}{(character) common name for csv files to be written. A suffix will be added
 depending on if the data is the complete set, training set, or testing set of occurrences.}
-
-\item{occ_file}{(character) name of the csv file with all the occurrences; columns must be:
-species, longitude, latitude.}
 }
 \value{
 List with all, training, and testing occurrences. Three csv files will be written in the
