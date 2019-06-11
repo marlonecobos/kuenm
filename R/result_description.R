@@ -31,7 +31,11 @@ subfolders per each scenario of projection can be found.\n\n")
 \t  values represent decrease in suitability and positive values represent increase of this variable;
 \t  values close to zero represent more stability.\n")
     cat("\t- The table below indicates what each value in binary comparison represents.\n\n")
-    print(result.table, row.names = FALSE)
+    #print(result.table, row.names = FALSE)
+    cat(paste(colnames((result.table)), collapse = "\t"), "\n")
+    pr <- lapply(1:nrow(result.table), function(x) {
+      cat(paste(result.table[x, ], collapse = "\t"), "\n")
+    })
     sink()
   }
 
@@ -106,7 +110,11 @@ corresponds. A raster layer of MOP results for the current period can also be fo
 used to perform model projection. The table below indicates what each value in raster
 layers of agreement represents. Values in raster layer for the current period should be
 interpreted as in the MOP results.\n\n")
-    print(result.table, row.names = FALSE)
+    #print(result.table, row.names = FALSE)
+    cat(paste(colnames((result.table)), collapse = "\t"), "\n")
+    pr <- lapply(1:nrow(result.table), function(x) {
+      cat(paste(result.table[x, ], collapse = "\t"), "\n")
+    })
     sink()
   }
 }
