@@ -101,6 +101,7 @@ kuenm_mopagree <- function(mop.dir, in.format, out.format = "GTiff", current,
 
   # Folders for sets
   sets <- dir(mop.dir)
+  sets <- sets[sets != "Result_description (kuenm_mmop).txt"]
   set_dirs <- paste0(out.dir, "/", sets)
 
   for (i in 1:length(sets)) {
