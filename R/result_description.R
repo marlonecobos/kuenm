@@ -32,9 +32,11 @@ subfolders per each scenario of projection can be found.\n\n")
 \t  values close to zero represent more stability.\n")
     cat("\t- The table below indicates what each value in binary comparison represents.\n\n")
     sink()
-    write.table(result.table,
-                paste0(out.dir, "/Result_description (", process,").txt"),
-                sep = "\t", append = TRUE, quote = FALSE, row.names = FALSE)
+    suppressWarnings(
+      write.table(result.table,
+                  paste0(out.dir, "/Result_description (", process,").txt"),
+                  sep = "\t", append = TRUE, quote = FALSE, row.names = FALSE)
+    )
   }
 
   # Description of results of creating maps of variance
@@ -109,8 +111,10 @@ used to perform model projection. The table below indicates what each value in r
 layers of agreement represents. Values in raster layer for the current period should be
 interpreted as in the MOP results.\n\n")
     sink()
-    write.table(result.table,
-                paste0(out.dir, "/Result_description (", process,").txt"),
-                sep = "\t", append = TRUE, quote = FALSE, row.names = FALSE)
+    suppressWarnings(
+      write.table(result.table,
+                  paste0(out.dir, "/Result_description (", process,").txt"),
+                  sep = "\t", append = TRUE, quote = FALSE, row.names = FALSE)
+    )
   }
 }
