@@ -94,7 +94,7 @@ kuenm_mopagree <- function(mop.dir, in.format, out.format = "GTiff", current,
                       full.names = TRUE, recursive = TRUE)
   mopn <- list.files(mop.dir, pattern = paste0("MOP.*", format), recursive = TRUE)
   mopin <- unique(gsub("%.*", "%", mopn))
-  mopin <- unique(gsub("^S.*/", "", mopin))
+  mopin <- unique(gsub("^.*/", "", mopin))
 
   # Folder for all outputs
   dir.create(out.dir)
