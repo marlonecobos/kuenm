@@ -128,7 +128,7 @@ kuenm_modstats <- function(sp.name, fmod.dir, format = "asc", project, statistic
     res_folders <- vector()
 
     for (i in 1:length(ext.type)) {
-      parameters[[i]] <- dir(fmod.dir, pattern = ext.type[i], full.names = TRUE)
+      parameters[[i]] <- dir(fmod.dir, pattern = paste0("_", ext.type[i], "$"), full.names = TRUE)
       res_folders[i] <- paste(out.dir, paste("Statistics", ext.type[i], sep = "_"), sep = "/")
     }
 
