@@ -43,7 +43,7 @@ kuenm_occsplit <- function(occ.file, train.proportion = 0.5, method = "random", 
     files <- occ_randsplit(occ, train.proportion = train.proportion)
   }
 
-  names <- paste0(name, c("_joint", "_train", "_test"))
+  names <- paste0(name, c("_joint", "_train", "_test"), ".csv")
   wrt <- sapply(1:length(files), function(x){
     write.csv(files[[x]], file = names[x], row.names = FALSE)
     })
