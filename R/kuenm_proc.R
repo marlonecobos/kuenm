@@ -149,10 +149,10 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     }
 
-    mauc <- mean(partial_AUC$auc_ratio, na.rm = TRUE)
-    #proc <- sum(partial_AUC$auc_ratio <= 1) / length(partial_AUC$auc_ratio)
-    proc <- (sum(partial_AUC$auc_ratio[!is.na(partial_AUC$auc_ratio)] <= 1) + sum(is.na(partial_AUC$auc_ratio)))/
-      length(partial_AUC$auc_ratio)
+    naID <- !is.na(partial_AUC$auc_ratio)
+    nona_valproc <- partial_AUC$auc_ratio[naID]
+    mauc <-mean(nona_valproc)
+    proc <- sum(nona_valproc <= 1) / length(nona_valproc)
     p_roc <- c(mauc, proc)
     names(p_roc) <- c(paste("Mean_AUC_ratio_at_", threshold, "%", sep = ""), "pval_pROC")
 
