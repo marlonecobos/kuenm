@@ -44,16 +44,15 @@ var <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
 
 raster::plot(var)
 
-out <- data.frame(as.character(data$species[1]), rbind(c(-103, 27), c(-90, 26.5),
-                                                       c(-109, 40), c(-70, 41)))
+out <- rbind(c(-103, 27), c(-90, 26.5), c(-109, 40), c(-70, 41))
 colnames(out) <- colnames(data)
 
 data <- rbind.data.frame(data, out)
 
-points(data[, 2:3])
+points(data)
 
 data1 <- kuenm_toclosest(data, longitude = "Longitude", latitude = "Latitude",
                          raster.layer = var, limit.distance = 200)
 
-points(data1[, 2:3], col = "red")
+points(data1[, 1:2], col = "red")
 }
