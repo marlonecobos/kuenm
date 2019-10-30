@@ -187,7 +187,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, max.memory 
   ##Environmental variables sets
   m <- dir(M.var.dir)
   ms <- paste(gsub("/", dl, paste(getwd(), M.var.dir, sep = sl)), sl, m, sep = "")
-  env <- paste("environmentallayers=", paste("\"", ms, "\"", sep = ""), sep = "")
+  env <- paste("-z environmentallayers=", paste("\"", ms, "\"", sep = ""), sep = "")
 
   ##Species occurrences
   oc <- occ.joint
