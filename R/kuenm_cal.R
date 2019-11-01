@@ -315,6 +315,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, max.memory 
       r_wd <- getwd() # real working directory
       setwd(maxent.path) # change temporally the working directory
 
+    ###  system(paste("sudo chmod -R a+rwx ",r_wd,sep=""), wait=TRUE)
       system(paste("bash", batfile_path), wait = wait)
 
     } else {
