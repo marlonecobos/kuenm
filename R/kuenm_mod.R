@@ -236,7 +236,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   ##Environmental calibration variables sets
   env <- vector()
   for (i in 1:length(var.dir)) {
-    env[i] <- paste("environmentallayers=", var.dir[i], sep = "")
+    env[i] <- paste("-z environmentallayers=", var.dir[i], sep = "")
   }
 
   ##Species occurrences
@@ -297,21 +297,21 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
     }
 
     if(ext.type == "ext_clam") {
-      mid.com <- "extrapolate=true doclamp=true responsecurves=true"
+      mid.com <- "extrapolate=true doclamp=true responsecurves=false"
       ext.nam <- "_EC"
     }
     if(ext.type == "ext") {
-      mid.com <- "extrapolate=true doclamp=false responsecurves=true"
+      mid.com <- "extrapolate=true doclamp=false responsecurves=false"
       ext.nam <- "_E"
     }
     if(ext.type == "no_ext") {
-      mid.com <- "extrapolate=false doclamp=false responsecurves=true"
+      mid.com <- "extrapolate=false doclamp=false responsecurves=false"
       ext.nam <- "_NE"
     }
     if(ext.type == "all") {
-      mid.com <- c("extrapolate=true doclamp=true responsecurves=true",
-                   "extrapolate=true doclamp=false responsecurves=true",
-                   "extrapolate=false doclamp=false responsecurves=true")
+      mid.com <- c("extrapolate=true doclamp=true responsecurves=false",
+                   "extrapolate=true doclamp=false responsecurves=false",
+                   "extrapolate=false doclamp=false responsecurves=false")
       ext.nam <- c("_EC", "_E", "_NE")
     }
 
@@ -322,7 +322,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       w.clamp <- "writemess=false"
     }
   }else {
-    mid.com <- "extrapolate=false doclamp=false writeclampgrid=false writemess=false responsecurves=true"
+    mid.com <- "extrapolate=false doclamp=false writeclampgrid=false writemess=false responsecurves=false"
   }
 
   ##Jackknife
@@ -353,7 +353,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
   a.fea <- "autofeature=false"
 
   ##Other maxent settings
-  fin.com <- "warnings=false visible=false redoifexists autorun\n"
+  fin.com <- "plots=false pictures=false outputformat=raw warnings=false visible=false redoifexists autorun\n"
 
   #####
   #Final code
