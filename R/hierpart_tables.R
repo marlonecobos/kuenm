@@ -22,6 +22,11 @@
 #' the analysis: \code{replicate.numbers}, \code{parameters}, \code{clim.models},
 #' or \code{emi.scenarios}.
 #'
+#' @usage
+#' hierpart_tables(model.names, sp.name, replicate.numbers, format = "asc",
+#'                 parameters, clim.models, emi.scenarios, iterations = 100,
+#'                 sample.size = 100, out.dir)
+#'
 #' @export
 
 hierpart_tables <- function(model.names, sp.name, replicate.numbers, format = "asc", parameters, clim.models,

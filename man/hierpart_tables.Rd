@@ -5,8 +5,8 @@
 \title{Prepare tables for hierarchical partitioning}
 \usage{
 hierpart_tables(model.names, sp.name, replicate.numbers, format = "asc",
-  parameters, clim.models, emi.scenarios, iterations = 100,
-  sample.size = 100, out.dir)
+                parameters, clim.models, emi.scenarios, iterations = 100,
+                sample.size = 100, out.dir)
 }
 \arguments{
 \item{model.names}{(character) vector of model names.}

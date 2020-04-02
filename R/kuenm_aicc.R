@@ -18,6 +18,9 @@
 #' Changes help to make calcutions faster because of a better management of raster values (especially
 #' when calculations are performed for multiple models).
 #'
+#' @usage
+#' kuenm_aicc(occ, model, npar)
+#'
 #' @export
 #'
 #' @examples

@@ -60,6 +60,12 @@
 #' must be part of the model (raster layer) names so the function can locate each file without problems.
 #' This function uses this system of work to avoid high demands of the RAM while perfomring these analyses.
 #'
+#' @usage
+#' kuenm_hierpart(sp.name, fmod.dir, replicated, format = "asc", project, current,
+#'                time.periods, emi.scenarios, clim.models, ext.type,
+#'                iterations = 100, sample.size = 1000, keep.tables = FALSE,
+#'                factors.col, out.dir = "Hierarchical_partitioning")
+#'
 #' @export
 #'
 #' @examples

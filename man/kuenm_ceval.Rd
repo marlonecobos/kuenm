@@ -5,8 +5,8 @@
 \title{Evaluation of candidate Maxent models during calibration}
 \usage{
 kuenm_ceval(path, occ.joint, occ.tra, occ.test, batch, out.eval,
-  threshold = 5, rand.percent = 50, iterations = 500, kept = TRUE,
-  selection = "OR_AICc", parallel.proc = FALSE)
+            threshold = 5, rand.percent = 50, iterations = 500,
+            kept = TRUE, selection = "OR_AICc", parallel.proc = FALSE)
 }
 \arguments{
 \item{path}{(character) directory in which folders containig calibration models are being created

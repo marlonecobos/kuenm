@@ -5,7 +5,7 @@
 \title{Agreement of extrapolative areas of MOP layers}
 \usage{
 kuenm_mopagree(mop.dir, in.format, out.format = "GTiff", current,
-  time.periods, emi.scenarios, out.dir = "MOP_agremment")
+               time.periods, emi.scenarios, out.dir = "MOP_agremment")
 }
 \arguments{
 \item{mop.dir}{(character) name of the folder in which MOP results are (e.g., the output

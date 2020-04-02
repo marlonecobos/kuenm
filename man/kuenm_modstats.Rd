@@ -4,8 +4,8 @@
 \alias{kuenm_modstats}
 \title{Calculation of descriptive statistics of models}
 \usage{
-kuenm_modstats(sp.name, fmod.dir, format = "asc", project, statistics,
-  replicated, proj.scenarios, ext.type, out.dir = "Final_Model_Stats")
+kuenm_modstats(sp.name, fmod.dir, format = "asc", project, statistics, replicated,
+               proj.scenarios, ext.type, out.dir = "Final_Model_Stats")
 }
 \arguments{
 \item{sp.name}{(character) name of the species. This name must be the one that appears as part

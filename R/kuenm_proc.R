@@ -24,6 +24,10 @@
 #' (2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
 #' of the \code{\link[ntbox]{pROC}} funcion, available at \url{https://github.com/luismurao/ntbox}.
 #'
+#' @usage
+#' kuenm_proc(occ.test, model, threshold = 5, rand.percent = 50,
+#'            iterations = 500, parallel = FALSE)
+#'
 #' @importFrom purrr map_df
 #' @useDynLib kuenm
 #' @export

@@ -5,7 +5,7 @@
 \title{Partial ROC calculation of single models}
 \usage{
 kuenm_proc(occ.test, model, threshold = 5, rand.percent = 50,
-  iterations = 500, parallel = FALSE)
+           iterations = 500, parallel = FALSE)
 }
 \arguments{
 \item{occ.test}{a numerical matrix containing coordinates of the occurrences used to test

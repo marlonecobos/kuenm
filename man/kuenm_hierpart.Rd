@@ -4,10 +4,10 @@
 \alias{kuenm_hierpart}
 \title{Hierarchical partition of the variance comming from distinct sources in ENMs}
 \usage{
-kuenm_hierpart(sp.name, fmod.dir, replicated, format = "asc", project,
-  current, time.periods, emi.scenarios, clim.models, ext.type,
-  iterations = 100, sample.size = 1000, keep.tables = FALSE,
-  factors.col, out.dir = "Hierarchical_partitioning")
+kuenm_hierpart(sp.name, fmod.dir, replicated, format = "asc", project, current,
+               time.periods, emi.scenarios, clim.models, ext.type,
+               iterations = 100, sample.size = 1000, keep.tables = FALSE,
+               factors.col, out.dir = "Hierarchical_partitioning")
 }
 \arguments{
 \item{sp.name}{(character) name of the species. This name must be the one that appears as part

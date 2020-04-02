@@ -5,7 +5,8 @@
 \title{Detection of changes in models projected in time}
 \usage{
 kuenm_projchanges(occ, fmod.stats, threshold = 5, current, time.periods,
-  emi.scenarios, clim.models, ext.type, out.dir = "Projection_changes")
+                  emi.scenarios, clim.models, ext.type,
+                  out.dir = "Projection_changes")
 }
 \arguments{
 \item{occ}{(character) name of the csv file with all the occurrences used to create final models;

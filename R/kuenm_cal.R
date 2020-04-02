@@ -104,6 +104,11 @@
 #' beta_hinge |  | double | -1 | Regularization parameter to be applied to all hinge features; negative value enables automatic
 #'                               setting.
 #'
+#' @usage
+#' kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, max.memory = 1000,
+#'           reg.mult, f.clas = "all", args = NULL, maxent.path,
+#'           wait = TRUE, run = TRUE)
+#'
 #' @export
 #'
 #' @examples

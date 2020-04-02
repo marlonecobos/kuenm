@@ -22,6 +22,10 @@
 #' Time of processing will be reduced considerably if \code{in.format} and \code{out.format} coincide
 #' because files will be copied and not loaded and written.
 #'
+#' @usage
+#' kuenm_varcomb(var.dir, out.dir, min.number = 2, in.format = "ascii",
+#'               out.format = "ascii")
+#'
 #' @export
 #'
 #' @examples

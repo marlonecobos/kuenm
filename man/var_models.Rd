@@ -4,8 +4,14 @@
 \alias{var_models}
 \title{Helper function to calculate raster layers of model variance}
 \usage{
-var_models(model.names, format = "asc", sp.name, source.codes, source,
-  split.length = 100)
+var_models(
+  model.names,
+  format = "asc",
+  sp.name,
+  source.codes,
+  source,
+  split.length = 100
+)
 }
 \arguments{
 \item{model.names}{(character) vector of model names.}

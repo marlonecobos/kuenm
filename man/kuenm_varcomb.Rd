@@ -5,7 +5,7 @@
 \title{All potential combinations of a group of variables}
 \usage{
 kuenm_varcomb(var.dir, out.dir, min.number = 2, in.format = "ascii",
-  out.format = "ascii")
+              out.format = "ascii")
 }
 \arguments{
 \item{var.dir}{(character) the name of the folder containing variables that will be combined.}

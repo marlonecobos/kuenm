@@ -4,8 +4,7 @@
 \alias{kuenm_mop}
 \title{Extrapolation risk analysis for single comparisons}
 \usage{
-kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 2000,
-  parallel = FALSE)
+kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 2000, parallel = FALSE)
 }
 \arguments{
 \item{M.stack}{a RasterStack of variables representing the calibration area.}

@@ -1,7 +1,7 @@
 Package: kuenm
 Type: Package
 Title: An R package for detailed development of ecological niche models using Maxent
-Version: 1.1.3
+Version: 1.1.4
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
@@ -29,9 +29,7 @@ Imports:
     rmarkdown (>= 1.9),
     sp (>= 1.2)
 Suggests:
-	knitr, 
 	maptools,
-	rmarkdown,
     yaml
 Depends:
     R (>= 3.4.0)
@@ -39,5 +37,5 @@ VignetteBuilder: knitr
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 LinkingTo: Rcpp

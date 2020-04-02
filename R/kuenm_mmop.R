@@ -31,6 +31,10 @@
 #' environmental conditions in the calibration area. MOP is calculated following Owens et al.
 #' (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 #'
+#' @usage
+#' kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
+#'            comp.each = 2000, parallel = FALSE)
+#'
 #' @export
 
 kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,

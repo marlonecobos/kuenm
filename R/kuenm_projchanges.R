@@ -40,6 +40,11 @@
 #' must be part of the model (raster layer) names so the function can locate each file without problems.
 #' This function uses this system of work to avoid demand of the RAM while perfomring these analyses.
 #'
+#' @usage
+#' kuenm_projchanges(occ, fmod.stats, threshold = 5, current, time.periods,
+#'                   emi.scenarios, clim.models, ext.type,
+#'                   out.dir = "Projection_changes")
+#'
 #' @export
 #'
 #' @examples

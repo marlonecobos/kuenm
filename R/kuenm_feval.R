@@ -26,6 +26,10 @@
 #' a folder, in the working directory, containing a csv file with the final models evaluation
 #' results.
 #'
+#' @usage
+#' kuenm_feval(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
+#'             rand.percent = 50, iterations = 500, parallel.proc = FALSE)
+#'
 #' @export
 #'
 #' @details This function is used after or during the creation of final models.

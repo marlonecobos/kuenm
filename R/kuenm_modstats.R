@@ -41,6 +41,10 @@
 #' must be part of the model (raster layer) names so the function can locate each file without problems.
 #' This function uses this system of work to avoid high demands of the RAM while perfomring these analyses.
 #'
+#' @usage
+#' kuenm_modstats(sp.name, fmod.dir, format = "asc", project, statistics, replicated,
+#'                proj.scenarios, ext.type, out.dir = "Final_Model_Stats")
+#'
 #' @export
 #'
 #' @examples

@@ -3,7 +3,6 @@
 \docType{package}
 \name{kuenm}
 \alias{kuenm}
-\alias{kuenm-package}
 \title{kuenm: A package for detailed calibration and construction of Maxent ecological niche models.}
 \description{
 kuenm helps with development of critical steps of the ecological

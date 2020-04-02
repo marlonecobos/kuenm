@@ -4,12 +4,10 @@
 \alias{kuenm_mod}
 \title{Creation of Maxent models with selected parameters}
 \usage{
-kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10,
-  rep.type = "Bootstrap", jackknife = FALSE, out.dir,
-  max.memory = 1000, out.format = "logistic", project = FALSE,
-  G.var.dir, ext.type = "all", write.mess = FALSE,
-  write.clamp = FALSE, maxent.path, args = NULL, wait = TRUE,
-  run = TRUE)
+kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
+          jackknife = FALSE, out.dir, max.memory = 1000, out.format = "logistic",
+          project = FALSE, G.var.dir, ext.type = "all", write.mess = FALSE,
+          write.clamp = FALSE, maxent.path, args = NULL, wait = TRUE, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) the  csv file with all the occurrences; columns must be: species, longitude, latitude.}

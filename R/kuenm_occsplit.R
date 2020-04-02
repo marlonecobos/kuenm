@@ -1,14 +1,16 @@
 #' Split occurrence files in training and testing data
 #'
-#' @description kuenm_occsplit splits occurrences contained in a csv file to obtain training
+#' @description kuenm_occsplit splits occurrences contained in a data.frame to obtain training
 #' and testing data based on distinct methods for calibrating models.
 #'
-#' @param occ.file (character) name of the csv file with all the occurrences; columns must be:
-#' species, longitude, latitude.
+#' @param occ data.frame of occurrence records containing at least species,
+#' longitude, and latitude columns.
 #' @param train.proportion (numeric) proportion (from 0 to 1) of data to be used as training
 #' occurrences. The remaining data will be used for testing.
 #' @param method (character) method for selecting training and testing occurrences. Current
 #' option is "random".
+#' @param save (logical) whether or not to save the results in the working
+#' directory. Default = FALSE.
 #' @param name (character) common name for csv files to be written. A suffix will be added
 #' depending on if the data is the complete set, training set, or testing set of occurrences.
 #'
@@ -17,36 +19,41 @@
 #' working directory according to the name defined in \code{name} plus the suffix _joint
 #' for all records, _train for the training set, and _test for the testing set.
 #'
+#' @usage
+#' kuenm_occsplit(occ, train.proportion = 0.5, method = "random",
+#'                save = FALSE, name = "occ")
+#'
 #' @export
 #'
 #' @examples
 #' # arguments
-#' occs <- "occurrences.csv"
+#' occs <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+#'                            pattern = "sp_joint.csv", full.names = TRUE))
+#' occs <- data.frame(Species = "A_americanum", occs)
 #' train_prop <- 0.5
 #' method = "random"
-#' name <- "occ"
 #'
 #' # running
-#' data_split <- kuenm_occsplit(occ.file = occs, train.proportion = train_prop,
-#'                              method = method, name = name)
+#' data_split <- kuenm_occsplit(occ = occs, train.proportion = train_prop,
+#'                              method = method)
 
-kuenm_occsplit <- function(occ.file, train.proportion = 0.5, method = "random", name = "occ") {
+kuenm_occsplit <- function(occ, train.proportion = 0.5, method = "random",
+                           save = FALSE, name = "occ") {
 
-  if (!file.exists(occ.file)) {
-    stop(paste(occ.file, "does not exist in the working directory, check file name",
-               "\nor extension, example: species_all.csv"))
-  }
+  if (missing(occ)) {stop("Argument 'occ' needs to be defined.")}
 
-  occ <- na.omit(read.csv(occ.file))
+  occ <- na.omit(occ)
 
   if (method == "random") {
     files <- occ_randsplit(occ, train.proportion = train.proportion)
   }
 
-  names <- paste0(name, c("_joint", "_train", "_test"), ".csv")
-  wrt <- sapply(1:length(files), function(x){
-    write.csv(files[[x]], file = names[x], row.names = FALSE)
+  if (save == TRUE) {
+    names <- paste0(name, c("_joint", "_train", "_test"), ".csv")
+    wrt <- sapply(1:length(files), function(x){
+      write.csv(files[[x]], file = names[x], row.names = FALSE)
     })
+  }
 
   return(files)
 }
@@ -65,6 +72,9 @@ kuenm_occsplit <- function(occ.file, train.proportion = 0.5, method = "random", 
 #' @return
 #' List with all occurrences (joint), training occurrences (train), and testing (test)
 #' occurrences.
+#'
+#' @usage
+#' occ_randsplit(occ, train.proportion = 0.5)
 #'
 #' @export
 #'

@@ -33,6 +33,11 @@
 #' @details
 #' If \code{var.scale} = TRUE, variables are centered to cero and scaled using \code{\link[base]{scale}}.
 #'
+#' @usage
+#' kuenm_rpca(variables, in.format, var.scale = TRUE, write.result = TRUE,
+#'            out.format = "GTiff", out.dir = "PCA_results", project = FALSE,
+#'            proj.vars, n.pcs)
+#'
 #' @export
 #'
 #' @examples

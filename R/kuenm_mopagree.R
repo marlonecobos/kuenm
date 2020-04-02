@@ -27,6 +27,10 @@
 #' must be part of the mop layer names so the function can locate each file without problems.
 #' This function uses this system of work to avoid high demands of RAM while perfomring these analyses.
 #'
+#' @usage
+#' kuenm_mopagree(mop.dir, in.format, out.format = "GTiff", current,
+#'                time.periods, emi.scenarios, out.dir = "MOP_agremment")
+#'
 #' @export
 #'
 #' @examples

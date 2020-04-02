@@ -5,7 +5,7 @@
 \title{Extrapolation risk analysis for multiple comparisons}
 \usage{
 kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
-  comp.each = 2000, parallel = FALSE)
+           comp.each = 2000, parallel = FALSE)
 }
 \arguments{
 \item{G.var.dir}{(character) if project is TRUE, name of the folder containing folders in which variables of

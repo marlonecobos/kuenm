@@ -45,6 +45,11 @@
 #' If "AICc" criterion is chosen, all significant models with delta AICc up to 2 will be selected
 #' If "OR" is chosen, the 10 first significant models with the lowest omission rates will be selected.
 #'
+#' @usage
+#' kuenm_ceval(path, occ.joint, occ.tra, occ.test, batch, out.eval,
+#'             threshold = 5, rand.percent = 50, iterations = 500,
+#'             kept = TRUE, selection = "OR_AICc", parallel.proc = FALSE)
+#'
 #' @export
 #'
 #' @examples

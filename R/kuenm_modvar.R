@@ -49,6 +49,11 @@
 #' must be part of the model (raster layer) names so the function can locate each file without problems.
 #' This function uses this system of work to avoid high demands of the RAM while perfomring these analyses.
 #'
+#' @usage
+#' kuenm_modvar(sp.name, fmod.dir, replicated, format = "asc", project, current,
+#'              time.periods, emi.scenarios, clim.models, ext.type,
+#'              split.length = 100, out.dir = "Variation_from_sources")
+#'
 #' @export
 #'
 #' @examples

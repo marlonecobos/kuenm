@@ -4,18 +4,21 @@
 \alias{kuenm_occsplit}
 \title{Split occurrence files in training and testing data}
 \usage{
-kuenm_occsplit(occ.file, train.proportion = 0.5, method = "random",
-  name = "occ")
+kuenm_occsplit(occ, train.proportion = 0.5, method = "random",
+               save = FALSE, name = "occ")
 }
 \arguments{
-\item{occ.file}{(character) name of the csv file with all the occurrences; columns must be:
-species, longitude, latitude.}
+\item{occ}{data.frame of occurrence records containing at least species,
+longitude, and latitude columns.}
 
 \item{train.proportion}{(numeric) proportion (from 0 to 1) of data to be used as training
 occurrences. The remaining data will be used for testing.}
 
 \item{method}{(character) method for selecting training and testing occurrences. Current
 option is "random".}
+
+\item{save}{(logical) whether or not to save the results in the working
+directory. Default = FALSE.}
 
 \item{name}{(character) common name for csv files to be written. A suffix will be added
 depending on if the data is the complete set, training set, or testing set of occurrences.}
@@ -26,17 +29,18 @@ working directory according to the name defined in \code{name} plus the suffix _
 for all records, _train for the training set, and _test for the testing set.
 }
 \description{
-kuenm_occsplit splits occurrences contained in a csv file to obtain training
+kuenm_occsplit splits occurrences contained in a data.frame to obtain training
 and testing data based on distinct methods for calibrating models.
 }
 \examples{
 # arguments
-occs <- "occurrences.csv"
+occs <- read.csv(list.files(system.file("extdata", package = "kuenm"),
+                           pattern = "sp_joint.csv", full.names = TRUE))
+occs <- data.frame(Species = "A_americanum", occs)
 train_prop <- 0.5
 method = "random"
-name <- "occ"
 
 # running
-data_split <- kuenm_occsplit(occ.file = occs, train.proportion = train_prop,
-                             method = method, name = name)
+data_split <- kuenm_occsplit(occ = occs, train.proportion = train_prop,
+                             method = method)
 }

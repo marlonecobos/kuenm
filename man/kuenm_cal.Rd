@@ -4,9 +4,9 @@
 \alias{kuenm_cal}
 \title{Creation of candidate models for calibration}
 \usage{
-kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir,
-  max.memory = 1000, reg.mult, f.clas = "all", args = NULL,
-  maxent.path, wait = TRUE, run = TRUE)
+kuenm_cal(occ.joint, occ.tra, M.var.dir, batch, out.dir, max.memory = 1000,
+          reg.mult, f.clas = "all", args = NULL, maxent.path,
+          wait = TRUE, run = TRUE)
 }
 \arguments{
 \item{occ.joint}{(character) is the name of the csv file with all the occurrences; columns must be: species, longitude, latitude.}

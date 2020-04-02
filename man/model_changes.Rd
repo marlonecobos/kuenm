@@ -4,8 +4,16 @@
 \alias{model_changes}
 \title{Helper function to calculate model changes}
 \usage{
-model_changes(calibration.model, current.model, fclim.models,
-  result = "continuous", threshold = 5, occ, clim.models, out.dir)
+model_changes(
+  calibration.model,
+  current.model,
+  fclim.models,
+  result = "continuous",
+  threshold = 5,
+  occ,
+  clim.models,
+  out.dir
+)
 }
 \arguments{
 \item{calibration.model}{(character) name of calibration model raster name.}

@@ -4,9 +4,9 @@
 \alias{kuenm_modvar}
 \title{Prediction variance comming from distinct sources in ENMs}
 \usage{
-kuenm_modvar(sp.name, fmod.dir, replicated, format = "asc", project,
-  current, time.periods, emi.scenarios, clim.models, ext.type,
-  split.length = 100, out.dir = "Variation_from_sources")
+kuenm_modvar(sp.name, fmod.dir, replicated, format = "asc", project, current,
+             time.periods, emi.scenarios, clim.models, ext.type,
+             split.length = 100, out.dir = "Variation_from_sources")
 }
 \arguments{
 \item{sp.name}{(character) name of the species. This name must be the one that appears as part

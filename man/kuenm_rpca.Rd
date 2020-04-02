@@ -5,8 +5,8 @@
 \title{Principal componens for raster layers and projections}
 \usage{
 kuenm_rpca(variables, in.format, var.scale = TRUE, write.result = TRUE,
-  out.format = "GTiff", out.dir = "PCA_results", project = FALSE,
-  proj.vars, n.pcs)
+           out.format = "GTiff", out.dir = "PCA_results", project = FALSE,
+           proj.vars, n.pcs)
 }
 \arguments{
 \item{variables}{(character or RasterStack) if character, name of the folder where raster layers are located.

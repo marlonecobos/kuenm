@@ -112,6 +112,12 @@
 #' beta_hinge |  | double | -1 | Regularization parameter to be applied to all hinge features; negative value enables automatic
 #'                               setting.
 #'
+#' @usage
+#' kuenm_mod(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.type = "Bootstrap",
+#'           jackknife = FALSE, out.dir, max.memory = 1000, out.format = "logistic",
+#'           project = FALSE, G.var.dir, ext.type = "all", write.mess = FALSE,
+#'           write.clamp = FALSE, maxent.path, args = NULL, wait = TRUE, run = TRUE)
+#'
 #' @export
 #'
 #' @examples

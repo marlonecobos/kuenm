@@ -14,9 +14,6 @@
 
 hierpart_analyses <- function(tables.folder, out.dir, kept = FALSE) {
 
-  # installing needed packages if required
-  #install.packages("hier.part", dependencies = TRUE)
-
   fls <- list.files(tables.folder, pattern = "*.csv", full.names = TRUE) #Files to be used
 
   r1_hpar_ran <- list()
