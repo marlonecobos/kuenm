@@ -35,7 +35,7 @@
 #' working directory, containing a csv file with information about models meeting the user-defined
 #' selection criterion, another csv file with a summary of the evaluation and selection process,
 #' an extra csv file containing all the statistics of model performance (pROC, AICc, and omission
-#' omission rates) for all candidate models, a png scatterplot of all models based on the AICc values and
+#' rates) for all candidate models, a png scatterplot of all models based on the AICc values and
 #' rates, and an HTML file sumarizing all the information produced after evaluation for helping with
 #' further interpretation.
 #'

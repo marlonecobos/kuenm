@@ -5,14 +5,14 @@
 \title{A set of occurrence records for ecological niche models}
 \format{A data frame with 178 rows and 2 columns.
 \describe{
-  \item{Longitude}{longitude, in decimal degrees.}
-  \item{Latitude}{latitude, in decimal degrees.}
+\item{Longitude}{longitude, in decimal degrees.}
+\item{Latitude}{latitude, in decimal degrees.}
 }}
 \source{
 \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }
 \description{
-A dataset containing occurrence recods of a tick (*Amblyomma americanum*) across
+A dataset containing occurrence recods of a tick (\emph{Amblyomma americanum}) across
 North America. The dataset combines records for training and testing.
 }
 \examples{

@@ -5,13 +5,13 @@
 \title{An ecological niche model created with Maxent with raw output}
 \format{A RasterLayer with 150 rows, 249 columns, and 37350 cells:
 \describe{
-  \item{Suitability}{suitability, in probability values.}
+\item{Suitability}{suitability, in probability values.}
 }}
 \source{
 \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }
 \description{
-A RasterLayer containing an ecological niche model for the a tick (*Amblyomma americanum*)
+A RasterLayer containing an ecological niche model for the a tick (\emph{Amblyomma americanum})
 that was created with all occurrences and raw output.
 }
 \examples{

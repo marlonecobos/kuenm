@@ -64,68 +64,41 @@ t = threshold, and h = hinge.
 "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
 "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
 
-The way to include further arguments is as follows: \code{args} = "biasfile=COMPLETE_PATH\\bias.asc biastype=3"
-in windows, or \code{args} = "biasfile=COMPLETE_PATH/bias.asc biastype=3" in Unix based systems. If the path
-contains spaces the way to write it is: \code{args} = "biasfile=\"COMPLETE PATH\\bias.asc\"  biastype=3" in windows,
-or \code{args} = "biasfile=\"COMPLETE PATH/bias.asc\" biastype=3" in Unix based systems.
+The way to include further arguments is as follows:
+args = "biasfile=COMPLETE_PATH\\bias.asc biastype=3" in windows,
+or args = "biasfile=COMPLETE_PATH/bias.asc biastype=3" in Unix based systems.
+If the path contains spaces the way to write it is:
+args = "biasfile=\"COMPLETE PATH\\bias.asc\" biastype=3" in windows, or
+args = "biasfile=\"COMPLETE PATH/bias.asc\" biastype=3" in Unix based systems.
 
-Other options that can be included in \code{args} are:
+Other options that can be included in args are all "Flags" from the following
+list:
 
 Flag | Abbrv | Type | Default | Meaning
-
-maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number,
-                                           then this number of cells is chosen randomly for background points.
-
-togglelayertype | t | string |  | Toggle continuous/categorical for environmental layers whose names begin with this prefix
-                                  (default: all continuous).
-
-biasfile |  | file |  | Sampling is assumed to be biased according to the sampling distribution given in this grid file.
-                        Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend
-                        to create this file as a kernell density of geographic points representing all localities
-                        were samplings of similar organisms have been performed (multiply this layer by 1000 and round it
-                        to reduce number of decimals). IMPORTANT: A biasfile must be included with its entire path,
-                        as indicated above above.
-
-biastype |  | integer |  | If biasfile is defined, this integer needs to be definef depending on the type of bias added.
-                           If the bias file is prepared as recomended, biastype=3.
-
-writebackgroundpredictions |  | boolean | FALSE | Write .csv file with predictions at background points.
-
-maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
-
-convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.
-
-threads |  | integer | 1 | Number of processor threads to use. Matching this number to the number of cores on your computer
-                           speeds up some operations, especially variable jackknifing.
-
-logfile |  | string | maxent.log | File name to be used for writing debugging information about a run in output directory.
-
-cache |  | boolean | TRUE | Make a .mxe cached version of ascii files, for faster access.
-
-defaultprevalence |  | double | 0.5 | Default prevalence of the species: probability of presence at ordinary occurrence points.
-                                      See Elith et al., Diversity and Distributions, 2011 for details.
-
-
+\itemize{
+\item maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number, then this number of cells is chosen randomly for background points.
+\item togglelayertype | t | string | | Toggle continuous/categorical for environmental layers whose names begin with this prefix (default: all continuous).
+\item biasfile | | file | | Sampling is assumed to be biased according to the sampling distribution given in this grid file. Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend to create this file as a kernell density of geographic points representing all localities were samplings of similar organisms have been performed (multiply this layer by 1000 and round it to reduce number of decimals). IMPORTANT: A biasfile must be included with its entire path, as indicated above above.
+\item biastype | | integer | | If biasfile is defined, this integer needs to be definef depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
+\item writebackgroundpredictions | | boolean | FALSE | Write .csv file with predictions at background points.
+\item maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
+\item convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.
+\item threads | | integer | 1 | Number of processor threads to use. Matching this number to the number of cores on your computer speeds up some operations, especially variable jackknifing.
+\item logfile | | string | maxent.log | File name to be used for writing debugging information about a run in output directory.
+\item cache | | boolean | TRUE | Make a .mxe cached version of ascii files, for faster access.
+\item defaultprevalence | | double | 0.5 | Default prevalence of the species: probability of presence at ordinary occurrence points. See Elith et al., Diversity and Distributions, 2011 for details.
+}
 
 Other more advanced arguments are (use these ones only if you understand them completely):
-
-lq2lqptthreshold |  | integer | 80 | Number of samples at which product and threshold features start being used.
-
-l2lqthreshold |  | integer | 10 | Number of samples at which quadratic features start being used.
-
-hingethreshold |  | integer | 15 | Number of samples at which hinge features start being used.
-
-beta_threshold |  | double | -1 | Regularization parameter to be applied to all threshold features; negative value enables
-                                  automatic setting.
-
-beta_categorical |  | double | -1 | Regularization parameter to be applied to all categorical features; negative value enables
-                                    automatic setting.
-
-beta_lqp |  | double | -1 | Regularization parameter to be applied to all linear, quadratic and product features; negative
-                            value enables automatic setting.
-
-beta_hinge |  | double | -1 | Regularization parameter to be applied to all hinge features; negative value enables automatic
-                              setting.
+\itemize{
+\item lq2lqptthreshold | | integer | 80 | Number of samples at which product and threshold features start being used.
+\item l2lqthreshold | | integer | 10 | Number of samples at which quadratic features start being used.
+\item hingethreshold | | integer | 15 | Number of samples at which hinge features start being used.
+\item beta_threshold | | double | -1 | Regularization parameter to be applied to all threshold features; negative value enables automatic setting.
+\item beta_categorical | | double | -1 | Regularization parameter to be applied to all categorical features; negative value enables automatic setting.
+\item beta_lqp | | double | -1 | Regularization parameter to be applied to all linear, quadratic and product features; negative value enables automatic setting.
+\item beta_hinge | | double | -1 | Regularization parameter to be applied to all hinge features; negative value enables automatic setting.
+}
 }
 \examples{
 # To replicate this example dowload the data from the following link:

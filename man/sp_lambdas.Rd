@@ -5,14 +5,14 @@
 \title{A lambdas file resulted from a modeling process in Maxent}
 \format{A lambdas file.
 \describe{
-  \item{parameters}{number of parameters in the Maxent model.}
+\item{parameters}{number of parameters in the Maxent model.}
 }}
 \source{
 \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }
 \description{
 A lambdas file resulted from a model created in Maxent with raw output for a tick
-(*Amblyomma americanum*) in North America. This file is used to calculate number
+(\emph{Amblyomma americanum}) in North America. This file is used to calculate number
 of parameters in the model, which is needed while calculating AICc values.
 }
 \examples{
