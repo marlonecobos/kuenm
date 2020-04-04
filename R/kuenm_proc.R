@@ -97,7 +97,7 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
   # -----------
   # preparing data
-  model <- raster::setMinMax(model)
+  if (c_pred == "RasterLayer") {model <- raster::setMinMax(model)}
   min_pred <- ifelse(c_pred == "numeric", min(model, na.rm = TRUE),
                      model@data@min)
   max_pred <- ifelse(c_pred == "numeric", max(model, na.rm = TRUE),
