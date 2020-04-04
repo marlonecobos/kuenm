@@ -196,8 +196,7 @@ proc_or_aicc <- function(occ.joint, occ.tra, occ.test,
     mod1 <- read.csv(mods1)
 
     tval <- mod1[paste(mod1[, 1], mod1[, 2]) %in% paste(occ1[, 1], occ1[, 2]), 3]
-    proc <- ellipsenm::partial_roc(mod1[, 3], tval, longitude, latitude,
-                                   threshold, iterations, rand.percent)
+    proc <- kuenm_proc(tval, mod1[, 3], threshold, rand.percent, iterations)
 
     proc_res[[i]] <- proc[[1]]
 

@@ -2,43 +2,49 @@
 % Please edit documentation in R/kuenm_proc.R
 \name{kuenm_proc}
 \alias{kuenm_proc}
-\title{Partial ROC calculation of single models}
+\title{Partial ROC calculation for ecological niche models}
 \usage{
 kuenm_proc(occ.test, model, threshold = 5, rand.percent = 50,
            iterations = 500, parallel = FALSE)
 }
 \arguments{
-\item{occ.test}{a numerical matrix containing coordinates of the occurrences used to test
-the ecological niche model to be evaluated; columns must be: longitude and latitude.}
+\item{occ.test}{matrix, data.frame, or numeric vector containing coordinates
+of occurrences to test model predictions to be evaluated. If matrix or
+data.frame, columns must include longitude and latitude in that order.
+If numeric, values of suitability in such occurrences. If a matrix or a
+data.frame is provided, \code{model} must be a RasterLayer.}
 
-\item{model}{a RasterLayer of the ecological niche model to be evaluated.}
+\item{model}{RasterLayer or numeric vector of ecological niche model
+predictions to be evaluated. If RasterLayer, layer of predicted suitability.
+If numeric vector, predicted suitability values.}
 
-\item{threshold}{(numeric) value from 0 to 100 that will be used as threshold (E);
-default = 5.}
+\item{threshold}{(numeric) value from 0 to 100 to represent the percentage of
+potential error (E) that the data could have due to any source of uncertainty.
+Default = 5.}
 
-\item{rand.percent}{(numeric) value from 0 to 100 representing the percent of testing data
-to be used for performing the bootstrap process for calculating the partial ROC;
-default = 50.}
+\item{rand.percent}{(numeric) percentage of testing data to be used in each
+bootstrapped process for calculating the partial ROC. Default = 50.}
 
 \item{iterations}{(numeric) number of bootstrap iterations to be performed;
 default = 500.}
 
-\item{parallel}{(logical) if TRUE, calculations will be performed in parallel using the available
-cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
-is more recommended in high-performance computers. Using this option will speed up the analyses
-only if \code{model} is a large RasterLayer or if \code{iterations} are more than 5000.
+\item{parallel}{(logical) if TRUE, calculations will be performed in parallel
+using the available cores of the computer. This will demand more RAM and
+almost full use of the CPU; hence, its use is recommended in high-performance
+computers. Using this option will speed up the analyses only if \code{model}
+is a large RasterLayer or if \code{iterations} are more than 5000.
 Default = FALSE.}
 }
 \value{
-A data.frame containing the AUC values and AUC ratios calculated for each iteration.
+A list with the summary of the results and a data.frame containing
+the AUC values and AUC ratios calculated for all iterations.
 }
 \description{
-kuenm_proc applies partial ROC tests to single models.
+kuenm_proc applies partial ROC tests to model predictions.
 }
 \details{
-Partial ROC is calculated following Peterson et al.
-(2008; \url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}). This function is a modification
-of the \code{\link[ntbox]{pROC}} funcion, available at \url{https://github.com/luismurao/ntbox}.
+Partial ROC is calculated following Peterson et al. (2008;
+\url{http://dx.doi.org/10.1016/j.ecolmodel.2007.11.008}).
 }
 \examples{
 occ <- read.csv(list.files(system.file("extdata", package = "kuenm"),
