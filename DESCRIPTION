@@ -1,7 +1,7 @@
 Package: kuenm
 Type: Package
 Title: An R package for detailed development of ecological niche models using Maxent
-Version: 1.1.4
+Version: 1.1.5
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
     person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
