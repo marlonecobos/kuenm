@@ -268,7 +268,7 @@ kuenm_cal_swd <- function(occ.joint, occ.tra, occ.test, back.dir, batch,
   dev.off()
 
   ## writing the html file
-  html_calibration(path = out.dir.eval, file_name = "calibration_results")
+  html_calibration(path = out.dir.eval, file.name = "calibration_results")
 
   # finishing evaluation
   message("\nProcess finished")
