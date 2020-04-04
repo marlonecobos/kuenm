@@ -11,6 +11,9 @@ html_calibration(path = getwd(), file.name)
 
 \item{file.name}{(character) name of the HTML file.}
 }
+\value{
+HTML file in \code{path}
+}
 \description{
 Helper function to create an HTML file summarizing results
 }

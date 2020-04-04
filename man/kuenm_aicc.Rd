@@ -26,7 +26,7 @@ kuenm_aicc calculates the Akaike information criterion corrected for small
 sample sizes (AICc) to single or multiple models produced with Maxent.
 }
 \details{
-This function is a modificatio of the \code{\link[ENMeval]{calc.aicc}} from the ENMeval package.
+This function is a modification of the \code{\link[ENMeval]{calc.aicc}} from the ENMeval package.
 Changes help to make calcutions faster because of a better management of raster values (especially
 when calculations are performed for multiple models).
 }

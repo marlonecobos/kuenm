@@ -13,6 +13,10 @@ combination sets or manually. Combination sets are: "all", "basic", "no.t.h",
 Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h. See details for
 all the available potential combinations of feature classes.}
 }
+\value{
+character containig java code for defining feature classes in Maxent
+candidate models.
+}
 \description{
 Helper function to select feature classes
 }

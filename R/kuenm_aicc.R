@@ -14,7 +14,7 @@
 #' @return A dataframe containing values of AICc, delta AICc, weight of AICc, and number of parameters.
 #' Number of rows of this dataframe correspond to number of models evaluated.
 #'
-#' @details This function is a modificatio of the \code{\link[ENMeval]{calc.aicc}} from the ENMeval package.
+#' @details This function is a modification of the \code{\link[ENMeval]{calc.aicc}} from the ENMeval package.
 #' Changes help to make calcutions faster because of a better management of raster values (especially
 #' when calculations are performed for multiple models).
 #'
