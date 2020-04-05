@@ -2,6 +2,7 @@
 
 export(aicc)
 export(all_var_comb)
+export(ext_type)
 export(feature_classes)
 export(get_free_ram)
 export(hierpart_analyses)
