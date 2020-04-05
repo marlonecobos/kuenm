@@ -4,10 +4,10 @@
 \alias{prepare_swd}
 \title{Prepare data for SWD maxent calibration processes}
 \usage{
-prepare_swd(occ, species, longitude, latitude,
-            data.split.method = "random", train.proportion = 0.5,
-            raster.layers, sample.size = 10000, save = FALSE,
-            name.occ, name.back, set.seed = 1)
+prepare_swd(occ, species, longitude, latitude, data.split.method = "random",
+            train.proportion = 0.5, raster.layers, sample.size = 10000,
+            var.sets = NULL, min.number = 2, save = FALSE, name.occ,
+            back.folder, set.seed = 1)
 }
 \arguments{
 \item{occ}{data.frame containing occurrence records of the species of interest.
@@ -32,16 +32,27 @@ where the model will be calibrated.}
 \item{sample.size}{(numeric) number of points to represent the background for
 the model. Default = 10000}
 
+\item{var.sets}{(character or list) if character the only option is "all_comb",
+which will prepare the background to obtain all potential combinations of
+variables considering the ones in \code{raster.layers}. The minimum number of
+variables per set is defied by \code{min.number}. If list, a list
+of character vectors with the names of the variables per each set. Names of
+variables in sets must match names of layers in \code{raster.layers}.
+The default (NULL) produces only one set of variables for the background.}
+
+\item{min.number}{(numeric) minimum number of variables per set when option
+"all_comb" is used in \code{var.sets}. Default = 2.}
+
 \item{save}{(logical) whether or not to write csv files containing all, train,
 and test occurrences, as well as the background. All files will contain
 additional columns with the values of the variables for each coordinate.
-Default = FALSE}
+Default = FALSE.}
 
 \item{name.occ}{(character) name to be used for files with occurrence records.
 Only one name is needed, a sufix will be added to represent all (_join),
 _train, and _test records (e.g., "occurrences").}
 
-\item{name.back}{name for the csv file containing background coordinates
+\item{back.folder}{name for the csv file containing background coordinates
 (e.g., "background").}
 
 \item{set.seed}{seed to be used when sampling background and splitting records.
@@ -62,8 +73,14 @@ occ <- data.frame(Species = "A_americanum", occ)
 mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
                                   pattern = "Mbio_", full.names = TRUE))
 
-# preparing swd
+# preparing swd data one set of variables
 prep <- prepare_swd(occ, species = "Species", longitude = "Longitude",
                     latitude = "Latitude", raster.layers = mvars,
                     sample.size = 5000)
+
+# various sets of variables
+preps <- prepare_swd(occ, species = "Species", longitude = "Longitude",
+                     latitude = "Latitude", raster.layers = mvars,
+                     var.sets = "all_comb", min.number = 3,
+                     sample.size = 5000)
 }

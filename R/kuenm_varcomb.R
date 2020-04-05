@@ -70,22 +70,7 @@ kuenm_varcomb <- function(var.dir, out.dir, min.number = 2, in.format = "ascii",
   }
 
   # Generating all combinations of variable names
-  var_comb <- list()
-
-  for (i in min.number:length(variables)) {
-    comb <- combn(x = variables, m = i)
-    comb_vs <- list()
-
-    for (j in 1:dim(comb)[2]) {
-      comb_vs[[j]] <- comb[, j]
-    }
-
-    var_comb[[i]] <- comb_vs
-  }
-
-  var_comb[1:(min.number - 1)] <- NULL
-  var_combinations <- do.call(c, var_comb)
-
+  var_combinations <- all_var_comb(variables, min.number)
 
   # Output directory (General)
   dir.create(out.dir)
