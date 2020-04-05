@@ -72,21 +72,22 @@ feature_classes <- function(f.clas = "all") {
 #' to create all candidate models.
 #' @param maxent.path (character) the path were the maxent.jar file is in your
 #' computer.
+#' @param wait (logical) whether R waits until the runing is done or not.
 #' @export
-run_maxent <- function(batch, maxent.path) {
+run_maxent <- function(batch, maxent.path, wait = FALSE) {
   if(.Platform$OS.type == "unix") {
     batfile_path <- file.path(getwd(), paste0(batch, ".sh"))
     r_wd <- getwd()
     setwd(maxent.path)
 
-    system(paste("bash", batfile_path), wait = FALSE)
+    system(paste("bash", batfile_path), wait = wait)
 
   } else {
     batfile_path <- file.path(getwd(), paste0(batch, ".bat"))
     r_wd <- getwd() # real working directory
     setwd(maxent.path) # change temporally the working directory
 
-    system2(batfile_path, wait = FALSE, invisible = FALSE)
+    system2(batfile_path, wait = wait, invisible = FALSE)
   }
   setwd(r_wd)
 }
@@ -154,4 +155,30 @@ html_calibration <- function (path = getwd(), file.name) {
       file = rmdfile)
   rmarkdown::render(rmdfile, "html_document", quiet = TRUE)
   unlink(rmdfile)
+}
+
+
+#' Helper function to select extrapolation options
+#' @param ext.type (character) extrapolation type to be used. Options are:
+#' "all", "ext_clam", "ext", and "no_ext", default = "all".
+ext_type <- function(ext.type = "all") {
+  if(ext.type == "ext_clam") {
+    mid.com <- "extrapolate=true doclamp=true"
+    ext.nam <- "_EC"
+  }
+  if(ext.type == "ext") {
+    mid.com <- "extrapolate=true doclamp=false"
+    ext.nam <- "_E"
+  }
+  if(ext.type == "no_ext") {
+    mid.com <- "extrapolate=false doclamp=false"
+    ext.nam <- "_NE"
+  }
+  if(ext.type == "all") {
+    mid.com <- c("extrapolate=true doclamp=true",
+                 "extrapolate=true doclamp=false",
+                 "extrapolate=false doclamp=false")
+    ext.nam <- c("_EC", "_E", "_NE")
+  }
+  return(list(code = mid.com, name = ext.nam))
 }

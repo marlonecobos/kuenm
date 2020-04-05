@@ -4,7 +4,7 @@
 \alias{run_maxent}
 \title{Helper function to run maxent.jar from R}
 \usage{
-run_maxent(batch, maxent.path)
+run_maxent(batch, maxent.path, wait = FALSE)
 }
 \arguments{
 \item{batch}{(character) name of the batch file (bash for Unix) with the code
@@ -12,6 +12,8 @@ to create all candidate models.}
 
 \item{maxent.path}{(character) the path were the maxent.jar file is in your
 computer.}
+
+\item{wait}{(logical) whether R waits until the runing is done or not.}
 }
 \description{
 Helper function to run maxent.jar from R

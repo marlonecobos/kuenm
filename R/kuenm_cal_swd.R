@@ -179,8 +179,8 @@ kuenm_cal_swd <- function(occ.joint, occ.tra, occ.test, back.dir, batch,
   a.fea <- "autofeature=false"
 
   ## Other maxent settings
-  fin.com <- "extrapolate=false doclamp=false replicates=1 replicatetype=Crossvalidate responsecurves=false jackknife=false plots=false pictures=false outputformat=raw warnings=false visible=false redoifexists autorun\n"
-  fin.com1 <- "extrapolate=false doclamp=false replicates=1 replicatetype=Crossvalidate responsecurves=false jackknife=false plots=false pictures=false outputformat=logistic warnings=false visible=false redoifexists autorun\n"
+  fin.com <- "extrapolate=false doclamp=false replicates=1 replicatetype=Crossvalidate responsecurves=false jackknife=false plots=false pictures=false outputformat=raw warnings=false visible=false autorun\n"
+  fin.com1 <- "extrapolate=false doclamp=false replicates=1 replicatetype=Crossvalidate responsecurves=false jackknife=false plots=false pictures=false outputformat=logistic warnings=false visible=false autorun\n"
 
   # Final set of calibration models
   ## preparin final arguments

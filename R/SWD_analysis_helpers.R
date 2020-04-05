@@ -148,7 +148,7 @@ proc_or_aicc <- function(occ.joint, occ.tra, occ.test,
 
   # occurrences
   oc <- read.csv(occ.joint)
-  spn <- as.character(oc[1, 1])
+  spn <- gsub(" ", "_", as.character(oc[1, 1]))
   oc <- oc[, -1]
   occ <- read.csv(occ.tra)[, -1]
   occ1 <- read.csv(occ.test)[, -1]
