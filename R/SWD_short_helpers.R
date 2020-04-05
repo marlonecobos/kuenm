@@ -161,6 +161,7 @@ html_calibration <- function (path = getwd(), file.name) {
 #' Helper function to select extrapolation options
 #' @param ext.type (character) extrapolation type to be used. Options are:
 #' "all", "ext_clam", "ext", and "no_ext", default = "all".
+#' @export
 ext_type <- function(ext.type = "all") {
   if(ext.type == "ext_clam") {
     mid.com <- "extrapolate=true doclamp=true"
