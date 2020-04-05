@@ -107,6 +107,25 @@ Users of Linux and Mac need the entire Java Development Kit available in
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html.
 Maxent can be downloaded from https://biodiversityinformatics.amnh.org/open_source/maxent/
 
+To prepare occurrence and background csv files as needed for using this
+function, use \code{\link{prepare_swd}}. Occurrence csv files must contain
+information and be organized as in the example below:\tabular{lrrrrr}{
+   Species \tab Longitude \tab Latitude \tab bio_1 \tab bio_12 \tab bio_15 \cr
+   My_species \tab -79.24999 \tab 37.91667 \tab 113 \tab 1085 \tab 11 \cr
+   My_species \tab -79.41666 \tab 35.41667 \tab 155 \tab 1173 \tab 16 \cr
+   My_species \tab -76.41666 \tab 37.91667 \tab 142 \tab 1060 \tab 12 \cr
+}
+
+
+Background csv files must contain information and be organized as in the
+example below:\tabular{lrrrrr}{
+   background \tab Longitude \tab Latitude \tab bio_1 \tab bio_12 \tab bio_15 \cr
+   background \tab -79.24999 \tab 37.91667 \tab 113 \tab 1085 \tab 11 \cr
+   background \tab -79.41666 \tab 35.41667 \tab 155 \tab 1173 \tab 16 \cr
+   background \tab -76.41666 \tab 37.91667 \tab 142 \tab 1060 \tab 12 \cr
+}
+
+
 Below all potential combinations of feature classes are shown. Manual selection
 can be done by creating a vector of one or more of the combinations of this
 list. l = linear, q = quadratic, p = product, t = threshold, and h = hinge.

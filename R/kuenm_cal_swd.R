@@ -62,6 +62,25 @@
 #' http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html.
 #' Maxent can be downloaded from https://biodiversityinformatics.amnh.org/open_source/maxent/
 #'
+#' To prepare occurrence and background csv files as needed for using this
+#' function, use \code{\link{prepare_swd}}. Occurrence csv files must contain
+#' information and be organized as in the example below:
+#'
+#'  |Species    | Longitude| Latitude| bio_1| bio_12| bio_15|
+#'  |:----------|---------:|--------:|-----:|------:|------:|
+#'  |My_species | -79.24999| 37.91667|   113|   1085|     11|
+#'  |My_species | -79.41666| 35.41667|   155|   1173|     16|
+#'  |My_species | -76.41666| 37.91667|   142|   1060|     12|
+#'
+#' Background csv files must contain information and be organized as in the
+#' example below:
+#'
+#'  |background | Longitude| Latitude| bio_1| bio_12| bio_15|
+#'  |:----------|---------:|--------:|-----:|------:|------:|
+#'  |background | -79.24999| 37.91667|   113|   1085|     11|
+#'  |background | -79.41666| 35.41667|   155|   1173|     16|
+#'  |background | -76.41666| 37.91667|   142|   1060|     12|
+#'
 #' Below all potential combinations of feature classes are shown. Manual selection
 #' can be done by creating a vector of one or more of the combinations of this
 #' list. l = linear, q = quadratic, p = product, t = threshold, and h = hinge.

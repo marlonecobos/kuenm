@@ -6,11 +6,13 @@
 #'
 #' @param occ.joint (character) the name of csv file with training and testing
 #' occurrences combined; columns must be: species, longitude, latitude, and two
-#' or more columns representing distinct variables. See details.
+#' or more columns representing distinct variables. See details in
+#' \code{\link{kuenm_cal_swd}}.
 #' @param back.dir (character) the name of the folder containing one or more csv
 #' files representing one or more sets of predictor variables for a background.
 #' Columns in background files must be: background, longitude, latitude, and two
-#' or more columns representing distinct variables. See details.
+#' or more columns representing distinct variables. See details in
+#' \code{\link{kuenm_cal_swd}}.
 #' @param out.eval (character) name of the folder where evaluation results
 #' (from calibration) were written.
 #' @param batch (character) name for the batch file (bash for Unix) with the code
