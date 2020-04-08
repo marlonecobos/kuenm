@@ -33,7 +33,12 @@ aicc <- function(occ, prediction, npar) {
     probsum <- sum(prediction[, 3], na.rm = TRUE)
     LL <- log(t(t(vals)/probsum))
     ex <- which(is.infinite(LL))
-    LL <- sum(LL[-ex, ], na.rm = TRUE)
+    if (length(ex) > 0) {
+      LL <- sum(LL[-ex, ], na.rm = TRUE)
+    } else {
+      LL <- colSums(LL, na.rm = TRUE)
+    }
+
     AICc <- ((2 * npar) - (2 * LL)) + (2 * npar * (npar + 1) /
                                                  (nrow(occ) - npar - 1))
     AICc[AIC.valid == FALSE] <- NA
