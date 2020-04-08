@@ -80,7 +80,7 @@ prepare_swd <- function(occ, species, longitude, latitude,
 
   back <- raster::rasterToPoints(raster.layers)
   set.seed(set.seed)
-  back <- back[sample(nrow(back), sample.size), ]
+  if (nrow(back) > sample.size) {back <- back[sample(nrow(back), sample.size), ]}
   back <- data.frame(background = "background", back)
   names(back)[1:3] <- c("background", longitude, latitude)
 
@@ -92,6 +92,7 @@ prepare_swd <- function(occ, species, longitude, latitude,
   octid$background <- "background"
 
   back <- rbind(octid, back)
+  back <- na.omit(back)
 
   occ <- kuenm_occsplit(occ, train.proportion, data.split.method, save, name.occ)
 
