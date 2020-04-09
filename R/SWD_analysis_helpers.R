@@ -31,20 +31,13 @@ aicc <- function(occ, prediction, npar) {
                          paste(occ[, 1], occ[, 2]), 3]
     vals <- na.omit(vals)
     probsum <- sum(prediction[, 3], na.rm = TRUE)
-    LL <- log(t(t(vals)/probsum))
-    ex <- which(is.infinite(LL))
-    if (length(ex) > 0) {
-      LL <- sum(LL[-ex, ], na.rm = TRUE)
-    } else {
-      LL <- colSums(LL, na.rm = TRUE)
-    }
-
+    LL <- colSums(log(t(t(vals)/probsum)), na.rm = TRUE)
     AICc <- ((2 * npar) - (2 * LL)) + (2 * npar * (npar + 1) /
                                                  (nrow(occ) - npar - 1))
     AICc[AIC.valid == FALSE] <- NA
     AICc[is.infinite(AICc)] <- NA
     if (sum(is.na(AICc)) == length(AICc)) {
-      warning("More parameters than occurrences, returning NA.")
+      warning("AICc not valid: too many parameters, or likelihood = Inf... returning NA.")
       res <- data.frame(cbind(AICc, delta_AICc = NA, weight_AICc = NA,
                               parameters = npar))
     } else {

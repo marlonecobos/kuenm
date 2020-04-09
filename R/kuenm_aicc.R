@@ -65,7 +65,7 @@ kuenm_aicc <- function (occ, model, npar) {
     AICc[AIC.valid == FALSE] <- NA
     AICc[is.infinite(AICc)] <- NA
     if (sum(is.na(AICc)) == length(AICc)) {
-      warning("AICc not valid... returning NA's.")
+      warning("AICc not valid: too many parameters, or likelihood = Inf... returning NA.")
       res <- data.frame(cbind(AICc, delta.AICc = NA, w.AIC = NA,
                               parameters = npar))
     } else {
