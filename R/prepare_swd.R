@@ -86,12 +86,15 @@ prepare_swd <- function(occ, species, longitude, latitude,
 
   octi <- which(!paste(occ[, longitude], occ[, latitude]) %in%
                   paste(back[, longitude], back[, latitude]))
-  octid <- occ[octi, ]
-  bnames <- c("background", longitude, latitude)
-  names(octid)[1:3] <- bnames
-  octid$background <- "background"
+  if (length(octi) > 0) {
+    octid <- occ[octi, ]
+    bnames <- c("background", longitude, latitude)
+    names(octid)[1:3] <- bnames
+    octid$background <- "background"
 
-  back <- rbind(octid, back)
+    back <- rbind(octid, back)
+  }
+
   back <- na.omit(back)
 
   occ <- kuenm_occsplit(occ, train.proportion, data.split.method, save, name.occ)
