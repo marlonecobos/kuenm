@@ -96,7 +96,7 @@ run_maxent <- function(batch, maxent.path, wait = FALSE) {
 #' Helper function to wait until a file writing is done
 #' @param file (character) name of the file of interest.
 #' @export
-wait_written_done <- function(file = "erase.csv") {
+wait_written_done <- function(file) {
   while (!file.exists(file)) {
     if (file.exists(file)) {break()}
     Sys.sleep(1)

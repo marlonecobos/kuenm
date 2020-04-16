@@ -14,10 +14,12 @@
 #' @param percent (numeric) percetage of values sampled from the calibration region to calculate the MOP.
 #' @param comp.each (numeric) compute distance matrix for a each fixed number of rows (default 2000).
 #' @param parallel (logical) option to be passed to the \code{\link{kuenm_mop}} function (for each independent
-#' MOP analyses). If TRUE, calculations will be performed in parallel using the available cores of the
+#' MOP analyses). If TRUE, calculations will be performed in parallel using \code{n.cores} of the
 #' computer. This will demand more RAM and almost full use of the CPU; hence, its use is more
 #' recommended in high-performance computers. Using this option will speed up the analyses.
-#' Default = FALSE
+#' Default = FALSE.
+#' @param n.cores (numeric) number of cores to be used in parallel processing.
+#' Default = NULL, in which case all CPU cores on current host - 1 will be used.
 #'
 #' @return A folder containing one or multiple mobility-oriented parity raster layers depending on
 #' how many projection areas or scenarios are considered. This results will be organized by the
@@ -37,8 +39,8 @@
 #'
 #' @export
 
-kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
-                       percent = 10, comp.each = 2000, parallel = FALSE) {
+kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
+                       comp.each = 2000, parallel = FALSE, n.cores = NULL) {
   if (missing(G.var.dir)) {
     stop("Argument G.var.dir is not defined.")
   }
@@ -85,17 +87,13 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
     m_var <- list.files(dirsm, pattern = "asc", full.names = TRUE) #listing vars in M
     m_vars <- raster::stack(m_var) #stacking the variables
 
-    if(.Platform$OS.type == "unix") {
-      pb <- txtProgressBar(min = 0, max = length(dirsg_in), style = 3)
-    } else {
+    if(.Platform$OS.type != "unix") {
       pb <- winProgressBar(title = "Progress bar", min = 0, max = length(dirsg_in), width = 300) #progress bar
     }
 
     for(i in 1:length(dirsg_in)) {
       Sys.sleep(0.1)
-      if(.Platform$OS.type == "unix") {
-        setTxtProgressBar(pb, i)
-      } else {
+      if(.Platform$OS.type != "unix") {
         setWinProgressBar(pb, i, title = paste(round(i / length(dirsg_in) * 100, 2),
                                                paste("% of the process for", sets.var[h], "has finished")))
       }
@@ -105,12 +103,15 @@ kuenm_mmop <- function(G.var.dir, M.var.dir, sets.var, out.mop,
       g_vars <- raster::stack(g_var)
 
       #MOP calculation
-      mop_res <- kuenm_mop(M.stack = m_vars, G.stack = g_vars, percent = percent,
-                           comp.each = comp.each, parallel = parallel)
+      mop_res <- kuenm_mop(M.variables = m_vars, G.stack = g_vars, percent = percent,
+                           comp.each = comp.each, parallel = parallel, n.cores = n.cores)
 
       #Writing results
       raster::writeRaster(mop_res, filename = paste(dirs_mop[i],".tif", sep = ""), format = "GTiff")
 
+      if(.Platform$OS.type == "unix") {
+        cat("\n\t", paste(i, "of", length(dirsg_in), "MOPs", sep = " "), "\n")
+      }
     }
 
     if(.Platform$OS.type != "unix") {

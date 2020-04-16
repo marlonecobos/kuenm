@@ -17,10 +17,13 @@ Description: This package helps with the development of critical phases of the
     for ecological niche modeling, and further functions allow users to perform 
     post-modeling analyses. 
 Imports:
+    doSNOW (>= 1.0),
     dplyr (>= 0.7),
     fields (>= 9.6),
+    foreach (>= 1.4),
     future (>= 1.8),
     hier.part (>= 1.0),
+    Kendall (>= 2.2),
     knitr (>= 1.20),
     purrr (>= 0.2),
     raster (>= 2.6),

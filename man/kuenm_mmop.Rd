@@ -24,10 +24,13 @@ from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).
 \item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 2000).}
 
 \item{parallel}{(logical) option to be passed to the \code{\link{kuenm_mop}} function (for each independent
-MOP analyses). If TRUE, calculations will be performed in parallel using the available cores of the
+MOP analyses). If TRUE, calculations will be performed in parallel using \code{n.cores} of the
 computer. This will demand more RAM and almost full use of the CPU; hence, its use is more
 recommended in high-performance computers. Using this option will speed up the analyses.
-Default = FALSE}
+Default = FALSE.}
+
+\item{n.cores}{(numeric) number of cores to be used in parallel processing.
+Default = NULL, in which case all CPU cores on current host - 1 will be used.}
 }
 \value{
 A folder containing one or multiple mobility-oriented parity raster layers depending on

@@ -4,10 +4,12 @@
 \alias{kuenm_mop}
 \title{Extrapolation risk analysis for single comparisons}
 \usage{
-kuenm_mop(M.stack, G.stack, percent = 10, comp.each = 2000, parallel = FALSE)
+kuenm_mop(M.variables, G.stack, percent = 10, comp.each = 2000,
+          parallel = FALSE, n.cores = NULL)
 }
 \arguments{
-\item{M.stack}{a RasterStack of variables representing the calibration area.}
+\item{M.variables}{a RasterStack of variables or a matrix with variables as columns
+representing the calibration area.}
 
 \item{G.stack}{a RasterStack of variables representing the full area of interest, and areas
 or scenarios to which models are transferred.}
@@ -16,14 +18,18 @@ or scenarios to which models are transferred.}
 
 \item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default = 2000).}
 
-\item{parallel}{(logical) if TRUE, calculations will be performed in parallel using the available
-cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
+\item{parallel}{(logical) if TRUE, calculations will be performed in parallel using \code{n.cores}
+of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 is more recommended in high-performance computers. Using this option will speed up the analyses.
 Default = FALSE.}
+
+\item{n.cores}{(numeric) number of cores to be used in parallel processing.
+Default = NULL, in which case all CPU cores on current host - 1 will be used.}
 }
 \value{
 A mobility-oriented parity RasterLayer where values of 0 represent strict extrapolation,
-which means complete dissimilarity of environments between the calibration (M) and projection area (G).
+which means complete dissimilarity of environments between the calibration (M) or the background,
+and the projection area (G).
 }
 \description{
 kuenm_mop calculates a mobility-oriented parity layer by
@@ -40,9 +46,12 @@ mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
                                   pattern = "Mbio_", full.names = TRUE))
 gvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
                                   pattern = "Gbio_", full.names = TRUE))
-perc <- 10
+names(mvars) <- gsub("M", "", names(mvars))
+names(gvars) <- names(mvars)
 
-mop <- kuenm_mop(M.stack = mvars, G.stack = gvars, percent = perc)
+perc <- 5
+
+mop <- kuenm_mop(M.variables = mvars, G.stack = gvars, percent = perc)
 
 raster::plot(mop)
 }
