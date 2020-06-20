@@ -209,42 +209,7 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
                                      "\"", sep = "")), sep = "")
 
   ##Feature classes combinations
-  fea <- c("linear=true quadratic=false product=false threshold=false hinge=false",
-           "linear=false quadratic=true product=false threshold=false hinge=false",
-           "linear=false quadratic=false product=true threshold=false hinge=false",
-           "linear=false quadratic=false product=false threshold=true hinge=false",
-           "linear=false quadratic=false product=false threshold=false hinge=true",
-           "linear=true quadratic=true product=false threshold=false hinge=false",
-           "linear=true quadratic=false product=true threshold=false hinge=false",
-           "linear=true quadratic=false product=false threshold=true hinge=false",
-           "linear=true quadratic=false product=false threshold=false hinge=true",
-           "linear=false quadratic=true product=true threshold=false hinge=false",
-           "linear=false quadratic=true product=false threshold=true hinge=false",
-           "linear=false quadratic=true product=false threshold=false hinge=true",
-           "linear=false quadratic=false product=true threshold=true hinge=false",
-           "linear=false quadratic=false product=true threshold=false hinge=true",
-           "linear=false quadratic=false product=false threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=false hinge=false",
-           "linear=true quadratic=true product=false threshold=true hinge=false",
-           "linear=true quadratic=true product=false threshold=false hinge=true",
-           "linear=true quadratic=false product=true threshold=true hinge=false",
-           "linear=true quadratic=false product=true threshold=false hinge=true",
-           "linear=false quadratic=true product=true threshold=true hinge=false",
-           "linear=false quadratic=true product=true threshold=false hinge=true",
-           "linear=false quadratic=true product=false threshold=true hinge=true",
-           "linear=false quadratic=false product=true threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=true hinge=false",
-           "linear=true quadratic=true product=true threshold=false hinge=true",
-           "linear=true quadratic=true product=false threshold=true hinge=true",
-           "linear=true quadratic=false product=true threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=true hinge=true")
-
-  names(fea) <- c("l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
-                  "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-                  "qth", "pth", "lqpt", "lqph", "lqth", "lpth", "lqpth")
-
-  ###Selected feature classes using data from the best models table
-  fea <- fea[f.clas]
+  fea <- feature_classes(f.clas)
 
   ##Projection (G) variables folders and subfolders, extrapolation types, and writting clamp and MESS
   if(project == TRUE) {

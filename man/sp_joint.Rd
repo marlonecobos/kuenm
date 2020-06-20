@@ -3,11 +3,13 @@
 \name{sp_joint}
 \alias{sp_joint}
 \title{A set of occurrence records for ecological niche models}
-\format{A data frame with 178 rows and 2 columns.
+\format{
+A data frame with 178 rows and 2 columns.
 \describe{
 \item{Longitude}{longitude, in decimal degrees.}
 \item{Latitude}{latitude, in decimal degrees.}
-}}
+}
+}
 \source{
 \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }

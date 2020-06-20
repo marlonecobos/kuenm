@@ -7,14 +7,14 @@
 feature_classes(f.clas = "all")
 }
 \arguments{
-\item{f.clas}{(character) feature clases can be selected from five different
+\item{f.clas}{(character) feature classes can be selected from five different
 combination sets or manually. Combination sets are: "all", "basic", "no.t.h",
 "no.h", and "no.t". Default = "all". basic = "l", "lq", "lqp", "lqpt", "lqpth".
 Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h. See details for
 all the available potential combinations of feature classes.}
 }
 \value{
-character containig java code for defining feature classes in Maxent
+character containing java code for defining feature classes in Maxent
 candidate models.
 }
 \description{
@@ -25,6 +25,6 @@ Below all potential combinations of feature classes are shown. Manual selection
 can be done by creating a vector of one or more of the combinations of this
 list. l = linear, q = quadratic, p = product, t = threshold, and h = hinge.
 "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh", "pt", "ph",
-"th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph", "qth", "pth", "lqpt",
-"lqph", "lqth", "lpth", and "lqpth".
+"th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt", "qph", "qth", "pth",
+"lqpt", "lqph", "lqth", "lpth", "qpth", and "lqpth".
 }

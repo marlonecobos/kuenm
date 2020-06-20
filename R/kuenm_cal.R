@@ -37,9 +37,9 @@
 #' Below all potential combinations of feature classes are shown. Manual selection can be done by creating
 #' a vector of one or more of the combinations of this list. l = linear, q = quadratic, p = product,
 #' t = threshold, and h = hinge.
-#' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
-#' "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-#' "qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
+#' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh", "pt", "ph",
+#' "th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt", "qph", "qth", "pth",
+#' "lqpt", "lqph", "lqth", "lpth", "qpth", and "lqpth".
 #'
 #' The way to include further arguments is as follows:
 #' args = "biasfile=COMPLETE_PATH\\bias.asc biastype=3" in windows,
@@ -55,7 +55,7 @@
 #' - maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number, then this number of cells is chosen randomly for background points.
 #' - togglelayertype | t | string | | Toggle continuous/categorical for environmental layers whose names begin with this prefix (default: all continuous).
 #' - biasfile | | file | | Sampling is assumed to be biased according to the sampling distribution given in this grid file. Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend to create this file as a kernell density of geographic points representing all localities were samplings of similar organisms have been performed (multiply this layer by 1000 and round it to reduce number of decimals). IMPORTANT: A biasfile must be included with its entire path, as indicated above above.
-#' - biastype | | integer | | If biasfile is defined, this integer needs to be definef depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
+#' - biastype | | integer | | If biasfile is defined, this integer needs to be defined depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
 #' - writebackgroundpredictions | | boolean | FALSE | Write .csv file with predictions at background points.
 #' - maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
 #' - convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.
@@ -173,49 +173,7 @@ kuenm_cal <- function(occ.joint, occ.tra, M.var.dir, batch, out.dir, max.memory 
 
   #Maxent settings
   ##Featire classes combinations
-  fea <- c("linear=true quadratic=false product=false threshold=false hinge=false",
-           "linear=false quadratic=true product=false threshold=false hinge=false",
-           "linear=false quadratic=false product=true threshold=false hinge=false",
-           "linear=false quadratic=false product=false threshold=true hinge=false",
-           "linear=false quadratic=false product=false threshold=false hinge=true",
-           "linear=true quadratic=true product=false threshold=false hinge=false",
-           "linear=true quadratic=false product=true threshold=false hinge=false",
-           "linear=true quadratic=false product=false threshold=true hinge=false",
-           "linear=true quadratic=false product=false threshold=false hinge=true",
-           "linear=false quadratic=true product=true threshold=false hinge=false",
-           "linear=false quadratic=true product=false threshold=true hinge=false",
-           "linear=false quadratic=true product=false threshold=false hinge=true",
-           "linear=false quadratic=false product=true threshold=true hinge=false",
-           "linear=false quadratic=false product=true threshold=false hinge=true",
-           "linear=false quadratic=false product=false threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=false hinge=false",
-           "linear=true quadratic=true product=false threshold=true hinge=false",
-           "linear=true quadratic=true product=false threshold=false hinge=true",
-           "linear=true quadratic=false product=true threshold=true hinge=false",
-           "linear=true quadratic=false product=true threshold=false hinge=true",
-           "linear=false quadratic=true product=true threshold=true hinge=false",
-           "linear=false quadratic=true product=true threshold=false hinge=true",
-           "linear=false quadratic=true product=false threshold=true hinge=true",
-           "linear=false quadratic=false product=true threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=true hinge=false",
-           "linear=true quadratic=true product=true threshold=false hinge=true",
-           "linear=true quadratic=true product=false threshold=true hinge=true",
-           "linear=true quadratic=false product=true threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=true hinge=true")
-
-  names(fea) <- c("l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
-                  "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-                  "qth", "pth", "lqpt", "lqph", "lqth", "lpth", "lqpth")
-
-  suppressWarnings(if(f.clas == "all"|f.clas == "basic"|f.clas == "no.t.h"|f.clas == "no.h"|f.clas == "no.t"){
-    if(f.clas == "all"){fea <- fea} #for choosing all potential combinations
-    if(f.clas == "basic"){fea <- fea[c(1, 6, 16, 25, 29)]} #for choosing combinations ordered for increasing complexity (all fc)
-    if(f.clas == "no.t.h"){fea <- fea[c(1:3, 6:7, 10, 16)]} #for choosing all combinations ordered for increasing complexity (no t no h)
-    if(f.clas == "no.h"){fea <- fea[c(1:4, 6:8, 10:11, 13, 16:17, 19, 21, 25)]}
-    if(f.clas == "no.t"){fea <- fea[c(1:3, 5:7, 9:10, 12, 14, 16, 18, 20, 22, 26)]}
-  }else{
-    fea <- fea[f.clas]
-  })
+  fea <- feature_classes(f.clas)
 
   #output directories
   dir.create(out.dir)

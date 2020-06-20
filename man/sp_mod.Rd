@@ -4,10 +4,12 @@
 \name{sp_mod}
 \alias{sp_mod}
 \title{An ecological niche model created with Maxent}
-\format{A RasterLayer with 150 rows, 249 columns, and 37350 cells:
+\format{
+A RasterLayer with 150 rows, 249 columns, and 37350 cells:
 \describe{
 \item{Suitability}{suitability, in probability values.}
-}}
+}
+}
 \source{
 \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }

@@ -8,7 +8,7 @@ Authors@R: c(
     person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "aut"),
     person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut"))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2018-08-06
+Date: 2020-06-19
 Description: This package helps with the development of critical phases of the 
     ecological niche modeling process in Maxent. It allows to calibrate models by
     creating and testing several candidate models. Handly options for producing 
@@ -40,6 +40,6 @@ VignetteBuilder: knitr
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.0
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp

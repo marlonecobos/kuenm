@@ -60,9 +60,9 @@ Maxent can be downloaded from \url{https://biodiversityinformatics.amnh.org/open
 Below all potential combinations of feature classes are shown. Manual selection can be done by creating
 a vector of one or more of the combinations of this list. l = linear, q = quadratic, p = product,
 t = threshold, and h = hinge.
-"l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
-"pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-"qth", "pth", "lqpt", "lqph", "lqth", "lpth", and "lqpth".
+"l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh", "pt", "ph",
+"th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt", "qph", "qth", "pth",
+"lqpt", "lqph", "lqth", "lpth", "qpth", and "lqpth".
 
 The way to include further arguments is as follows:
 args = "biasfile=COMPLETE_PATH\\bias.asc biastype=3" in windows,
@@ -79,7 +79,7 @@ Flag | Abbrv | Type | Default | Meaning
 \item maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number, then this number of cells is chosen randomly for background points.
 \item togglelayertype | t | string | | Toggle continuous/categorical for environmental layers whose names begin with this prefix (default: all continuous).
 \item biasfile | | file | | Sampling is assumed to be biased according to the sampling distribution given in this grid file. Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend to create this file as a kernell density of geographic points representing all localities were samplings of similar organisms have been performed (multiply this layer by 1000 and round it to reduce number of decimals). IMPORTANT: A biasfile must be included with its entire path, as indicated above above.
-\item biastype | | integer | | If biasfile is defined, this integer needs to be definef depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
+\item biastype | | integer | | If biasfile is defined, this integer needs to be defined depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
 \item writebackgroundpredictions | | boolean | FALSE | Write .csv file with predictions at background points.
 \item maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
 \item convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.

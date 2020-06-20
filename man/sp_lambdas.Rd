@@ -3,10 +3,12 @@
 \name{sp_lambdas}
 \alias{sp_lambdas}
 \title{A lambdas file resulted from a modeling process in Maxent}
-\format{A lambdas file.
+\format{
+A lambdas file.
 \describe{
 \item{parameters}{number of parameters in the Maxent model.}
-}}
+}
+}
 \source{
 \url{https://kuscholarworks.ku.edu/handle/1808/26376}
 }

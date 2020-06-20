@@ -35,7 +35,7 @@ calibration model subfolders.}
 
 \item{reg.mult}{(numeric vector) regularization multiplier(s) to be evaluated.}
 
-\item{f.clas}{(character) feature clases can be selected from five different
+\item{f.clas}{(character) feature classes can be selected from five different
 combination sets or manually. Combination sets are: "all", "basic", "no.t.h",
 "no.h", and "no.t". Default = "all". basic = "l", "lq", "lqp", "lqpt", "lqpth".
 Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h. See details for
@@ -62,7 +62,7 @@ See details for other selection criteria.}
 allowed (E); default = 5.}
 
 \item{rand.percent}{(numeric) the percentage of data to be used for the
-bootstraping process when calculating partial ROCs; default = 50.}
+bootstrapping process when calculating partial ROCs; default = 50.}
 
 \item{iterations}{(numeric) the number of times that the bootstrap is going
 to be repeated; default = 500.}
@@ -76,18 +76,18 @@ will be written.}
 \value{
 A folder named \code{out.dir.models} with all the subfolders to save Maxent
 results when running the .bat file (.sh for Unix). A .bat file (.sh for Unix)
-containing the java codes to run the calibration models, it will run auotmatically
+containing the java codes to run the calibration models, it will run automatically
 or on some computers a dialog box will ask if running is allowed.
 
-A list with three dataframes containing results from the calibration process
+A list with three data.frames containing results from the calibration process
 and a scatterplot of all models based on the AICc values and omission rates.
-In addition, a folder, in the working directory, containing a csv file with i
-nformation about models meeting the user-defined selection criterion, another
+In addition, a folder, in the working directory, containing a csv file with
+information about models meeting the user-defined selection criterion, another
 csv file with a summary of the evaluation and selection process, an extra csv
 file containing all the statistics of model performance (pROC, AICc, and
 omission rates) for all candidate models, a png scatterplot of all models
-based on the AICc values and rates, and an HTML file sumarizing all the i
-nformation produced after evaluation for helping with further interpretation.
+based on the AICc values and rates, and an HTML file summarizing all the
+information produced after evaluation for helping with further interpretation.
 }
 \description{
 kuenm_cal_swd performs the whole process of model calibration
@@ -130,8 +130,8 @@ Below all potential combinations of feature classes are shown. Manual selection
 can be done by creating a vector of one or more of the combinations of this
 list. l = linear, q = quadratic, p = product, t = threshold, and h = hinge.
 "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh", "pt", "ph",
-"th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph", "qth", "pth", "lqpt",
-"lqph", "lqth", "lpth", and "lqpth".
+"th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt", "qph", "qth", "pth",
+"lqpt", "lqph", "lqth", "lpth", "qpth", and "lqpth".
 
 Other selecton criteria are described below: If "AICc" criterion is chosen,
 all significant models with delta AICc up to 2 will be selected If "OR" is
@@ -153,7 +153,7 @@ Flag | Abbrv | Type | Default | Meaning
 \item maximumbackground | MB | integer | 10000 | If the number of background points / grid cells is larger than this number, then this number of cells is chosen randomly for background points.
 \item togglelayertype | t | string | | Toggle continuous/categorical for environmental layers whose names begin with this prefix (default: all continuous).
 \item biasfile | | file | | Sampling is assumed to be biased according to the sampling distribution given in this grid file. Values in this file must not be zero or negative. MaxEnt will factor out the bias. We recomend to create this file as a kernell density of geographic points representing all localities were samplings of similar organisms have been performed (multiply this layer by 1000 and round it to reduce number of decimals). IMPORTANT: A biasfile must be included with its entire path, as indicated above above.
-\item biastype | | integer | | If biasfile is defined, this integer needs to be definef depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
+\item biastype | | integer | | If biasfile is defined, this integer needs to be defined depending on the type of bias added. If the bias file is prepared as recomended, biastype=3.
 \item writebackgroundpredictions | | boolean | FALSE | Write .csv file with predictions at background points.
 \item maximumiterations | m | integer | 500 | Stop training after this many iterations of the optimization algorithm.
 \item convergencethreshold | c | double | 0.00001 | Stop training when the drop in log loss per iteration drops below this number.

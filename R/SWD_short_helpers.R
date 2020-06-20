@@ -1,5 +1,5 @@
 #' Helper function to select feature classes
-#' @param f.clas (character) feature clases can be selected from five different
+#' @param f.clas (character) feature classes can be selected from five different
 #' combination sets or manually. Combination sets are: "all", "basic", "no.t.h",
 #' "no.h", and "no.t". Default = "all". basic = "l", "lq", "lqp", "lqpt", "lqpth".
 #' Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h. See details for
@@ -9,9 +9,9 @@
 #' can be done by creating a vector of one or more of the combinations of this
 #' list. l = linear, q = quadratic, p = product, t = threshold, and h = hinge.
 #' "l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh", "pt", "ph",
-#' "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph", "qth", "pth", "lqpt",
-#' "lqph", "lqth", "lpth", and "lqpth".
-#' @return character containig java code for defining feature classes in Maxent
+#' "th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt", "qph", "qth", "pth",
+#' "lqpt", "lqph", "lqth", "lpth", "qpth", and "lqpth".
+#' @return character containing java code for defining feature classes in Maxent
 #' candidate models.
 #' @export
 
@@ -36,6 +36,7 @@ feature_classes <- function(f.clas = "all") {
            "linear=true quadratic=true product=false threshold=false hinge=true",
            "linear=true quadratic=false product=true threshold=true hinge=false",
            "linear=true quadratic=false product=true threshold=false hinge=true",
+           "linear=true quadratic=false product=false threshold=true hinge=true",
            "linear=false quadratic=true product=true threshold=true hinge=false",
            "linear=false quadratic=true product=true threshold=false hinge=true",
            "linear=false quadratic=true product=false threshold=true hinge=true",
@@ -44,11 +45,12 @@ feature_classes <- function(f.clas = "all") {
            "linear=true quadratic=true product=true threshold=false hinge=true",
            "linear=true quadratic=true product=false threshold=true hinge=true",
            "linear=true quadratic=false product=true threshold=true hinge=true",
+           "linear=false quadratic=true product=true threshold=true hinge=true",
            "linear=true quadratic=true product=true threshold=true hinge=true")
 
   names(fea) <- c("l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
-                  "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "qpt", "qph",
-                  "qth", "pth", "lqpt", "lqph", "lqth", "lpth", "lqpth")
+                  "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt",
+                  "qph", "qth", "pth", "lqpt", "lqph", "lqth", "lpth", "qpth", "lqpth")
 
   if(any(f.clas %in% c("all", "basic", "no.t.h", "no.h", "no.t"))) {
     if(f.clas == "all"){fea <- fea}
