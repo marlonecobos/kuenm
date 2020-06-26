@@ -139,7 +139,7 @@ kuenm_varcomb <- function(var.dir, out.dir, min.number = 2, in.format = "ascii",
     for (k in 1:length(sub_paths)) {
       Sys.sleep(0.1)
       if(.Platform$OS.type == "unix") {
-        setTxtProgressBar(pb, i)
+        setTxtProgressBar(pb, k)
       } else {
         setWinProgressBar(pb, k, title = paste(round(k / length(sub_paths) * 100, 2),
                                                paste("% of the process has finished")))
