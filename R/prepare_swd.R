@@ -82,13 +82,13 @@ prepare_swd <- function(occ, species, longitude, latitude,
   set.seed(set.seed)
   if (nrow(back) > sample.size) {back <- back[sample(nrow(back), sample.size), ]}
   back <- data.frame(background = "background", back)
-  names(back)[1:3] <- c("background", longitude, latitude)
+  bnames <- c("background", longitude, latitude)
+  names(back)[1:3] <- bnames
 
   octi <- which(!paste(occ[, longitude], occ[, latitude]) %in%
                   paste(back[, longitude], back[, latitude]))
   if (length(octi) > 0) {
     octid <- occ[octi, ]
-    bnames <- c("background", longitude, latitude)
     names(octid)[1:3] <- bnames
     octid$background <- "background"
 
