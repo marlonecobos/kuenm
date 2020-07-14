@@ -243,10 +243,10 @@ kuenm_mod_swd <- function(occ.joint, back.dir, out.eval, batch, rep.n = 10,
   env <- rep(env, each = rtimes)
   reg.m <- rep(paste0("betamultiplier=", rm), each = rtimes)
   fea <- rep(fea, each = rtimes)
-  G.dirs <- rep(G.dirs, each = rtimes)
 
   ## Writing java code
   if(project == TRUE) {
+    G.dirs <- rep(G.dirs, each = rtimes)
     jmx <- paste(in.comm, env, samp, G.dirs, subfol, reg.m, a.fea, fea, rep, rept,
                  jack, out, mid.com, args, fin.com)
   } else {
