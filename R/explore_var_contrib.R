@@ -20,8 +20,10 @@
 #' @param args (character) additional arguments that can be passed to Maxent.
 #' See the Maxent help for more information on how to write these arguments,
 #' default = NULL. Note that some arguments cannot be changed here because they
-#' are part of the parameters of the function already (e.g., "writemess").
+#' are part of the parameters of the function already.
 #' See details for other options.
+#' @param sample.size (numeric) number of points to represent the background for
+#' the model. Default = 10000
 #' @param plot (logical) whether to plot results.
 #'
 #' @return
@@ -89,25 +91,25 @@
 
 explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
                                 f.clas = NULL, max.memory = 1000, args = NULL,
-                                plot = TRUE) {
+                                sample.size = 10000, plot = TRUE) {
   # preparing data
   out.dir <- file.path(tempdir(), "jack_maxent")
   if (dir.exists(out.dir)) {unlink(out.dir, recursive = TRUE)}
   dir.create(out.dir)
 
   ## occs
-  occs <- paste0(out.dir, "/occurrences.csv")
-  write.csv(occ, occs, row.names = FALSE)
+  occs <- paste0(out.dir, "/occ_joint.csv")
 
   ## variables
-  dirM <- paste0(out.dir, "/M_variables")
-  dir.create(dirM)
-  vnames <- paste0(out.dir, "/M_variables/", names(M_variables), ".asc")
+  dirM <- paste0(out.dir, "/background/Set_1.csv")
+  spc <- colnames(occ)[1]
+  loc <- colnames(occ)[2]
+  lac <- colnames(occ)[3]
 
-  r <- lapply(1:length(vnames), function(x) {
-    raster::writeRaster(M_variables[[x]], filename = vnames[x], format = "ascii",
-                        overwrite = TRUE)
-  })
+  pr <- prepare_swd(occ = occ, species = spc, longitude = loc, latitude = lac,
+                    raster.layers = M_variables, sample.size = sample.size,
+                    save = TRUE, name.occ = paste0(out.dir, "/occ"),
+                    back.folder = paste0(out.dir, "/background"))
 
   # Slash
   if(.Platform$OS.type == "unix") {sl <- "/"; dl <- "/"} else {sl <- "\\"; dl <- "\\\\"}

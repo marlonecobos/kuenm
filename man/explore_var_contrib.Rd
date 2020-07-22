@@ -31,8 +31,11 @@ while creating the models. Default = 1000.}
 \item{args}{(character) additional arguments that can be passed to Maxent.
 See the Maxent help for more information on how to write these arguments,
 default = NULL. Note that some arguments cannot be changed here because they
-are part of the parameters of the function already (e.g., "writemess").
+are part of the parameters of the function already.
 See details for other options.}
+
+\item{sample.size}{(numeric) number of points to represent the background for
+the model. Default = 10000}
 
 \item{plot}{(logical) whether to plot results.}
 }
