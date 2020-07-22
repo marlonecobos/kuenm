@@ -74,18 +74,30 @@ feature_classes <- function(f.clas = "all") {
 #' to create all candidate models.
 #' @param maxent.path (character) the path were the maxent.jar file is in your
 #' computer.
-#' @param wait (logical) whether R waits until the runing is done or not.
+#' @param add_path (logical) whether to add full path to \code{batch}.
+#' @param wait (logical) whether R waits until the running is done or not.
 #' @export
-run_maxent <- function(batch, maxent.path, wait = FALSE) {
+run_maxent <- function(batch, maxent.path, add_path = TRUE, wait = FALSE) {
+
   if(.Platform$OS.type == "unix") {
-    batfile_path <- file.path(getwd(), paste0(batch, ".sh"))
+    if (add_path == TRUE) {
+      batfile_path <- file.path(getwd(), paste0(batch, ".sh"))
+    } else {
+      batfile_path <- file.path(paste0(batch, ".sh"))
+    }
+
     r_wd <- getwd()
     setwd(maxent.path)
 
     system(paste("bash", batfile_path), wait = wait)
 
   } else {
-    batfile_path <- file.path(getwd(), paste0(batch, ".bat"))
+    if (add_path == TRUE) {
+      batfile_path <- file.path(getwd(), paste0(batch, ".bat"))
+    } else {
+      batfile_path <- file.path(paste0(batch, ".bat"))
+    }
+
     r_wd <- getwd() # real working directory
     setwd(maxent.path) # change temporally the working directory
 
