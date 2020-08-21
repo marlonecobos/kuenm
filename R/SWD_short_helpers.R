@@ -54,10 +54,10 @@ feature_classes <- function(f.clas = "all") {
 
   if(any(f.clas %in% c("all", "basic", "no.t.h", "no.h", "no.t"))) {
     if(f.clas == "all"){fea <- fea}
-    if(f.clas == "basic"){fea <- fea[c(1, 6, 16, 25, 29)]}
+    if(f.clas == "basic"){fea <- fea[c(1, 6, 16, 26, 31)]}
     if(f.clas == "no.t.h"){fea <- fea[c(1:3, 6:7, 10, 16)]}
-    if(f.clas == "no.h"){fea <- fea[c(1:4, 6:8, 10:11, 13, 16:17, 19, 21, 25)]}
-    if(f.clas == "no.t"){fea <- fea[c(1:3, 5:7, 9:10, 12, 14, 16, 18, 20, 22, 26)]}
+    if(f.clas == "no.h"){fea <- fea[c(1:4, 6:8, 10:11, 13, 16:17, 19, 22, 26)]}
+    if(f.clas == "no.t"){fea <- fea[c(1:3, 5:7, 9:10, 12, 14, 16, 18, 20, 23, 27)]}
   }else{
     if (any(f.clas %in% names(fea))) {
       fea <- fea[f.clas]
