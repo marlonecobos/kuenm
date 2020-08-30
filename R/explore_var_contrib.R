@@ -216,7 +216,6 @@ explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
 #' @export
 plot_contribution <- function(contribution_list) {
   cont <- matrix(contribution_list$Contribution$Contribution, nrow = 1)
-  colnames(cont) <- contribution_list$Contribution$Variable
   perm <- matrix(contribution_list$Permutation_importance$Permutation_importance,
                  nrow = 1)
   tgain <- contribution_list$Jackknife_results$Regularized_training_gain_model
@@ -227,10 +226,21 @@ plot_contribution <- function(contribution_list) {
   opar <- par(no.readonly = TRUE)
   on.exit(par(opar))
 
-  # plot
-  layout(matrix(1:4, 1), widths = c(10, 10, 10, 3.5))
-  par(mar = c(3.5, 4.5, 3, 0))
+  # label space and place settings
+  vars <- contribution_list$Contribution$Variable
+  maxnc <- max(sapply(vars, nchar), na.rm = T)
+  fc <- maxnc * 0.3
 
+  yl <- 1:ncol(cont) / ncol(cont)
+  yl <- yl - (min(yl) / 2)
+
+  # plot
+  layout(matrix(1:5, 1), widths = c(fc, 10, 10, 10, 3.5))
+  par(mar = c(3.5, 0, 3, 0))
+  plot.new()
+  text(0.5, yl, vars)
+
+  par(mar = c(3.5, 1, 3, 0))
   barplot(cont, las = 1, col = "gray25", horiz = T, border = NA,
           main = "Contribution")
   box(bty = "l")
@@ -245,7 +255,7 @@ plot_contribution <- function(contribution_list) {
   title(xlab = "Regularized training gain", line = 2.2)
   box(bty = "l")
 
-  par(mar = c(3.5, 0.1, 0, 0))
+  par(mar = c(3.5, 0.15, 0, 0))
   plot.new()
   legend("bottom", legend = c("all", "with", "without"), lty = c(2, NA, NA),
          lwd = c(1.5, NA, NA), pch = c(NA, 22, 22), bty = "n", pt.lwd = 2,
