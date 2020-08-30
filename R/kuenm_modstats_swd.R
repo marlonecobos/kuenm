@@ -110,7 +110,7 @@ kuenm_modstats_swd <- function(sp.name, fmod.dir, format = "asc", statistics,
   }
 
   # Patterns to be found
-  scenarios <- c(sp.name, proj.scenarios)
+  scenarios <- proj.scenarios
   m_names <- paste(scenarios, paste(".", format, "$", sep = ""), sep = "")
 
   # Name for results
