@@ -2,7 +2,7 @@
 #'
 #' @description kuenm_modstats calculates raster layers with some descriptive statistics of all
 #' model replicates across multiple parameter settings. All of this, discriminating among models
-#' transfered to distinct projection areas (scenarios).
+#' transferred to distinct projection areas (scenarios).
 #'
 #' @param sp.name (character) name of the species. This name must be the one that appears as part
 #' of the raster file of each model. If results are from Maxent, this is the name that
@@ -10,7 +10,7 @@
 #' (if there is any) by underscore.
 #' @param fmod.dir (character) the  name of the folder in which final models are (e.g., the output
 #' folder after using the \code{\link{kuenm_mod}}) function. It is important to have only the folders
-#' containing the models in this directory. It can be only one folder or multiple folders containing models
+#' containing the models in this directory. It can be only one folder or multiple subfolders containing models
 #' for the same species, created with distinct parameter settings. If models were projected, and the
 #' distinct types of extrapolation were used, the name of the folders contained in this directory should
 #' include a pattern describing the type of extrapolation used (e.g., "EC" for extrapolation and
@@ -18,7 +18,7 @@
 #' @param format (character) format of model raster files. Options are: "asc" or "tif"; default = "asc".
 #' @param project (logical) if TRUE, it is assumed that models were projected to other scenarios.
 #' @param statistics (character) vector of descriptive statistics to be calculated. Options include
-#' med = median, mean, min = minimum, max = maximum, range, sd = stadard deviation, and se = standard error.
+#' med = median, mean, min = minimum, max = maximum, range, sd = standard deviation, and se = standard error.
 #' By default c("med", "min", "max", "range") are calculated, unless a character vector with the desired
 #' statistics is provided.
 #' @param replicated (logical) whether or not final models were created performing replicates.
@@ -26,20 +26,20 @@
 #' each projection area (scenario) to which models were projected.
 #' @param ext.type (character) valid if \code{project} = TRUE, vector of pattern(s) to be searched in the
 #' folders inside \code{fmod.dir} that identify the extrapolation type(s) of model projections. This pattern(s)
-#' need to be clearly distinguishable from the rest of the name of the model folder name. For instance,
+#' need to be clearly distinguishable from the rest of the name of the folder. For instance,
 #' capital letter can be used to separate this pattern from the rest of the folder name (e.g., "EC" will be
 #' the patter that denotes extrapolation and clamping in the folder named "M_0.1_F_l_set1_EC").
-#' @param out.dir (character) name of the output directory to be created in which subdirectories
-#' containing raster layers of model statistics will be written. Default = "Final_Model_Stats".
+#' @param out.dir (character) name of the output directory to be created in which
+#' resulting raster layers of model statistics will be written. Default = "Final_Model_Stats".
 #'
 #' @return Folders named Statistics or Statistics_("pattern" depending on the ext.type)
 #' with all the raster layers of the descriptive statistics for models in \code{fmod.dir}.
 #' Folders will be written inside \code{out.dir}.
 #'
 #' @details
-#' Users must be specific when defining the patterns that the function will search for. This patterns
+#' Users must be specific when defining the patterns that the function will search for. These patterns
 #' must be part of the model (raster layer) names so the function can locate each file without problems.
-#' This function uses this system of work to avoid high demands of the RAM while perfomring these analyses.
+#' This function uses this system of work to avoid high demands of the RAM while performing these analyses.
 #'
 #' @usage
 #' kuenm_modstats(sp.name, fmod.dir, format = "asc", project, statistics, replicated,
@@ -68,13 +68,6 @@
 
 kuenm_modstats <- function(sp.name, fmod.dir, format = "asc", project, statistics, replicated,
                            proj.scenarios, ext.type, out.dir = "Final_Model_Stats") {
-
-  # installing needed packages if required
-  # pcakages <- c("raster", "rgdal")
-  # req_packages <- pcakages[!(pcakages %in% installed.packages()[, "Package"])]
-  # if (length(req_packages) > 0) {
-  #  install.packages(req_packages, dependencies = TRUE)
-  # }
 
   cat("Preparing data for starting analyses, please wait...\n")
 
