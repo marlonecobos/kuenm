@@ -145,10 +145,12 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
     curr <- regmatches(ext_types[[i]], cur)
     curre <- unlist(curr)
 
-    ca <- paste(".*calibration.*", sep = "")
+    ca <- ".*calibration.*"
     cal <- gregexpr(ca, ext_types[[i]])
     cali <- regmatches(ext_types[[i]], cal)
     calib <- unlist(cali)
+
+    is_swd <- ifelse(length(calib) == 0, TRUE, FALSE)
 
     for (j in 1:length(time.periods)) {
       # Separating by times if exist
@@ -179,13 +181,13 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
                            paste("Scenario", emi.scenarios[k], sep = "_"), sep = "/")
         dir.create(in_folder)
 
-        ### Diferences between current and other time climatic models, continuous models
+        ### Differences between current and other time climatic models, continuous models
         if (missing(clim.models)) {
           clim.models <- ""
         }
 
         comp_models <- model_changes(calibration.model = calib, current.model = curre,
-                                     fclim.models = escen, result = "continuous")
+                                     fclim.models = escen, is_swd, result = "continuous")
 
         ### Writing files
         raster::writeRaster(comp_models, filename = paste(in_folder, "continuous_comparison.tif",
@@ -193,7 +195,7 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
 
         ### Comparison of binary models between current and future
         comp_models <- model_changes(calibration.model = calib, current.model = curre,
-                                     fclim.models = escen, result = "binary",
+                                     fclim.models = escen, is_swd, result = "binary",
                                      threshold = threshold, occ = occ,
                                      clim.models = clim.models,
                                      out.dir = paste(in_folder, "Binary", sep = "/"))
@@ -232,10 +234,12 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
 
 #' Helper function to calculate model changes
 #'
-#' @param calibration.model (character) name of calibration model raster name.
+#' @param calibration.model (character) name of raster prediction for the
+#' calibration area. Ignored if \code{is_swd} = TRUE.
 #' @param current.model (character) name of current model raster name. It can be the same than
 #' \code{calibration.model}.
 #' @param fclim.models (character) vector of climatic model raster names.
+#' @param is_swd (logical) whether or not modeling was done using SWD format.
 #' @param result (character) type of result needed. options are "continuous" and "binary".
 #' Default = "continuous".
 #' @param threshold (numeric) if \code{result} = "binary", value from 0 to 100 that will be used
@@ -247,14 +251,19 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
 #' @param out.dir (character) name of the folder that will be created to save the binary models
 #' if \code{result} = "binary".
 #'
+#' @usage
+#' model_changes <- (calibration.model, current.model, fclim.models,
+#'                   is_swd, result = "continuous", threshold = 5, occ,
+#'                   clim.models, out.dir)
+#'
 #' @export
 
 model_changes <- function(calibration.model, current.model, fclim.models,
-                          result = "continuous", threshold = 5, occ,
+                          is_swd, result = "continuous", threshold = 5, occ,
                           clim.models, out.dir) {
 
   # stack of current and time projections
-  fclim.models <- sort(fclim.models) # just to organice in order
+  fclim.models <- sort(fclim.models) # just for organizing
   cmodels <- raster::stack(c(current.model, fclim.models))
 
   if (result == "continuous" | result == "binary") {
@@ -277,45 +286,53 @@ model_changes <- function(calibration.model, current.model, fclim.models,
       dir.create(paste(out.dir))
 
       # Threshold value calculation
-      model <- raster::raster(calibration.model)
-      o_suit <- raster::extract(model, occ)
+      if (is_swd == TRUE) {
+        bin <- raster::raster(current.model)
+      } else {
+        bin <- raster::raster(calibration.model)
+      }
+      o_suit <- raster::extract(bin, occ)
       o_suit_sort <- sort(o_suit)
       thres <- o_suit_sort[ceiling(length(occ[, 1]) * threshold / 100) + 1]
 
       # Binarization
       ## Calibration area
-      bin <- model
-      raster::values(bin)[raster::values(bin) < thres] <- 0
-      raster::values(bin)[raster::values(bin) >= thres] <- 1
+      if (is_swd == TRUE) {
+        bin <- bin >= thres
+        #raster::values(bin)[raster::values(bin) < thres] <- 0
+        #raster::values(bin)[raster::values(bin) >= thres] <- 1
 
-      raster::writeRaster(bin, filename = paste(out.dir, "binary_calibration.tif",
-                                                sep = "/"), format = "GTiff")
+        raster::writeRaster(bin, filename = paste(out.dir, "binary_calibration.tif",
+                                                  sep = "/"), format = "GTiff")
+      }
 
       ## Current with 0 and 1
       bin <- raster::raster(current.model)
-      raster::values(bin)[raster::values(bin) < thres] <- 0
-      raster::values(bin)[raster::values(bin) >= thres] <- 1
+      bin <- bin >= thres
+      #raster::values(bin)[raster::values(bin) < thres] <- 0
+      #raster::values(bin)[raster::values(bin) >= thres] <- 1
 
       raster::writeRaster(bin, filename = paste(out.dir, "binary_current.tif",
                                                 sep = "/"), format = "GTiff")
 
       ### Current 0 and (number of clim models + 1)
-      bin <- raster::raster(current.model)
-      raster::values(bin)[raster::values(bin) < thres] <- 0
-      raster::values(bin)[raster::values(bin) >= thres] <- (length(fclim.models) + 1)
+      #bin <- raster::raster(current.model)
+      #raster::values(bin)[raster::values(bin) < thres] <- 0
+      bin[bin[] == 1] <- (length(fclim.models) + 1)
 
       ### Climate models
       bins <- raster::stack(fclim.models)
-      raster::values(bins)[raster::values(bins) < thres] <- 0
-      raster::values(bins)[raster::values(bins) >= thres] <- 1
+      bins <- bins >= thres
+      #raster::values(bins)[raster::values(bins) < thres] <- 0
+      #raster::values(bins)[raster::values(bins) >= thres] <- 1
 
       raster::writeRaster(bins, filename = paste(out.dir, "binary.tif", sep = "/"),
                           format = "GTiff", bylayer = TRUE, suffix = sort(clim.models))
 
       ### Comparison
-      all <- raster::stack(bin, bins)
-      mods <- raster::getValues(all)
-      mod <- all[[1]]
+      mod <- raster::stack(bin, bins)
+      mods <- raster::getValues(mod)
+      mod <- mod[[1]]
 
       mod[] <- apply(mods, 1, sum)
     }

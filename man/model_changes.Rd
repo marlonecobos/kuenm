@@ -4,24 +4,20 @@
 \alias{model_changes}
 \title{Helper function to calculate model changes}
 \usage{
-model_changes(
-  calibration.model,
-  current.model,
-  fclim.models,
-  result = "continuous",
-  threshold = 5,
-  occ,
-  clim.models,
-  out.dir
-)
+model_changes <- (calibration.model, current.model, fclim.models,
+                  is_swd, result = "continuous", threshold = 5, occ,
+                  clim.models, out.dir)
 }
 \arguments{
-\item{calibration.model}{(character) name of calibration model raster name.}
+\item{calibration.model}{(character) name of raster prediction for the
+calibration area. Ignored if \code{is_swd} = TRUE.}
 
 \item{current.model}{(character) name of current model raster name. It can be the same than
 \code{calibration.model}.}
 
 \item{fclim.models}{(character) vector of climatic model raster names.}
+
+\item{is_swd}{(logical) whether or not modeling was done using SWD format.}
 
 \item{result}{(character) type of result needed. options are "continuous" and "binary".
 Default = "continuous".}
