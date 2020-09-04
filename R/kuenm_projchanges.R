@@ -150,7 +150,7 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
     cali <- regmatches(ext_types[[i]], cal)
     calib <- unlist(cali)
 
-    is_swd <- ifelse(length(calib) == 0, TRUE, FALSE)
+    is.swd <- ifelse(length(calib) == 0, TRUE, FALSE)
 
     for (j in 1:length(time.periods)) {
       # Separating by times if exist
@@ -187,7 +187,7 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
         }
 
         comp_models <- model_changes(calibration.model = calib, current.model = curre,
-                                     fclim.models = escen, is_swd, result = "continuous")
+                                     fclim.models = escen, is.swd, result = "continuous")
 
         ### Writing files
         raster::writeRaster(comp_models, filename = paste(in_folder, "continuous_comparison.tif",
@@ -195,7 +195,7 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
 
         ### Comparison of binary models between current and future
         comp_models <- model_changes(calibration.model = calib, current.model = curre,
-                                     fclim.models = escen, is_swd, result = "binary",
+                                     fclim.models = escen, is.swd, result = "binary",
                                      threshold = threshold, occ = occ,
                                      clim.models = clim.models,
                                      out.dir = paste(in_folder, "Binary", sep = "/"))
@@ -235,11 +235,11 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
 #' Helper function to calculate model changes
 #'
 #' @param calibration.model (character) name of raster prediction for the
-#' calibration area. Ignored if \code{is_swd} = TRUE.
+#' calibration area. Ignored if \code{is.swd} = TRUE.
 #' @param current.model (character) name of current model raster name. It can be the same than
 #' \code{calibration.model}.
 #' @param fclim.models (character) vector of climatic model raster names.
-#' @param is_swd (logical) whether or not modeling was done using SWD format.
+#' @param is.swd (logical) whether or not modeling was done using SWD format.
 #' @param result (character) type of result needed. options are "continuous" and "binary".
 #' Default = "continuous".
 #' @param threshold (numeric) if \code{result} = "binary", value from 0 to 100 that will be used
@@ -253,13 +253,13 @@ kuenm_projchanges <- function(occ, fmod.stats, threshold = 5, current, time.peri
 #'
 #' @usage
 #' model_changes <- (calibration.model, current.model, fclim.models,
-#'                   is_swd, result = "continuous", threshold = 5, occ,
+#'                   is.swd, result = "continuous", threshold = 5, occ,
 #'                   clim.models, out.dir)
 #'
 #' @export
 
 model_changes <- function(calibration.model, current.model, fclim.models,
-                          is_swd, result = "continuous", threshold = 5, occ,
+                          is.swd, result = "continuous", threshold = 5, occ,
                           clim.models, out.dir) {
 
   # stack of current and time projections
@@ -286,7 +286,7 @@ model_changes <- function(calibration.model, current.model, fclim.models,
       dir.create(paste(out.dir))
 
       # Threshold value calculation
-      if (is_swd == TRUE) {
+      if (is.swd == TRUE) {
         bin <- raster::raster(current.model)
       } else {
         bin <- raster::raster(calibration.model)
@@ -297,7 +297,7 @@ model_changes <- function(calibration.model, current.model, fclim.models,
 
       # Binarization
       ## Calibration area
-      if (is_swd == TRUE) {
+      if (is.swd == TRUE) {
         bin <- bin >= thres
         #raster::values(bin)[raster::values(bin) < thres] <- 0
         #raster::values(bin)[raster::values(bin) >= thres] <- 1
