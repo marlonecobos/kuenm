@@ -202,6 +202,7 @@ help(kuenm_mmop)
 Below, arguments for this functions will be defined.
 
 \```{r, eval=FALSE}
+is_swd <- FALSE
 sets_var <- c(\"Set3\")
 out_mop <- \"MOP_results\"
 percent <- 10
@@ -215,8 +216,8 @@ paral <- FALSE # make this true to perform MOP calculations in parallel, recomme
 The kuenm_mmop function has the following syntax:
 
 \```{r, eval=FALSE}
-kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, sets.var = sets_var,
-           out.mop = out_mop, percent = percent, parallel = paral)
+kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = M_var_dir, is.swd = is_swd,
+           sets.var = sets_var, out.mop = out_mop, percent = percent, parallel = paral)
 \```"
   )
   sink()
