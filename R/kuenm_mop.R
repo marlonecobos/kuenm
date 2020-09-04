@@ -5,7 +5,8 @@
 #' scenario to which an ecological niche model is transferred.
 #'
 #' @param M.variables a RasterStack of variables or a matrix with variables as columns
-#' representing the calibration area.
+#' representing the calibration area. If matrix, columns must contain only
+#' information for the variables to be used.
 #' @param G.stack a RasterStack of variables representing the full area of interest, and areas
 #' or scenarios to which models are transferred.
 #' @param percent (numeric) percent of values sampled from te calibration region to calculate the MOP.

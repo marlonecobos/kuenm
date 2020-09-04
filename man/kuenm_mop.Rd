@@ -9,7 +9,8 @@ kuenm_mop(M.variables, G.stack, percent = 10, comp.each = 2000,
 }
 \arguments{
 \item{M.variables}{a RasterStack of variables or a matrix with variables as columns
-representing the calibration area.}
+representing the calibration area. If matrix, columns must contain only
+information for the variables to be used.}
 
 \item{G.stack}{a RasterStack of variables representing the full area of interest, and areas
 or scenarios to which models are transferred.}

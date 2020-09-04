@@ -4,50 +4,61 @@
 \alias{kuenm_mmop}
 \title{Extrapolation risk analysis for multiple comparisons}
 \usage{
-kuenm_mmop(G.var.dir, M.var.dir, sets.var, out.mop, percent = 10,
+kuenm_mmop(G.var.dir, M.var.dir, is.swd, sets.var, out.mop, percent = 10,
            comp.each = 2000, parallel = FALSE)
 }
 \arguments{
-\item{G.var.dir}{(character) if project is TRUE, name of the folder containing folders in which variables of
-projection scenarios are placed.}
+\item{G.var.dir}{(character) if project is TRUE, name of the directory containing
+folders names as the sets to be compared (\code{sets.var}), which contain
+subfolders with variables representing the scenarios of projection.}
 
-\item{M.var.dir}{(character) name of the forlder containing folders in which calibration environmental
-datasets are placed.}
+\item{M.var.dir}{(character) name of the folder containing either folders with
+ascii raster layers or csv files (SWD format) representing representing sets
+of variables used to calibrate the models.}
 
-\item{sets.var}{(character) value or vector with the name(s) of the sets of variables
-from G.var.dir and M.var.dir that are going to be compared to create the MOP(s).}
+\item{is.swd}{(logical) whether model calibration and final models were produced
+using SWD format.}
 
-\item{out.mop}{(character) name of the folder to which MOP results will be written.}
+\item{sets.var}{(character) value or vector with the name(s) of the sets of
+variables from G.var.dir and M.var.dir that are going to be compared to create
+the MOP(s).}
 
-\item{percent}{(numeric) percetage of values sampled from the calibration region to calculate the MOP.}
+\item{out.mop}{(character) name of the folder to which MOP results will be
+written.}
 
-\item{comp.each}{(numeric) compute distance matrix for a each fixed number of rows (default 2000).}
+\item{percent}{(numeric) percentage of values sampled from the calibration
+region to calculate the MOP.}
 
-\item{parallel}{(logical) option to be passed to the \code{\link{kuenm_mop}} function (for each independent
-MOP analyses). If TRUE, calculations will be performed in parallel using \code{n.cores} of the
-computer. This will demand more RAM and almost full use of the CPU; hence, its use is more
-recommended in high-performance computers. Using this option will speed up the analyses.
+\item{comp.each}{(numeric) compute distance matrix for a each fixed number
+of rows (default 2000).}
+
+\item{parallel}{(logical) option to be passed to the \code{\link{kuenm_mop}}
+function (for each independent MOP analyses). If TRUE, calculations will be
+performed in parallel using \code{n.cores} of the computer. This will demand
+more RAM and almost full use of the CPU; hence, its use is more recommended
+in high-performance computers. Using this option will speed up the analyses.
 Default = FALSE.}
 
 \item{n.cores}{(numeric) number of cores to be used in parallel processing.
 Default = NULL, in which case all CPU cores on current host - 1 will be used.}
 }
 \value{
-A folder containing one or multiple mobility-oriented parity raster layers depending on
-how many projection areas or scenarios are considered. This results will be organized by the
-different sets of variables chosen for creating final models. Values of 0 in resultant rasters
-represent strict extrapolation.
+A folder containing one or multiple mobility-oriented parity raster layers
+depending on how many projection areas or scenarios are considered. This
+results will be organized by the different sets of variables chosen for
+creating final models. Values of 0 in resultant raster layers represent strict
+extrapolation.
 }
 \description{
 kuenm_mmop calculates mobility-oriented parity (MOP) layers by
-comparing environmental values between the calibration area and multiple areas or
-scenarios to which ecological niche models are transferred.
+comparing environmental values between the calibration area and multiple areas
+or scenarios to which ecological niche models are transferred.
 }
 \details{
 This function can be used after selection of parameters that produce the best
-models (when chosen sets of variables are known), or after producing final models
-with the function \code{\link{kuenm_mod}}. In a MOP layer, areas of strict extrapolation
-are excluded and other values represent how similar areas or scenarios are to
-environmental conditions in the calibration area. MOP is calculated following Owens et al.
-(2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
+models (when chosen sets of variables are known), or after producing final
+models with the function \code{\link{kuenm_mod}}. In a MOP layer, areas of
+strict extrapolation are excluded and other values represent how similar areas
+or scenarios are to environmental conditions in the calibration area. MOP is
+calculated following Owens et al. (2013; \url{https://doi.org/10.1016/j.ecolmodel.2013.04.011}).
 }
