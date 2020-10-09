@@ -9,11 +9,16 @@ explore_var_contrib(occ, M_variables, maxent.path, reg.mult = 1,
                     plot = TRUE)
 }
 \arguments{
-\item{occ}{a data.frame with occurrence records. Columns must be (in that
-order): Species, Longitude, Latitude.}
+\item{occ}{a data.frame with occurrence records. If \code{M_variables} is of
+class "RasterStack", columns must be (in that order): Species, Longitude,
+Latitude. If \code{M_variables} is of class "data.frame" (SWD), columns
+containing the values of the environmental variables in \code{M_variables}
+must be added.}
 
-\item{M_variables}{RasterStack object containing the variables to be used for
-modeling.}
+\item{M_variables}{RasterStack or data.frame. If RasterStack, object containing
+the variables to be used for modeling. If data.frame (SWD), columns must be:
+"background", "longitude", "latitude", and a column for each of the variables
+of interest. If data.frame, \code{occ} must be a data.frame.}
 
 \item{maxent.path}{(character) the path were maxent.jar file is in your computer.}
 
