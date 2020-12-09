@@ -117,8 +117,8 @@ explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
                       save = TRUE, name.occ = paste0(out.dir, "/occ"),
                       back.folder = paste0(out.dir, "/background"))
   } else {
-    nameso <- sort(colnames(occ)[, -(1:3)])
-    namesm <- sort(colnames(M_variables)[, -(1:3)])
+    nameso <- sort(colnames(occ)[-(1:3)])
+    namesm <- sort(colnames(M_variables)[-(1:3)])
 
     if (!all.equal(nameso, namesm)) {
       stop("Variables in 'occ' and 'M_variables' must be the same.")
