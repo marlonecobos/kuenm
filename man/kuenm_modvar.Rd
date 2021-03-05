@@ -2,82 +2,100 @@
 % Please edit documentation in R/kuenm_modvar.R
 \name{kuenm_modvar}
 \alias{kuenm_modvar}
-\title{Prediction variance comming from distinct sources in ENMs}
+\title{Prediction variance coming from distinct sources in ENMs}
 \usage{
-kuenm_modvar(sp.name, fmod.dir, replicated, format = "asc", project, current,
-             time.periods, emi.scenarios, clim.models, ext.type,
+kuenm_modvar(sp.name, fmod.dir, is.swd, replicated, format = "asc", project,
+             current, time.periods, emi.scenarios, clim.models, ext.type,
              split.length = 100, out.dir = "Variation_from_sources")
 }
 \arguments{
-\item{sp.name}{(character) name of the species. This name must be the one that appears as part
-of the raster file of each model repliate. If results are from Maxent, this is the name that
-is in the first column of the csv containing species occurrence data (species) but ecxcluding spaces.}
+\item{sp.name}{(character) name of the species. This name must be the one
+that appears as part of the raster file of each model replicate. If results
+are from Maxent, this is the name that is in the first column of the csv
+containing species occurrence data (species) but excluding spaces.}
 
-\item{fmod.dir}{(character) the  name of the folder in which final models are (i.e., the output
-folder after using the \code{\link{kuenm_mod}}) function.}
+\item{fmod.dir}{(character) the  name of the folder in which final models
+are (i.e., the output folder after using the \code{\link{kuenm_mod}}) function.}
 
-\item{replicated}{(logical) whether or not final models were created performing replicates.}
+\item{is.swd}{(logical) whether model calibration and final models were
+produced using SWD format.}
 
-\item{format}{(character) format of model raster files. Options are: "asc" or "tif"; default = "asc".}
+\item{replicated}{(logical) whether or not final models were created performing
+replicates.}
 
-\item{project}{(logical) if TRUE, assumes that models were projected to other scenarios.
-These scenarios can be current (projections in space), and/or future or past (projections in time).}
+\item{format}{(character) format of model raster files. Options are: "asc"
+or "tif"; default = "asc".}
 
-\item{current}{(character) pattern to look for when defining which is the scenario of current
-projection. If not defined variance maps will be produced for the area of calibration, and if
-any of \code{time.periods}, \code{clim.models}, or \code{emi.scenarios} exist, variace maps will
-be produced for these layers as well.}
+\item{project}{(logical) if TRUE, assumes that models were projected to other
+scenarios. These scenarios can be current (projections in space), and/or
+future or past (projections in time).}
 
-\item{time.periods}{(character or numeric) pattern to be searched when identifying models from
-distinct time projections. If not defined it is assumed that one time period was considered.}
+\item{current}{(character) pattern to look for when defining which is the
+scenario of current projection. If not defined variance maps will be produced
+for the area of calibration, and if #' any of \code{time.periods},
+\code{clim.models}, or \code{emi.scenarios} exist, variance maps will be
+produced for these layers as well.}
 
-\item{emi.scenarios}{(character) pattern to be searched for identifying distinct emission
-scenarios (e.g., RCP numbers). If not defined, it is
-asumed that only one emission scenario was used. Therefore, this source of variation will not be
-considered.}
+\item{time.periods}{(character or numeric) pattern to be searched when
+identifying models from distinct time projections. If not defined it is
+assumed that one time period was considered.}
 
-\item{clim.models}{(character) names that identify climatic models used for project ENMs.
-If not defined it is assumed that only one climate model was used. Therefore, this source of
+\item{emi.scenarios}{(character) pattern to be searched for identifying
+distinct emission scenarios (e.g., RCP numbers). If not defined, it is
+assumed that only one emission scenario was used. Therefore, this source of
 variation will not be considered.}
 
-\item{ext.type}{(character) valid if \code{project} = TRUE, vector of pattern(s) to be searched in the
-folders inside \code{fmod.dir} that identify the extrapolation type(s) of model projections. This pattern(s)
-need to be clearly distinguishable from the rest of the name of the model folder name. For instance,
-capital letter can be used to separate this pattern from the rest of the folder name (e.g., "EC" will
-be the patter that denotes extrapolation and clamping in the folder named "M_0.1_F_l_set1_EC").}
+\item{clim.models}{(character) names that identify climatic models used to
+project ENMs. If not defined it is assumed that only one climate model was
+used. Therefore, this source of variation will not be considered.}
 
-\item{split.length}{(numeric) limit number of models to be processed at the time. Bigger numbers
-would demand more from the RAM. Default = 100.}
+\item{ext.type}{(character) valid if \code{project} = TRUE, vector of
+pattern(s) to be searched in the folders inside \code{fmod.dir} that identify
+the extrapolation type(s) of model projections. This pattern(s) need to be
+clearly distinguishable from the rest of the name of the model folder name.
+For instance, capital letter can be used to separate this pattern from the
+rest of the folder name (e.g., "EC" will be the patter that denotes
+extrapolation and clamping in the folder named "M_0.1_F_l_set1_EC").}
 
-\item{out.dir}{(character) name of the output directory to be created in which subdirectories
-containing raster layers of model variance will be written. Default = "Variation_from_sources".}
+\item{split.length}{(numeric) limit number of models to be processed at the
+time. Bigger numbers would demand more from the RAM. Default = 100.}
+
+\item{out.dir}{(character) name of the output directory to be created in
+which subdirectories containing raster layers of model variance will be
+written. Default = "Variation_from_sources".}
 }
 \value{
-Folders named Variation or Variation_("pattern" depending on the ext.type) conatining
-subdirectories named according to where/when models were projected. Iside these folder raster
-layers of variance comming from distinct sources. All results will be written inside \code{out.dir}.
+Folders named Variation or Variation_("pattern" depending on the ext.type)
+containing subdirectories named according to where/when models were projected.
+Inside this folder, raster layers of variance coming from distinct sources.
+All results will be written inside \code{out.dir}.
 }
 \description{
-kuenm_modvar calculates the variance in model predictions distinguishing the
-source from which this is comming. In this version potential sources of variation are:
-replicates, parameterizations, general circulation models (GCMs), and emission scenarios.
-The last two considered only when projections in time are performed.
+kuenm_modvar calculates the variance in model predictions
+distinguishing the source from which this is coming. In this version
+potential sources of variation are: replicates, parameterizations, general
+circulation models (GCMs), and emission scenarios. The last two considered
+only when projections in time are performed.
 }
 \details{
-If any of the potential sources of variation is equal to one (e.g., only one parameter, or
-only one climate model), this source of variation will not be considered.
+If any of the potential sources of variation is equal to one (e.g., only one
+parameter, or only one climate model), this source of variation will not be
+considered.
 
-Users must be specific when defining the patterns that the function will search for. This patterns
-must be part of the model (raster layer) names so the function can locate each file without problems.
-This function uses this system of work to avoid high demands of the RAM while perfomring these analyses.
+Users must be specific when defining the patterns that the function will
+search for. This patterns must be part of the model (raster layer) names so
+the function can locate each file without problems. This function uses this
+system of work to avoid high demands of the RAM while perfomring these
+analyses.
 }
 \examples{
-# Models should be ready before starting these analyses, for an example of how to create them see
-# https://github.com/marlonecobos/kuenm
+# Models should be ready before starting these analyses, for an example of
+# how to create them see https://github.com/marlonecobos/kuenm
 
 # Arguments
 sp_name <- "sp1"
 fmod_dir <- "Final_Models"
+is_swd <- FALSE
 rep <- TRUE
 format <- "asc"
 project <- TRUE
@@ -88,7 +106,9 @@ ext_type <- c("E", "EC", "NE")
 split <- 100
 out_dir2 <- "Variation_from_sources"
 
-kuenm_modvar(sp.name = sp_name, fmod.dir = fmod_dir, replicated = rep, format = format,
-             project = project, current = curr, emi.scenarios = emi_scenarios,
-             clim.models = c_mods, ext.type = ext_type, split.length = split, out.dir = out_dir2)
+kuenm_modvar(sp.name = sp_name, fmod.dir = fmod_dir, is.swd = is_swd,
+             replicated = rep, format = format, project = project,
+             current = curr, emi.scenarios = emi_scenarios,
+             clim.models = c_mods, ext.type = ext_type, split.length = split,
+             out.dir = out_dir2)
 }

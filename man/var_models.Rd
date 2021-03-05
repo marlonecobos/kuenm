@@ -4,31 +4,32 @@
 \alias{var_models}
 \title{Helper function to calculate raster layers of model variance}
 \usage{
-var_models(
-  model.names,
-  format = "asc",
-  sp.name,
-  source.codes,
-  source,
-  split.length = 100
-)
+var_models(model.names, is.swd, format = "asc", sp.name, source.codes,
+           source, split.length = 100)
 }
 \arguments{
 \item{model.names}{(character) vector of model names.}
 
-\item{format}{(character) format of model raster files. Options are: "asc" or "tif"; default = "asc".}
+\item{is.swd}{(logical) whether model calibration and final models were
+produced using SWD format.}
 
-\item{sp.name}{(character) species names. This name must be the one that appears as part
-of the raster file of each model repliate.}
+\item{format}{(character) format of model raster files. Options are: "asc" or
+"tif"; default = "asc".}
 
-\item{source.codes}{(character or numeric) vector of names or numbers that will be
-part of the pattern that will be searched.}
+\item{sp.name}{(character) species names. This name must be the one that
+appears as part of the raster file of each model replicate.}
 
-\item{source}{(character) source of variation to be evaluated. Options are: "replicates",
-"parameters", "clim_models", and "emi_scenarios".}
+\item{source.codes}{(character or numeric) vector of names or numbers that
+will be part of the pattern that will be searched.}
 
-\item{split.length}{(numeric) limit number of models to be processed at the time. Bigger numbers
-would demand more from the RAM. Default = 100.}
+\item{source}{(character) source of variation to be evaluated. Options are:
+"replicates", "parameters", "clim_models", and "emi_scenarios".}
+
+\item{split.length}{(numeric) limit number of models to be processed at the
+time. Bigger numbers would demand more from the RAM. Default = 100.}
+}
+\value{
+RasterLayer or data.frame depending on \code{is.swd} argument.
 }
 \description{
 Helper function to calculate raster layers of model variance
