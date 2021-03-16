@@ -3,28 +3,34 @@
 #' @description kuenm_feval evaluates final Maxent models in terms of statistical
 #' significance (partial ROC) and omission rates with a user-defined threshold (E).
 #'
-#' @param path (character) directory in which folders containig final models are being created or
+#' @param path (character) directory in which folders containing final models
 #' were created.
-#' @param occ.joint (character) the  csv file with training and testing occurrences combined,
-#' or the file containing occurrences used to create final models; columns must be: species,
-#' longitude, latitude.
-#' @param occ.ind (character) the name of the csv file with independent occurrences for model
-#' evaluation; these occurrences were not used when creating final models; columns as in occ.joint.
-#' @param replicates (logical) whether or not final models were created performing replicates.
-#' @param out.eval (character) name of the folder where evaluation results will be written.
-#' @param threshold (numeric) the percentage of omission error allowed (E), default = 5.
-#' @param rand.percent (numeric) the percentage of data to be used for the bootstrapping process
-#' when calculating partial ROCs; default = 50.
-#' @param iterations (numeric) the number of times that the bootstrap is going to be repeated;
-#' default = 500.
-#' @param parallel.proc (logical) if TRUE, pROC calculations will be performed in parallel using the available
-#' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
-#' is more recommended in high-performance computers. Using this option will speed up the analyses
-#' only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.
+#' @param occ.joint (character) the  csv file with training and testing
+#' occurrences combined, or the file containing occurrences used to create final
+#' models; columns must be: species, longitude, latitude.
+#' @param occ.ind (character) the name of the csv file with independent
+#' occurrences for model evaluation; these occurrences were not used when
+#' creating final models; columns as in \code{occ.joint}.
+#' @param replicates (logical) whether or not final models were created
+#' performing replicates.
+#' @param out.eval (character) name of the folder where evaluation results will
+#' be written.
+#' @param threshold (numeric) the percentage of omission error allowed (E),
+#' default = 5.
+#' @param rand.percent (numeric) the percentage of data to be used for the
+#' bootstrapping process when calculating partial ROCs; default = 50.
+#' @param iterations (numeric) the number of times that the bootstrap is going
+#' to be repeated; default = 500.
+#' @param parallel.proc (logical) if TRUE, pROC calculations will be performed
+#' in parallel using the available cores of the computer. This will demand more
+#' RAM and almost full use of the CPU; hence, its use is more recommended in
+#' high-performance computers. Using this option will speed up the analyses
+#' only if models are large RasterLayers or if \code{iterations} are more than
+#' 5000. Default = FALSE.
 #'
-#' @return A list with two dataframes containing results from the evaluation process, and
-#' a folder, in the working directory, containing a csv file with the final models evaluation
-#' results.
+#' @return A list with two data.frame objects containing results from the
+#' evaluation process, and a folder, in the working directory, containing a
+#' csv file with the results from final model evaluation.
 #'
 #' @usage
 #' kuenm_feval(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
@@ -32,10 +38,11 @@
 #'
 #' @export
 #'
-#' @details This function is used after or during the creation of final models.
+#' @details This function is used after the creation of final models.
 
-kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval, threshold = 5,
-                        rand.percent = 50, iterations = 500, parallel.proc = FALSE) {
+kuenm_feval <- function(path, occ.joint, occ.ind, replicates, out.eval,
+                        threshold = 5, rand.percent = 50, iterations = 500,
+                        parallel.proc = FALSE) {
 
   #Checking potential issues
   if (missing(path)) {
