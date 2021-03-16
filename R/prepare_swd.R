@@ -190,7 +190,7 @@ prep_independent_swd <- function(occ, species, longitude, latitude,
   colnames(occ)[1:3] <- c(species, longitude, latitude)
 
   if (save == TRUE) {
-    write.csv(occ, file = paste0(name.occ, ".csv"))
+    write.csv(occ, file = paste0(name.occ, ".csv"), row.names = FALSE)
   }
 
   return(occ)
