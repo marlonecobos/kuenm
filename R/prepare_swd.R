@@ -159,3 +159,39 @@ all_var_comb <- function(var.names, min.number = 2) {
   names(var_combs) <- paste0("Set_", 1:length(var_combs))
   return(var_combs)
 }
+
+
+
+#' Helper to prepare independent occurrences when using SWD format
+#' @param occ data.frame containing occurrence records of the species of interest.
+#' Mandatory columns are: species, longitude, and latitude. Other columns will
+#' be ignored.
+#' @param species (character) name of column containing species name.
+#' @param longitude (character) name of column containing longitude values.
+#' @param latitude (character) name of column containing latitude values.
+#' @param raster.layers RasterStack of predictor variables masked to the area
+#' where the model was calibrated.
+#' @param save (logical) whether or not to a write csv file containing
+#' independent occurrences prepared to be used in model evaluation. The file
+#' will contain additional columns with the values of the variables for each
+#' coordinate. Default = FALSE.
+#' @param name.occ (character) name to be used for the file with occurrence
+#' records to be written (e.g., "independent_occ").
+#' @export
+#' @return A data.frame with the prepared independent occurrences.
+
+prep_independent_swd <- function(occ, species, longitude, latitude,
+                                 raster.layers, save = FALSE, name.occ) {
+
+  xy <- occ[, c(longitude, latitude)]
+  xyval <- raster::extract(raster.layers, xy, cellnumbers = TRUE)
+  xyras <- raster::xyFromCell(raster.layers, xyval[, 1])
+  occ <- data.frame(occ[, species], xyras, xyval[, -1])
+  colnames(occ)[1:3] <- c(species, longitude, latitude)
+
+  if (save == TRUE) {
+    write.csv(occ, file = paste0(name.occ, ".csv"))
+  }
+
+  return(occ)
+}
