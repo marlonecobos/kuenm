@@ -1,21 +1,33 @@
 Package: kuenm
 Type: Package
 Title: An R package for detailed development of ecological niche models using Maxent
-Version: 1.1.6
+Version: 1.1.7
 Authors@R: c(
-    person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre")),
-    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut"),
-    person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "aut"),
-    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut"))
+    person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre"),
+    comment = c(ORCID = "0000-0002-2611-1767")),
+    person("A. Townsend", "Peterson", email = "town@ku.edu", role = "aut",
+    comment = c(ORCID = "0000-0003-0243-2379)),
+    person("Luis", "Osorio-Olvera", email = "luismurao@gmail.com", role = "aut",
+    comment = c(ORCID = "0000-0003-0701-5398")),
+    person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut",
+    comment = c(ORCID = "0000-0002-7893-8774")))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2020-06-19
-Description: This package helps with the development of critical phases of the 
-    ecological niche modeling process in Maxent. It allows to calibrate models by
-    creating and testing several candidate models. Handly options for producing 
-    final models, evaluating them, and assesing extrapolation risks are also
-    included as part of this package. Other functions help user to prepare data
-    for ecological niche modeling, and further functions allow users to perform 
-    post-modeling analyses. 
+Date: 2021-06-09
+Description: A set of tools to help with the development of critical phases of the 
+    ecological niche modeling process in Maxent. Pre-modeling analyses and 
+    explorations can be done to prepare data. Model calibration (model selection)
+    can be done by creating and testing several candidate models. Handly options 
+    for producing final models, evaluating such models, and assesing extrapolation 
+    risks are also included. Tools for post-modeling analyses are implemented to 
+    allow for further exploration of results. Methodological and theoretical b
+    bases for the methods implemented here can be found in:
+    Peterson et al. (2011) <https://www.degruyter.com/princetonup/view/title/506966>,
+    Barve et al. (2011) <doi:10.1016/j.ecolmodel.2011.02.011>,
+    Owens et al. (2013) <doi:10.1016/j.ecolmodel.2013.04.011>,
+    Radosavljevic and Anderson (2014) <doi:10.1111/jbi.12227>, 
+    Cobos et al. (2019a) <doi:10.7717/peerj.6281>,
+    Cobos et al. (2019b) <doi:10.1016/j.ecoinf.2019.100983>,
+    Cobos et al. (2019c) <doi:10.1101/603100>.
 Imports:
     doSNOW (>= 1.0),
     dplyr (>= 0.7),
