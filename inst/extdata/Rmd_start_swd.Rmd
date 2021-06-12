@@ -1,0 +1,258 @@
+---
+title: "kuenm: modeling process (SWD)"
+output:
+  html_document:
+      toc: yes
+      toc_depth: 4
+---
+
+<br>
+
+### Description
+
+This R markdown file is in the working directory, and is designed as a short guide, to make the processes of ecological niche modeling more reproducible. The modeling procedures to be executed using Maxent are prepared in SWD format. The values defined for the variables used as arguments are only examples, such values can and in some cases must be changed according to the user's data and results. 
+
+Information on using this R Markdown file:
+
+- Try executing code chunks by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*.
+- Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+The functions to prepare data defined below will help to make initial files and objects needed for analysis.
+
+<br>
+
+### Pre-modeling and other analisis
+
+As the quality of data is directly related to how good model results are, preparing data for modeling is a critical phase in these types of exercises. A set of functions in kuenm can help with some of the required analysis to prepare the data. These functions include: `explore_var_contrib`, `kuenm_occsplit`, `kuenm_rpca`, `kuenm_toclosest`, and `kuenm_varcomb`.
+
+Many of the functions in kuenm were prepared to perform analysis presented in the following sections. However, some analysis can be performed independently with the following functions: `kuenm_aicc`, `kuenm_mop`, `kuenm_omrat`, and `kuenm_proc`. 
+
+<br>
+
+### Prepare data in SWD format
+
+To use Maxent in SWD format, environmental information needs to be together with the coordinates of occurrences and background points used to create models. The following is one of the ways to prepare the data, check the documentation of the function prepare_swd for more options.
+
+<br>
+
+#### User data
+
+The following code is an example of how to read occurrences and raster layers that will be used to prepare data.
+
+```{r, eval=FALSE}
+# occurrences
+occurrences <- read.csv("aame.csv") # species occurrence records
+
+# variables
+vars <- raster::stack(list.files("Variables", pattern = ".asc$", # variables for
+                                 full.names = TRUE))             # calibration area
+```
+
+<br>
+
+#### SWD file preparation
+
+The following code calls the help page of the function used to prepare the data as needed.
+
+```{r, eval=FALSE}
+help(prepare_swd)
+```
+
+<br>
+
+The next chunk of code is for preparing the arguments for using the function. These variables should be changed according to each case.
+
+```{r, eval=FALSE}
+sp_col <- "Species"
+long_col <- "Longitude"
+lat_col <- "Latitude"
+split_method <- "random"
+train_prop <- 0.7
+samp_size <- 10000
+var_sets <- "all_comb" 
+# or something as follows, depending on your variables
+# var_sets <- list(set_1 = c("bio_1", "bio_12", "bio_15"), 
+#                  set_2 = c("bio_1", "bio_12", "bio_15", "soil"),
+#                  set_3 = c("bio_1", "bio_12", "bio_15", "soil", "topo"))
+min_number <- 3
+save_prep <- TRUE
+name_occ <- "occ"
+back_dir <- "Background"
+```
+
+<br>
+
+The prepare_swd function has the following syntax:
+
+```{r, eval=FALSE}
+prepare_swd(occ = occurrences, species = sp_col, longitude = long_col, 
+            latitude = lat_col, data.split.method = split_method, 
+            train.proportion = train_prop, raster.layers = vars, 
+            sample.size = samp_size, var.sets = var_sets, min.number = min_number, 
+            save = save_prep, name.occ = name_occ, back.folder = back_dir)
+```
+
+<br>
+
+### Model calibration (candidate models and evaluation)
+
+Candidate models are a large set of candidate models created to respond to the need to test broad suites of parameter combinations, such as, distinct regularization multiplier values, various feature classes, and different sets of environmental variables. After creating candidate models, they will be evaluated based on statistical significance (partial ROC), prediction ability (omission rates), and model fit and complexity (AICc). The following code calls the help page of the function kuenm_cal_swd which performs all the processes mentioned before.
+
+```{r, eval=FALSE}
+help(kuenm_cal_swd)
+```
+
+<br>
+
+The next chunk of code is for preparing the arguments for using the function. These variables should be changed according to each case.
+
+```{r, eval=FALSE}
+occ_joint <- "occ_joint.csv"
+occ_tra <- "occ_train.csv"
+occ_test <- "occ_test.csv"
+batch_cal <- "batch_cal"
+can_dir <- "Candidate_models"
+reg_mult <- c(seq(0.1, 1, 0.1), 2:5)
+f_clas <- "all"
+maxent_path <- "YOUR/DIRECTORY"
+args <- NULL
+threshold <- 5
+rand_percent <- 50
+iterations <- 500
+kept <- TRUE
+selection <- "OR_AICc"
+cresdir <- "Calibration_results"
+```
+
+<br>
+
+The following is the code for using the function.
+
+```{r, eval=FALSE}
+kuenm_cal_swd(occ.joint = occ_joint, occ.tra = occ_tra, occ.test = occ_test, 
+              back.dir = back_dir, batch = batch_cal, out.dir.models = can_dir, 
+              reg.mult = reg_mult, f.clas = f_clas, args = args, 
+              maxent.path = maxent_path, selection = selection, 
+              threshold = threshold, rand.percent = rand_percent, 
+              iterations = iterations, kept = kept, out.dir.eval = cresdir)
+```
+
+<br>
+
+### Final model(s) 
+
+#### Final model creation
+
+After selecting parameterizations that produce best models, the next step is to create the final models, and if needed transfer them to other environmental data sets (e.g., to other time periods or other geographic regions). As Maxent models will be produced in SWD format, including a layers to represent the current scenario in projections will be needed in most applications. The help page of kuenm_mod is called via this code:
+
+```{r, eval=FALSE}
+help(kuenm_mod_swd)
+```
+
+<br>
+
+To prepare the arguments for this function use the following chunk of code. Change variables as needed.
+
+```{r, eval=FALSE}
+batch_fin <- "Final_models"
+mod_dir <- "Final_Models"
+rep_n <- 10
+rep_type <- "Bootstrap"
+jackknife <- FALSE
+out_format <- "logistic"
+project <- TRUE
+G_var_dir <- "G_variables"
+ext_type <- "all"
+write_mess <- FALSE
+write_clamp <- FALSE
+wait1 <- FALSE
+run1 <- TRUE
+args <- NULL
+# Again, some of the variables used as arguments were already created for the previous functions
+```
+
+<br>
+
+The kuenm_mod_swd function has the following syntax:
+
+```{r, eval=FALSE}
+kuenm_mod_swd(occ.joint = occ_joint, back.dir = back_dir, out.eval = cresdir, 
+              batch = batch_fin, rep.n = rep_n, rep.type = rep_type, 
+              jackknife = jackknife, out.format = out_format,
+              project = project, G.var.dir = G_var_dir, ext.type = ext_type,
+              write.mess = write_mess, write.clamp = write_clamp, 
+              maxent.path = maxent_path, args = args, out.dir, 
+              wait = wait1, run = run1)
+```
+
+<br>
+
+#### Final model evaluation
+
+Final models can be evaluated after being created; for this step, independent data are needed (data not used in the calibration process, ideally coming from different sources). The function help is called via this code:
+
+```{r, eval=FALSE}
+help(kuenm_feval_swd)
+```
+
+<br>
+
+The next chunk of code is to prepare the arguments for using the function. These variables should be changed according to each case.
+
+```{r, eval=FALSE}
+occ_ind <- "occ_ind.csv"
+replicates <- TRUE
+out_feval <- "Final_Models_evaluation"
+# Most of the variables used here as arguments were already created for the previous functions
+```
+
+<br>
+
+The following is the code for using the function.
+
+```{r, eval=FALSE}
+fin_eval <- kuenm_feval_swd(path = mod_dir, occ.joint = occ_joint, 
+                            occ.ind = occ_ind, replicates = replicates,
+                            out.eval = out_feval, threshold = threshold, 
+                            rand.percent = rand_percent, iterations = iterations)
+```
+
+<br>
+
+### Evaluation of extrapolation risks
+
+If transfers were performed when creating final models, the MOP analysis will help to identify areas of strict extrapolation and levels of similarity between the calibration area and the region or scenario of projection. The code below will help to see the function's documentation:
+
+```{r, eval=FALSE}
+help(kuenm_mmop)
+```
+
+<br>
+
+Below, arguments for this functions will be defined. Change them as needed.
+
+```{r, eval=FALSE}
+is_swd <- TRUE
+sets_var <- c("Set3")
+out_mop <- "MOP_results"
+percent <- 10
+paral <- FALSE # make this true to perform MOP calculations in parallel, recommended
+               # only if a powerful computer is used (see function's help)
+# Some of the variables used as arguments were already created for the previous functions
+```
+
+<br>
+
+The kuenm_mmop function has the following syntax:
+
+```{r, eval=FALSE}
+kuenm_mmop(G.var.dir = G_var_dir, M.var.dir = back_dir, is.swd = is_swd,
+           sets.var = sets_var, out.mop = out_mop, percent = percent, 
+           parallel = paral)
+```
+
+<br>
+
+### Post-modeling analysis
+
+Other functions in kuenm allow to perform analyses that summarize results and help with interpretations. These functions are `kuenm_modstats_swd`, `kuenm_projchanges`, `kuenm_modvar`, `kuenm_hierpart`, and `kuenm_mopagree`. More details on how to use these functions can be found <a href="https://github.com/marlonecobos/kuenm/blob/master/extra_vignettes/post-modeling.md#post-modeling-analyses-with-kuenm" target="_blank">here</a>  
