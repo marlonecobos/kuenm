@@ -1,8 +1,8 @@
-#' Evaluation and plot of variable contribution to single maxent models
+#' Evaluation and plot of variable contribution to Maxent models
 #'
-#' @description explore_var_contrib helps to explore variable contribution to
-#' single maxent models based on metrics of contribution percentage, permutation
-#' importance, and a jackknife analysis.
+#' @description Exploration of variable contribution to Maxent models based on
+#' metrics of contribution percentage, permutation importance, and a jackknife
+#' analysis.
 #'
 #' @param occ a data.frame with occurrence records. If \code{M_variables} is of
 #' class "RasterStack", columns must be (in that order): Species, Longitude,
@@ -20,7 +20,7 @@
 #' "no.h", and "no.t". Default = "all". basic = "l", "lq", "lqp", "lqpt", "lqpth".
 #' Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h. See details for
 #' all the available potential combinations of feature classes.
-#' @param max.memory (numeric) maximum memory (in megabytes) to be used by maxent
+#' @param max.memory (numeric) maximum memory (in megabytes) to be used by Maxent
 #' while creating the models. Default = 1000.
 #' @param args (character) additional arguments that can be passed to Maxent.
 #' See the Maxent help for more information on how to write these arguments,
@@ -29,7 +29,7 @@
 #' See details for other options.
 #' @param sample.size (numeric) number of points to represent the background for
 #' the model. Default = 10000
-#' @param plot (logical) whether to plot results.
+#' @param plot (logical) whether to produce a default plot of results.
 #'
 #' @return
 #' A list with results of variable contribution, permutation importance, and
@@ -93,10 +93,30 @@
 #' # analysis
 #' var_cont <- explore_var_contrib(occ = occ, M_variables = mvars,
 #'                                 maxent.path = "C:/Maxent/3.4.1", plot = FALSE)
+#'
+#' # plot
+#' plot_contribution(var_cont)
 
 explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
                                 f.clas = NULL, max.memory = 1000, args = NULL,
-                                sample.size = 10000, plot = TRUE) {
+                                sample.size = 10000, plot = TRUE, verbose = TRUE) {
+  # initial tests
+  if (missing(occ)) {
+    stop("Argument 'occ' must be defined, see function's help")
+  }
+  if (missing(M_variables)) {
+    stop("Argument 'M_variables' must be defined, see function's help")
+  }
+  if (missing(maxent.path)) {
+    stop("Argument 'maxent.path' must be defined, see function's help")
+  }
+  if (!class(M_variables)[1] %in% c("RasterLayer", "RasterStack", "RasterBrick", "data.frame")) {
+    stop("'M_variables' must be of class RasterLayer, RasterStack, or data.frame")
+  }
+  if (!class(occ)[1] %in% c("data.frame")) {
+    stop("'occ' must be a data.frame")
+  }
+
   # preparing data
   out.dir <- file.path(tempdir(), "jack_maxent")
   if (dir.exists(out.dir)) {unlink(out.dir, recursive = TRUE)}
@@ -182,7 +202,9 @@ explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
   }
 
   # running models
-  message("If asked, RUN as administrator")
+  if (verbose == TRUE) {
+    message("If asked, RUN as administrator")
+  }
   run_maxent(batch, maxent.path, add_path = FALSE, wait = TRUE)
 
 
@@ -230,9 +252,31 @@ explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
 
 #' Helper to plot variable contribution to single models
 #' @param contribution_list a list of results obtained with
-#' \code{\link{explore_var_contrib}}.
+#' \code{\link{explore_var_contrib}}, or an element of a list obtained with
+#' \code{\link{model_var_contrib}}.
+#' @param col.cont color of contribution bars; default = "gray25".
+#' @param col.imp color of importance bars; default = "gray25".
+#' @param col.with color of regularized training gain bars when using individual
+#' variables; default = "gray15".
+#' @param col.without color of regularized training gain bars when using all
+#' variables except the one in question; default = "gray65".
+#' @param col.all color of line representing regularized training gain of the
+#' model using all variables; default = "gray1".
 #' @export
-plot_contribution <- function(contribution_list) {
+#' @rdname explore_var_contrib
+#' @usage
+#' plot_contribution(contribution_list, col.cont = "gray25",
+#'                   col.imp = "gray25", col.with = "gray15",
+#'                   col.without = "gray65", col.all = "gray1")
+
+
+plot_contribution <- function(contribution_list, col.cont = "gray25",
+                              col.imp = "gray25", col.with = "gray15",
+                              col.without = "gray65", col.all = "gray1") {
+  if (missing(contribution_list)) {
+    stop("Argument 'contribution_list' must be defined")
+  }
+
   cont <- matrix(contribution_list$Contribution$Contribution, nrow = 1)
   perm <- matrix(contribution_list$Permutation_importance$Permutation_importance,
                  nrow = 1)
@@ -259,17 +303,18 @@ plot_contribution <- function(contribution_list) {
   text(0.5, yl, vars)
 
   par(mar = c(3.5, 1, 3, 0))
-  barplot(cont, las = 1, col = "gray25", horiz = T, border = NA,
+  barplot(cont, las = 1, col = col.cont, horiz = T, border = NA,
           main = "Contribution")
   box(bty = "l")
 
-  barplot(perm, las = 1, col = "gray25", horiz = T, border = NA,
+  barplot(perm, las = 1, col = col.imp, horiz = T, border = NA,
           main = "Permutation importance")
   box(bty = "l")
 
-  barplot(vgain, las = 1, col = c("gray65", "gray15"), horiz = T, beside = TRUE,
-          xlim = c(0, c(tgain)), border = NA, main = "Jackkniffe results")
-  abline(v = tgain, col = "gray1", lwd = 1.5, lty = 2)
+  barplot(vgain, las = 1, col = c(col.with, col.without), horiz = T,
+          beside = TRUE, xlim = c(0, c(tgain)), border = NA,
+          main = "Jackkniffe results")
+  abline(v = tgain, col = col.all, lwd = 1.5, lty = 2)
   title(xlab = "Regularized training gain", line = 2.2)
   box(bty = "l")
 
@@ -277,6 +322,6 @@ plot_contribution <- function(contribution_list) {
   plot.new()
   legend("bottom", legend = c("all", "with", "without"), lty = c(2, NA, NA),
          lwd = c(1.5, NA, NA), pch = c(NA, 22, 22), bty = "n", pt.lwd = 2,
-         pt.bg = c(NA, "gray65", "gray15"), col = c("gray1", "gray65", "gray15"),
-         x.intersp = 0.5)
+         pt.bg = c(NA, col.with, col.without),
+         col = c(col.all, col.with, col.without), x.intersp = 0.5)
 }

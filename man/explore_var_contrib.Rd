@@ -2,11 +2,16 @@
 % Please edit documentation in R/explore_var_contrib.R
 \name{explore_var_contrib}
 \alias{explore_var_contrib}
-\title{Evaluation and plot of variable contribution to single maxent models}
+\alias{plot_contribution}
+\title{Evaluation and plot of variable contribution to single Maxent models}
 \usage{
 explore_var_contrib(occ, M_variables, maxent.path, reg.mult = 1,
                     f.clas = NULL, max.memory = 1000, args = NULL,
                     plot = TRUE)
+
+plot_contribution(contribution_list, col.cont = "gray25",
+                  col.imp = "gray25", col.with = "gray15",
+                  col.without = "gray65", col.all = "gray1")
 }
 \arguments{
 \item{occ}{a data.frame with occurrence records. If \code{M_variables} is of
@@ -30,7 +35,7 @@ combination sets or manually. Combination sets are: "all", "basic", "no.t.h",
 Combinations "no.t.h", "no.h", and "no.t", exclude t and/or h. See details for
 all the available potential combinations of feature classes.}
 
-\item{max.memory}{(numeric) maximum memory (in megabytes) to be used by maxent
+\item{max.memory}{(numeric) maximum memory (in megabytes) to be used by Maxent
 while creating the models. Default = 1000.}
 
 \item{args}{(character) additional arguments that can be passed to Maxent.
@@ -43,6 +48,23 @@ See details for other options.}
 the model. Default = 10000}
 
 \item{plot}{(logical) whether to plot results.}
+
+\item{contribution_list}{a list of results obtained with
+\code{\link{explore_var_contrib}}, or an element of a list obtained with
+\code{\link{model_var_contrib}}.}
+
+\item{col.cont}{color of contribution bars; default = "gray25".}
+
+\item{col.imp}{color of importance bars; default = "gray25".}
+
+\item{col.with}{color of regularized training gain bars when using individual
+variables; default = "gray15".}
+
+\item{col.without}{color of regularized training gain bars when using all
+variables except the one in question; default = "gray65".}
+
+\item{col.all}{color of line representing regularized training gain of the
+model using all variables; default = "gray1".}
 }
 \value{
 A list with results of variable contribution, permutation importance, and
@@ -108,4 +130,7 @@ mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
 # analysis
 var_cont <- explore_var_contrib(occ = occ, M_variables = mvars,
                                 maxent.path = "C:/Maxent/3.4.1", plot = FALSE)
+
+# plot
+plot_contribution(var_cont)
 }
