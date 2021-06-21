@@ -2,19 +2,22 @@
 % Please edit documentation in R/result_description.R
 \name{result_description}
 \alias{result_description}
-\title{Helper function to describe results from other functions}
+\title{Helper function to describe results from complex functions}
 \usage{
-result_description(process, result.table, out.dir)
+result_description(process, result.table = NULL, out.dir)
 }
 \arguments{
-\item{process}{(character) name of the function which results derive from. Options include:
-"kuenm_projchanges", "kuenm_modvar", "kuenm_hierpart", "kuenm_mmop", and "kuenm_mopagree".}
+\item{process}{(character) name of the function which results derive from.
+Options include: "kuenm_projchanges", "kuenm_modvar", "kuenm_hierpart",
+"kuenm_mmop", and "kuenm_mopagree".}
 
-\item{result.table}{(data.frame) data.frame with the description of results. Only used when
-\code{process} = "kuenm_projchanges" or "kuenm_mopagree".}
+\item{result.table}{(data.frame) data.frame with the description of results.
+Only used when \code{process} = "kuenm_projchanges" or "kuenm_mopagree".
+Default = NULL.}
 
-\item{out.dir}{(character) name of the output directory where description file will be written.}
+\item{out.dir}{(character) name of the output directory where description
+file will be written.}
 }
 \description{
-Helper function to describe results from other functions
+Helper function to describe results from complex functions
 }
