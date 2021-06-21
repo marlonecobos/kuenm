@@ -83,6 +83,8 @@
 #'
 #' @export
 #'
+#' @importFrom utils write.csv read.csv
+#'
 #' @examples
 #' # data
 #' data("sp_joint", package = "kuenm")
@@ -263,6 +265,7 @@ explore_var_contrib <- function(occ, M_variables, maxent.path, reg.mult = 1,
 #' @param col.all color of line representing regularized training gain of the
 #' model using all variables; default = "gray1".
 #' @export
+#' @importFrom graphics par barplot abline title box plot.new legend text layout
 #' @rdname explore_var_contrib
 #' @usage
 #' plot_contribution(contribution_list, col.cont = "gray25",
