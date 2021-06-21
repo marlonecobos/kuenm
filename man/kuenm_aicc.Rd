@@ -31,14 +31,13 @@ Changes help to make calcutions faster because of a better management of raster 
 when calculations are performed for multiple models).
 }
 \examples{
-occ <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-                           pattern = "sp_joint.csv", full.names = TRUE))
-model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
-                                   pattern = "sp_model_joint.tif", full.names = TRUE))
+data("sp_joint", package = "kuenm")
+model <- raster::raster(system.file("extdata/sp_model_joint.tif",
+                                             package = "kuenm"))
 
-lbds <- readLines(list.files(system.file("extdata", package = "kuenm"), # lambdas file
-                                         pattern = "lambdas_model_joint.lambdas", full.names = TRUE))
+lbds <- readLines(system.file("extdata/lambdas_model_joint.lambdas",
+                              package = "kuenm"))
 npar <- n.par(lbds) # counting number of parameters
 
-aicc <- kuenm_aicc(occ = occ, model = model, npar = npar)
+aicc <- kuenm_aicc(occ = sp_joint, model = model, npar = npar)
 }

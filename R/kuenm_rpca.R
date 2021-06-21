@@ -53,13 +53,14 @@
 #' # Example with no projection
 #' npcs <- 3
 #'
-#' rpca <- kuenm_rpca(variables = variab, var.scale = TRUE, write.result = FALSE, n.pcs = npcs)
+#' rpca <- kuenm_rpca(variables = variab, var.scale = TRUE, write.result = FALSE,
+#'                    n.pcs = npcs)
 #'
 #' # Example with projection
 #' project <- TRUE
 #'
-#' rpca1 <- kuenm_rpca(variables = variab, var.scale = TRUE, write.result = FALSE, project = project,
-#'                     proj.vars = proj_var, n.pcs = npcs)
+#' rpca1 <- kuenm_rpca(variables = variab, var.scale = TRUE, write.result = FALSE,
+#'                     project = project, proj.vars = proj_var, n.pcs = npcs)
 
 
 kuenm_rpca <- function(variables, in.format, var.scale = TRUE, write.result = TRUE, out.format = "GTiff",

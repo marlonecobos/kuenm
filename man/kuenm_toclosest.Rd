@@ -36,8 +36,7 @@ of a raster layer that contains relevant information. This process prevents
 NAs in future analyses.
 }
 \examples{
-data <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-                            pattern = "sp_test.csv", full.names = TRUE))
+data("sp_test", package = "kuenm")
 
 var <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
                                  pattern = "Mbio_", full.names = TRUE)[1])
@@ -45,9 +44,9 @@ var <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
 raster::plot(var)
 
 out <- rbind(c(-103, 27), c(-90, 26.5), c(-109, 40), c(-70, 41))
-colnames(out) <- colnames(data)
+colnames(out) <- colnames(sp_test)
 
-data <- rbind.data.frame(data, out)
+data <- rbind.data.frame(sp_test, out)
 
 points(data)
 

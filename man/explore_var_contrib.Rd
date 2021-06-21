@@ -121,9 +121,8 @@ Other more advanced arguments are (use these ones only if you understand them co
 }
 \examples{
 # data
-occ <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-                           pattern = "sp_joint.csv", full.names = TRUE))
-occ <- data.frame(Species = "A_americanum", occ)
+data("sp_joint", package = "kuenm")
+occ <- data.frame(Species = "A_americanum", sp_joint)
 
 mvars <- raster::stack(list.files(system.file("extdata", package = "kuenm"),
                                   pattern = "Mbio_", full.names = TRUE))

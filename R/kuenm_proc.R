@@ -39,15 +39,14 @@
 #' @export
 #'
 #' @examples
-#' occ <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-#'                            pattern = "sp_test.csv", full.names = TRUE))
-#' model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
-#'                                    pattern = "sp_model.tif", full.names = TRUE))
+#' data("sp_test", package = "kuenm")
+#' model <- raster::raster(system.file("extdata/sp_model.tif",
+#'                                        package = "kuenm"))
 #' thres <- 5
 #' rand_perc <- 50
 #' iterac <- 500
 #'
-#' p_roc <- kuenm_proc(occ.test = occ, model = model, threshold = thres,
+#' p_roc <- kuenm_proc(occ.test = sp_test, model = model, threshold = thres,
 #'                    rand.percent = rand_perc, iterations = iterac)
 
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,

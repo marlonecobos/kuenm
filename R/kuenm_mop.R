@@ -43,8 +43,7 @@
 #' perc <- 5
 #'
 #' mop <- kuenm_mop(M.variables = mvars, G.stack = gvars, percent = perc)
-#'
-#' raster::plot(mop)
+
 
 kuenm_mop <- function(M.variables, G.stack, percent = 10, comp.each = 2000,
                       parallel = FALSE, n.cores = NULL) {

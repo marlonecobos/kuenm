@@ -34,9 +34,9 @@ and testing data based on distinct methods for calibrating models.
 }
 \examples{
 # arguments
-occs <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-                           pattern = "sp_joint.csv", full.names = TRUE))
-occs <- data.frame(Species = "A_americanum", occs)
+data("sp_joint", package = "kuenm")
+
+occs <- data.frame(Species = "A_americanum", sp_joint)
 train_prop <- 0.5
 method = "random"
 

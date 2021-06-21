@@ -53,6 +53,4 @@ names(gvars) <- names(mvars)
 perc <- 5
 
 mop <- kuenm_mop(M.variables = mvars, G.stack = gvars, percent = perc)
-
-raster::plot(mop)
 }

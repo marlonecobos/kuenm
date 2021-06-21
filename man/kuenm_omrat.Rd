@@ -27,20 +27,18 @@ of ecological niche models based on one or multiple user-specified thresholds.
 }
 \examples{
 # single threshold
-model <- raster::raster(list.files(system.file("extdata", package = "kuenm"),
-                                   pattern = "sp_model.tif", full.names = TRUE))
+model <- raster::raster(system.file("extdata/sp_model.tif",
+                                       package = "kuenm"))
 thres <- 5
-octr <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-                            pattern = "sp_train.csv", full.names = TRUE))
-octe <- read.csv(list.files(system.file("extdata", package = "kuenm"),
-                            pattern = "sp_test.csv", full.names = TRUE))
+data("sp_train", package = "kuenm")
+data("sp_test", package = "kuenm")
 
 om_rate <- kuenm_omrat(model, threshold = thres,
-                        occ.tra = octr, occ.test = octe)
+                        occ.tra = sp_train, occ.test = sp_test)
 
 # multiple thresholds
 thres1 <- c(5, 10, 20)
 
 om_rate <- kuenm_omrat(model, threshold = thres1,
-                        occ.tra = octr, occ.test = octe)
+                        occ.tra = sp_train, occ.test = sp_test)
 }
