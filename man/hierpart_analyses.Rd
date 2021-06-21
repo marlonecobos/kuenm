@@ -4,19 +4,26 @@
 \alias{hierpart_analyses}
 \title{Performing hierarchical partitioning analyses}
 \usage{
-hierpart_analyses(tables.folder, out.dir, kept = FALSE)
+hierpart_analyses(tables.folder, out.dir, kept = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{tables.folder}{(character) name of the folder where the tables created with the
-function {\link{hierpart_tables}} are.}
+\item{tables.folder}{(character) name of the folder where the tables created
+with the function {\link{hierpart_tables}} are.}
 
-\item{out.dir}{(character) name of the output directory where results will be written.}
+\item{out.dir}{(character) name of the output directory where results will
+be written.}
+
+\item{kept}{(logical) whether to keep tables in \code{tables.folder}.
+Default = FALSE.}
+
+\item{verbose}{(logical) whether to print messages; default = TRUE.}
 }
 \value{
-All the results from performing hierarchical partitioning analyses of the
-varianze in ecological niche models.
+A data.frame containing the summary of total effects of factors on the model.
+
+All other results will be written in \code{out.dir}.
 }
 \description{
-Helper function to perform hierarchical partitioning analyses
-of the varianze comming from distinct sources in ecological niche models.
+Helper function to perform hierarchical partitioning analysis
+of the variance coming from distinct sources in ecological niche models.
 }

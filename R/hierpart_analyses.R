@@ -1,18 +1,38 @@
 #' Performing hierarchical partitioning analyses
 #'
-#' @description Helper function to perform hierarchical partitioning analyses
-#' of the varianze comming from distinct sources in ecological niche models.
+#' @description Helper function to perform hierarchical partitioning analysis
+#' of the variance coming from distinct sources in ecological niche models.
 #'
-#' @param tables.folder (character) name of the folder where the tables created with the
-#' function {\link{hierpart_tables}} are.
-#' @param out.dir (character) name of the output directory where results will be written.
+#' @param tables.folder (character) name of the folder where the tables created
+#' with the function {\link{hierpart_tables}} are.
+#' @param out.dir (character) name of the output directory where results will
+#' be written.
+#' @param kept (logical) whether to keep tables in \code{tables.folder}.
+#' Default = FALSE.
+#' @param verbose (logical) whether to print messages; default = TRUE.
 #'
-#' @return All the results from performing hierarchical partitioning analyses of the
-#' varianze in ecological niche models.
+#' @return
+#' A data.frame containing the summary of total effects of factors on the model.
+#'
+#' All other results will be written in \code{out.dir}.
 #'
 #' @export
+#'
+#' @importFrom hier.part hier.part
+#'
+#' @usage
+#' hierpart_analyses(tables.folder, out.dir, kept = FALSE, verbose = TRUE)
 
-hierpart_analyses <- function(tables.folder, out.dir, kept = FALSE) {
+hierpart_analyses <- function(tables.folder, out.dir, kept = FALSE,
+                              verbose = TRUE) {
+
+  # initial tests
+  if (missing(tables.folder)) {
+    stop("Argument 'tables.folder' must be defined, see function's help")
+  }
+  if (missing(out.dir)) {
+    stop("Argument 'out.dir' must be defined, see function's help")
+  }
 
   fls <- list.files(tables.folder, pattern = "*.csv", full.names = TRUE) #Files to be used
 
@@ -34,14 +54,16 @@ hierpart_analyses <- function(tables.folder, out.dir, kept = FALSE) {
                                    row.names = c())
     r3_hpar_ran[[i]] <- hpar_ran$IJ$Total * 100 / (sum(hpar_ran$IJ$Total))
 
-    cat(paste("   ", i, "of", length(fls), "analyses finished\n"))
+    if (verbose == TRUE) {
+      message("   ", i, " of ", length(fls), " analyses finished")
+    }
   }
 
   # Create the final tables
   r1_hpar_ran <- do.call(rbind, r1_hpar_ran)
   r2_hpar_ran <- do.call(rbind, r2_hpar_ran)
-  r2_hpar_ran <- data.frame(rep(paste("Iteration", 1:length(fls)), each = dim(ra)[2] - 1),
-                            r2_hpar_ran) # names of the rows
+  r2_hpar_ran <- data.frame(rep(paste("Iteration", 1:length(fls)),
+                                each = dim(ra)[2] - 1), r2_hpar_ran) # names of the rows
   colnames(r2_hpar_ran) <- c("", "Source", "Independent", "Joint", "Total")
 
   r3_hpar_ran <- do.call(rbind, r3_hpar_ran)
@@ -59,14 +81,14 @@ hierpart_analyses <- function(tables.folder, out.dir, kept = FALSE) {
   row.names(r1_hpar_ran) <- paste("Iteration", 1:length(fls)) # names of the rows
   row.names(r3_hpar_ran) <- paste("Iteration", 1:length(fls)) # names of the rows
 
-  # Write the ressults
-  write.csv(r1_hpar_ran, paste(out.dir, "hierpart_Goodness_fit.csv", sep = "/"),
+  # Write the results
+  write.csv(r1_hpar_ran, paste0(out.dir, "/hierpart_Goodness_fit.csv"),
             row.names = TRUE)
-  write.csv(r2_hpar_ran, paste(out.dir, "hierpart_Raw_effects.csv", sep = "/"),
+  write.csv(r2_hpar_ran, paste0(out.dir, "/hierpart_Raw_effects.csv"),
             row.names = FALSE)
-  write.csv(r3_hpar_ran, paste(out.dir, "hierpart_Total_effects_percent.csv", sep = "/"),
+  write.csv(r3_hpar_ran, paste0(out.dir, "/hierpart_Total_effects_percent.csv"),
             row.names = TRUE)
-  write.csv(r4_hpar_ran, paste(out.dir, "hierpart_Mean_effects.csv", sep = "/"),
+  write.csv(r4_hpar_ran, paste0(out.dir, "/hierpart_Mean_effects.csv"),
             row.names = FALSE)
 
   if (kept == FALSE) {
