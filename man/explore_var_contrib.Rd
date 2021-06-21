@@ -3,7 +3,7 @@
 \name{explore_var_contrib}
 \alias{explore_var_contrib}
 \alias{plot_contribution}
-\title{Evaluation and plot of variable contribution to single Maxent models}
+\title{Evaluation and plot of variable contribution to Maxent models}
 \usage{
 explore_var_contrib(occ, M_variables, maxent.path, reg.mult = 1,
                     f.clas = NULL, max.memory = 1000, args = NULL,
@@ -47,7 +47,7 @@ See details for other options.}
 \item{sample.size}{(numeric) number of points to represent the background for
 the model. Default = 10000}
 
-\item{plot}{(logical) whether to plot results.}
+\item{plot}{(logical) whether to produce a default plot of results.}
 
 \item{contribution_list}{a list of results obtained with
 \code{\link{explore_var_contrib}}, or an element of a list obtained with
@@ -72,9 +72,9 @@ jackknife results. If \code{plot} = TRUE results are plotted as horizontal
 bars using \code{\link{plot_contribution}}.
 }
 \description{
-explore_var_contrib helps to explore variable contribution to
-single maxent models based on metrics of contribution percentage, permutation
-importance, and a jackknife analysis.
+Exploration of variable contribution to Maxent models based on
+metrics of contribution percentage, permutation importance, and a jackknife
+analysis.
 }
 \details{
 All potential combinations of feature classes
