@@ -7,7 +7,7 @@
 \usage{
 explore_var_contrib(occ, M_variables, maxent.path, reg.mult = 1,
                     f.clas = NULL, max.memory = 1000, args = NULL,
-                    plot = TRUE)
+                    plot = TRUE, verbose = TRUE)
 
 plot_contribution(contribution_list, col.cont = "gray25",
                   col.imp = "gray25", col.with = "gray15",
@@ -48,6 +48,8 @@ See details for other options.}
 the model. Default = 10000}
 
 \item{plot}{(logical) whether to produce a default plot of results.}
+
+\item{verbose}{(logical) whether to print messages; default = TRUE.}
 
 \item{contribution_list}{a list of results obtained with
 \code{\link{explore_var_contrib}}, or an element of a list obtained with

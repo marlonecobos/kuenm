@@ -30,6 +30,7 @@
 #' @param sample.size (numeric) number of points to represent the background for
 #' the model. Default = 10000
 #' @param plot (logical) whether to produce a default plot of results.
+#' @param verbose (logical) whether to print messages; default = TRUE.
 #'
 #' @return
 #' A list with results of variable contribution, permutation importance, and
@@ -78,7 +79,7 @@
 #' @usage
 #' explore_var_contrib(occ, M_variables, maxent.path, reg.mult = 1,
 #'                     f.clas = NULL, max.memory = 1000, args = NULL,
-#'                     plot = TRUE)
+#'                     plot = TRUE, verbose = TRUE)
 #'
 #' @export
 #'
