@@ -2,21 +2,23 @@
 % Please edit documentation in R/hierpart_tables.R
 \name{hierpart_tables}
 \alias{hierpart_tables}
-\title{Prepare tables for hierarchical partitioning}
+\title{Prepare tables for hierarchical partitioning analysis}
 \usage{
-hierpart_tables(model.names, sp.name, replicate.numbers, format = "asc",
+hierpart_tables(model.names, sp.name, format = "ascii", replicate.numbers,
                 parameters, clim.models, emi.scenarios, iterations = 100,
-                sample.size = 100, out.dir)
+                sample.size = 100, out.dir, verbose = TRUE)
 }
 \arguments{
-\item{model.names}{(character) vector of model names.}
+\item{model.names}{(character) vector of model names located in one or more
+directories.}
 
-\item{sp.name}{(character) species names as it is in the csv file used for creating
-the model.}
+\item{sp.name}{(character) species name as in the csv file used for creating
+models.}
+
+\item{format}{(character) format of model raster files. Options are "ascii",
+"GTiff", and "EHdr" = bil. Default = "ascii".}
 
 \item{replicate.numbers}{(numeric) vector of replicate numbers.}
-
-\item{format}{(character) format of model raster files. Options are: "asc" or "tif"; default = "asc".}
 
 \item{parameters}{(character) vector of parameter settings names.}
 
@@ -24,22 +26,31 @@ the model.}
 
 \item{emi.scenarios}{(character) vector of emission scenario names.}
 
-\item{iterations}{(numeric) number of iterations to be performed; default = 100.}
+\item{iterations}{(numeric) number of iterations to be performed;
+default = 100.}
 
-\item{sample.size}{(numeric) number of pixels to be sampled per each model. Default = 100.}
+\item{sample.size}{(numeric) number of pixels to be sampled per each model.
+Default = 100.}
 
-\item{out.dir}{(character) name of the output directory where matrices will be written.}
+\item{set_seed}{(numeric) initial seed to be set before running analysis.}
+
+\item{out.dir}{(character) name of the output directory where matrices will
+be written.}
+
+\item{verbose}{(logical) whether to print messages; default = TRUE.}
 }
 \value{
 All the tables needed to performing hierarchical partitioning analyses of the
-varianze in ecological niche models.
+variance coming from distinct sources in ecological niche models. All results
+are written in \code{out.dir}.
 }
 \description{
-Helper function to prepare tables for hierarchical partitioning analyses
-of the varianze comming from distinct sources in ecological niche models.
+Helper function to prepare tables for hierarchical partitioning
+analysis of the variance coming from distinct sources in ecological niche
+models.
 }
 \details{
 At least two of the following sources of variation must exist to perform
 the analysis: \code{replicate.numbers}, \code{parameters}, \code{clim.models},
-or \code{emi.scenarios}.
+and \code{emi.scenarios}.
 }
