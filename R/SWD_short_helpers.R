@@ -199,3 +199,13 @@ ext_type <- function(ext.type = "all") {
   }
   return(list(code = mid.com, name = ext.nam))
 }
+
+
+# finds raster format type according to format name
+rformat_type <- function(format) {
+  if (missing(format)) {stop("Argument 'format' needs to be defined")}
+  if (format == "GTiff") {format1 <- ".tif"}
+  if (format == "EHdr") {format1 <- ".bil"}
+  if (format == "ascii") {format1 <- ".asc"}
+  return(format1)
+}
