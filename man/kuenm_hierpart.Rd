@@ -109,7 +109,9 @@ the mean. This interval is calculated using a bootstrap approach.
 # Models should be ready before starting these analyses, for an example of
 how to create them see https://github.com/marlonecobos/kuenm
 
-# Arguments
+# Here an example of how to use the function once the models are ready
+\dontrun{
+## Arguments
 sp_name <- "sp1"
 fmod_dir <- "Final_Models"
 rep <- TRUE
@@ -118,14 +120,16 @@ project <- TRUE
 curr <- "current"
 emi_scenarios <- c("RCP4.5", "RCP8.5")
 c_mods <- c("GCM1", "GCM2")
-ext_type <- c("E", "EC", "NE")
+ext_type <- c("E", "EC")
 iter <- 100
 s_size <- 1000
 out_dir3 <- "Hierarchical_partitioning"
 
+# Running the function
 kuenm_hierpart(sp.name = sp_name, fmod.dir = fmod_dir, format = format,
                replicated = rep, project = project, current = curr,
                emi.scenarios = emi_scenarios, clim.models = c_mods,
                ext.type = ext_type, iterations = iter,
                sample.size = s_size, out.dir = out_dir3)
+}
 }
