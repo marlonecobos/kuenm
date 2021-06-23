@@ -32,7 +32,7 @@ default = 100.}
 \item{sample.size}{(numeric) number of pixels to be sampled per each model.
 Default = 100.}
 
-\item{set_seed}{(numeric) initial seed to be set before running analysis.}
+\item{set.seed}{(numeric) initial seed to be set before running analysis.}
 
 \item{out.dir}{(character) name of the output directory where matrices will
 be written.}

@@ -7,8 +7,8 @@
 kuenm_hierpart(sp.name, fmod.dir, format = "ascii", replicated, project,
                current = NULL, time.periods = NULL, emi.scenarios = NULL,
                clim.models = NULL, ext.type, iterations = 100,
-               sample.size = 1000, keep.tables = FALSE,
-               factors.col, out.dir)
+               sample.size = 1000, set.seed = 1, keep.tables = FALSE,
+               factors.col = NULL, out.dir, verbose = TRUE)
 }
 \arguments{
 \item{sp.name}{(character) name of the species. This name must be the one
@@ -62,6 +62,8 @@ hierarchical partitioning analysis. Default = 100.}
 Default = 100. Increasing this number is recommended when the number of
 models and the computer features allow it.}
 
+\item{set.seed}{(numeric) initial seed to be set before running analysis.}
+
 \item{keep.tables}{(logical) if TRUE, tables that are written in
 \code{out.dir} for each iteration of the hierarchical partitioning analyses
 are kept. Default = FALSE.}
@@ -88,7 +90,7 @@ variance in the models.
 \description{
 kuenm_hierpart performs a hierarchical partitioning analysis of
 the variance coming from distinct sources in ENMs. In this version potential
-sources of variation are: replicates, parameterizations, general circulation
+sources of variation are: replicates, parameter settings, general circulation
 models (GCMs), and emission scenarios. The last two are considered only when
 projections in time are performed. At least two of these sources of variation
 must be present in results.
