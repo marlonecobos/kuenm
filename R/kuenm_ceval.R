@@ -500,27 +500,13 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   cat("\nWriting kuenm_ceval results...\n")
   dir.create(out.eval)
 
-  name <- paste(out.eval, "calibration_results.csv", sep = "/")
-  name0 <- paste(out.eval, "calibration_stats.csv", sep = "/")
-  name1 <- paste(out.eval, "best_candidate_models_OR_AICc.csv", sep = "/")
-  name2 <- paste(out.eval, "best_candidate_models_AICc.csv", sep = "/")
-  name3 <- paste(out.eval, "best_candidate_models_OR.csv", sep = "/")
+  name <- paste0(out.eval, "/calibration_results.csv")
+  name0 <- paste0(out.eval, "/calibration_stats.csv")
+  name1 <- paste0(out.eval, "/selected_models.csv")
 
-
-  write.csv(ku_enm_eval, file = name, eol = "\n", na = "NA", row.names = FALSE)
-  write.csv(ku_enm_stats, file = name0, eol = "\n", na = "NA", row.names = FALSE)
-
-  if(selection == "OR_AICc" | selection == "AICc" | selection == "OR"){
-    if(selection == "OR_AICc"){
-      write.csv(ku_enm_best, file = name1, eol = "\n", na = "NA", row.names = FALSE)
-    }
-    if(selection == "AICc"){
-      write.csv(ku_enm_best, file = name2, eol = "\n", na = "NA", row.names = FALSE)
-    }
-    if(selection == "OR"){
-      write.csv(ku_enm_best, file = name3, eol = "\n", na = "NA", row.names = FALSE)
-    }
-  }
+  write.csv(ku_enm_eval, file = name, na = "NA", row.names = FALSE)
+  write.csv(ku_enm_stats, file = name0, na = "NA", row.names = FALSE)
+  write.csv(ku_enm_best, file = name1, na = "NA", row.names = FALSE)
 
   ##Plot
   png(paste(out.eval, "calibration_figure.png", sep = "/"), width = 80, height = 80,
@@ -563,7 +549,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
   ##html file
   ###Writing the html file
-  html_eval(path = out.eval, file.name = "calibration_results")
+  html_calibration(path = out.eval, file.name = "calibration_results")
 
   ##Retuning objects
   ###Dataframes in a list
