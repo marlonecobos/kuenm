@@ -198,7 +198,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                                  full.names = TRUE)) #lambdas file
     lambdas <- try(readLines(lbds), silent = TRUE)
 
-    par_num <- try(n.par(lambdas), silent = TRUE) #getting the number of parameters for each model
+    par_num <- try(n_par(lambdas), silent = TRUE) #getting the number of parameters for each model
 
     mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
     mod <- try(raster::raster(mods), silent = TRUE)
@@ -214,7 +214,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                                    full.names = TRUE)) #lambdas file
       lambdas <- try(readLines(lbds), silent = TRUE)
 
-      par_num <- try(n.par(lambdas), silent = TRUE) #getting the number of parameters for each model
+      par_num <- try(n_par(lambdas), silent = TRUE) #getting the number of parameters for each model
 
       mods <- list.files(dir_names[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod <- try(raster::raster(mods), silent = TRUE)
@@ -625,19 +625,4 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   return(list_res)
   }
 
-#' Helper function to calculate the AICc values (number of parameters).
-#'
-#' @param x An object derived from reading the lambdas file created for Maxent.
-#' Use \code{\link[base]{readLines}} function to read the file.
-#'
-#' @export
 
-n.par <- function(x) {
-  lambdas <- x[1:(length(x) - 4)]
-  countNonZeroParams <- function(x) {
-    if (strsplit(x, split = ", ")[[1]][2] != "0.0")
-      1
-  }
-  no.params <- sum(unlist(sapply(lambdas, countNonZeroParams)))
-  return(no.params)
-}

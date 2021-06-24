@@ -1,31 +1,48 @@
 #' AICc calculation of Maxent SWD predictions
 #'
 #' @description aicc calculates the Akaike information criterion corrected for
-#' small sample sizes (AICc) to single or multiple models produced with Maxent.
+#' small sample sizes (AICc) for predictions produced with Maxent.
 #'
-#' @param occ numerical matrix containing coordinates of the occurrences used to
-#' create the ecological niche models to be evaluated; columns must be: longitude
-#' and latitude.
-#' @param prediction matrix of longitude and latidue coordinates, and Maxent Raw
-#' predictions obtained using the SWD format. Prediction coordinates must include
-#' the ones in \code{occ}
-#' @param npar (numeric) number of parameters of the model. Use function \code{\link{n.par}}
-#' to obtain number of parameters for each model from lambdas file.
+#' @param occ matrix or data.frame with coordinates of the occurrences used to
+#' create the model (raster) to be evaluated; columns must be: longitude and
+#' latitude.
+#' @param prediction matrix or data.frame of longitude and latitude coordinates,
+#' and Maxent Raw predictions obtained using the SWD format in Maxent.
+#' Coordinates in this prediction must include the ones in \code{occ}
+#' @param npar (numeric) number of parameters of the model. Use function
+#' \code{\link{n_par}} to obtain number of parameters in the model from
+#' the lambdas file.
 #'
-#' @return A data.frame with results from AICc analyses.
+#' @return
+#' A data.frame containing values of AICc, delta AICc, weight of AICc, and
+#' number of parameters. The number of rows of the data.frame corresponds to
+#' the number of models evaluated.
 #'
 #' @export
 #'
 #' @details
-#' This function is a modification of calc.aicc from the ENMeval package to allow
-#' calculations using numerical values instead raster predictions.
+#' Calculations are done following
+#' [Warren and Seifert (2011)](https://doi.org/10.1890/10-1171.1).
 
 aicc <- function(occ, prediction, npar) {
+  if (missing(occ)) {
+    stop("Argument 'occ' must be defined, see function's help.")
+  }
+  if (missing(prediction)) {
+    stop("Argument 'prediction' must be defined, see function's help.")
+  }
+  if (!class(prediction)[1] %in% c("matrix", "data.frame")) {
+    stop("'prediction' must be of class a matrix or data.frame. See function's help.")
+  }
+  if (missing(npar)) {
+    stop("Argument 'npar' must be defined, see function's help.")
+  }
+
   AIC.valid <- npar < nrow(occ)
   if (nrow(prediction) == 0) {
     res <- data.frame(cbind(AICc = NA, delta_AICc = NA,
                             weight_AICc = NA, parameters = npar))
-    warning("Cannot calculate AICc when prediction has 0 rows.")
+    warning("Cannot calculate AICc when prediction has 0 rows. Returning NA")
   } else {
     vals <- prediction[paste(prediction[, 1], prediction[, 2]) %in%
                          paste(occ[, 1], occ[, 2]), 3]
@@ -37,7 +54,7 @@ aicc <- function(occ, prediction, npar) {
     AICc[AIC.valid == FALSE] <- NA
     AICc[is.infinite(AICc)] <- NA
     if (sum(is.na(AICc)) == length(AICc)) {
-      warning("AICc not valid: too many parameters, or likelihood = Inf... returning NA.")
+      warning("AICc not valid: too many parameters, or likelihood = Inf. Returning NA")
       res <- data.frame(cbind(AICc, delta_AICc = NA, weight_AICc = NA,
                               parameters = npar))
     } else {

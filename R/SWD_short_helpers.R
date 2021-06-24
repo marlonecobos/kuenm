@@ -160,10 +160,28 @@ plot_proc_aicc <- function(summary.calibration) {
 }
 
 
+#' Helper function to calculate the AICc values (number of parameters).
+#'
+#' @param x An object derived from reading the lambdas file created for Maxent.
+#' Use \code{\link[base]{readLines}} function to read the file.
+#'
+#' @export
+
+n_par <- function(x) {
+  lambdas <- x[1:(length(x) - 4)]
+  countNonZeroParams <- function(x) {
+    if (strsplit(x, split = ", ")[[1]][2] != "0.0")
+      1
+  }
+  no.params <- sum(unlist(sapply(lambdas, countNonZeroParams)))
+  return(no.params)
+}
+
+
 
 #' Helper function to select extrapolation options
 #' @param ext.type (character) extrapolation type to be used. Options are:
-#' "all", "ext_clam", "ext", and "no_ext", default = "all".
+#' "all", "ext_clam", "ext", and "no_ext". Default = "all".
 #' @export
 ext_type <- function(ext.type = "all") {
   if(ext.type == "ext_clam") {

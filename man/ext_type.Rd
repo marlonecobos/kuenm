@@ -8,7 +8,7 @@ ext_type(ext.type = "all")
 }
 \arguments{
 \item{ext.type}{(character) extrapolation type to be used. Options are:
-"all", "ext_clam", "ext", and "no_ext", default = "all".}
+"all", "ext_clam", "ext", and "no_ext". Default = "all".}
 }
 \description{
 Helper function to select extrapolation options

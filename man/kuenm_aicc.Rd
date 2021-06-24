@@ -2,33 +2,35 @@
 % Please edit documentation in R/kuenm_aicc.R
 \name{kuenm_aicc}
 \alias{kuenm_aicc}
-\title{AICc calculation of Maxent models.}
+\title{AICc calculation for Maxent models}
 \usage{
 kuenm_aicc(occ, model, npar)
 }
 \arguments{
-\item{occ}{a numerical matrix containing coordinates of the occurrences used to create
-the ecological niche models to be evaluated; columns must be: longitude and latitude.}
+\item{occ}{matrix or data.frame with coordinates of the occurrences used to
+create the model (raster) to be evaluated; columns must be: longitude and
+latitude.}
 
-\item{model}{a RasterLayer or RasterStack of ecological niche models created using Maxent
-with the Raw output.}
+\item{model}{a RasterLayer or RasterStack of model projections created using
+Maxent with raw outputs.}
 
-\item{npar}{(numeric) vector of number of parameters for \code{model}. Lenght must
-correspond with number of models to be evaluated. Use function \code{\link{n.par}} to obtain
-number of parameters for each model.}
+\item{npar}{(numeric) number of parameters for \code{model}. Length must
+correspond with number of layers in \code{model}. See function
+\code{\link{n_par}}.}
 }
 \value{
-A dataframe containing values of AICc, delta AICc, weight of AICc, and number of parameters.
-Number of rows of this dataframe correspond to number of models evaluated.
+A data.frame containing values of AICc, delta AICc, weight of AICc, and
+number of parameters. The number of rows of the data.frame corresponds to
+the number of models evaluated.
 }
 \description{
-kuenm_aicc calculates the Akaike information criterion corrected for small
-sample sizes (AICc) to single or multiple models produced with Maxent.
+kuenm_aicc calculates the Akaike information criterion corrected
+for small sample sizes (AICc) for single or multiple models produced with
+Maxent.
 }
 \details{
-This function is a modification of the \code{\link[ENMeval]{calc.aicc}} from the ENMeval package.
-Changes help to make calcutions faster because of a better management of raster values (especially
-when calculations are performed for multiple models).
+Calculations are done following
+\href{https://doi.org/10.1890/10-1171.1}{Warren and Seifert (2011)}.
 }
 \examples{
 data("sp_joint", package = "kuenm")
@@ -37,7 +39,10 @@ model <- raster::raster(system.file("extdata/sp_model_joint.tif",
 
 lbds <- readLines(system.file("extdata/lambdas_model_joint.lambdas",
                               package = "kuenm"))
-npar <- n.par(lbds) # counting number of parameters
+npar <- n_par(lbds) # counting number of parameters
 
 aicc <- kuenm_aicc(occ = sp_joint, model = model, npar = npar)
+}
+\seealso{
+\code{\link{aicc}} for results obtained using the SWD format.
 }
