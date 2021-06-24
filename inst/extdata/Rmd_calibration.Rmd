@@ -73,10 +73,10 @@ The following table contains the models selected according to the user's pre-def
 Note that if the selection criteria was "OR_AICc" (statistically significant models with omission rates below a predefined *E*, and among them those with lower AICc values), delta AICc values were recalculated only among models meeting the significance and omission rate criteria.
 
 ```{r, echo=FALSE}
-best <- list.files(pattern = "best")
-st1 <- read.csv(best)
-colnames(st1) <- c("Model",	"Mean_AUC_ratio",	"Partial_ROC", gsub("[.]", "%", colnames(st1)[4]), "AICc",	"delta_AICc",	"W_AICc",	"num_parameters")
-knitr::kable(st1, digits=c(0,3,3,3,3,3,3,0), caption = "Table 3. Performance statistics for models selected based on the user's pre-defined critera.")
+st1 <- read.csv("selected_models.csv")
+colnames(st1) <- c("Model",	"Mean_AUC_ratio",	"Partial_ROC", gsub("[.]", "%", colnames(st1)[4]), "AICc",	"Delta_AICc",	"W_AICc",	"N_parameters")
+knitr::kable(st1, digits = c(0, 3, 3, 3, 3, 3, 3, 0), 
+             caption = "Table 3. Performance statistics for models selected based on the user's pre-defined critera.")
 ```
 
 <br>
@@ -84,7 +84,7 @@ knitr::kable(st1, digits=c(0,3,3,3,3,3,3,0), caption = "Table 3. Performance sta
 
 ### Model performance plot
 
-The figure below shows the position of the selected models in the distribution of all candidate models in terms of statistical significance, omission rates, and AICc values.
+The figure below shows the position of the selected models in the distribution of all candidate models in terms of omission rates and AICc values.
 
 ![Figure 1. Distribution of all models, non-statistically significant models, and selected models in terms of AICc and omission rate values.](calibration_figure.png){width=60%}
 
@@ -93,13 +93,14 @@ The figure below shows the position of the selected models in the distribution o
 
 ### Performance statistics for all models
 
-Following the statistics of performance for all candidate models (a sample if more than 500 models) are presented. See file calibration_results.csv for the complete list.
+Following the statistics of performance for all candidate models (a sample if more than 500 models) are presented. See file calibration_results.csv for an editable file with of results for all candidate models.
 
 ```{r, echo=FALSE}
 st4 <- read.csv("calibration_results.csv")
 if (dim(st4)[1] > 500) {
    st4 <- st4[1:500, ]
 }
-colnames(st4) <-  c("Model",	"Mean_AUC_ratio",	"Partial_ROC", gsub("[.]", "%", colnames(st4)[4]), "AICc",	"delta_AICc",	"W_AICc",	"num_parameters")
-knitr::kable(st4, digits=c(0,3,3,3,3,3,3,0), caption = "Table 4. Performance statistics for candidate models.")
+colnames(st4) <-  c("Model",	"Mean_AUC_ratio",	"Partial_ROC", gsub("[.]", "%", colnames(st4)[4]), "AICc",	"Delta_AICc",	"W_AICc",	"N_parameters")
+knitr::kable(st4, digits = c(0, 3, 3, 3, 3, 3, 3, 0), 
+             caption = "Table 4. Performance statistics for candidate models.")
 ```
