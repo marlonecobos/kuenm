@@ -4,7 +4,7 @@
 \alias{kuenm_hierpart}
 \title{Hierarchical partition of the variance coming from distinct sources in ENMs}
 \usage{
-kuenm_hierpart(sp.name, fmod.dir, format = "ascii", replicated, project,
+kuenm_hierpart(sp.name, fmod.dir, is.swd, format = "ascii", replicated, project,
                current = NULL, time.periods = NULL, emi.scenarios = NULL,
                clim.models = NULL, ext.type, iterations = 100,
                sample.size = 1000, set.seed = 1, keep.tables = FALSE,
@@ -18,6 +18,9 @@ containing species occurrence data (species) but spaces replaced by "_".}
 
 \item{fmod.dir}{(character) name of the folder where all models are (e.g.,
 the output folder after using the \code{\link{kuenm_mod}}) function.}
+
+\item{is.swd}{(logical) whether model calibration and final models were
+produced using SWD format.}
 
 \item{format}{(character) format of model raster files. Options are "ascii",
 "GTiff", and "EHdr" = bil. Default = "ascii".}
@@ -59,7 +62,7 @@ named "M_0.1_F_l_set1_EC".}
 hierarchical partitioning analysis. Default = 100.}
 
 \item{sample.size}{(numeric) number of pixels to be sampled per each model.
-Default = 100. Increasing this number is recommended when the number of
+Default = 1000. Increasing this number is recommended when the number of
 models and the computer features allow it.}
 
 \item{set.seed}{(numeric) initial seed to be set before running analysis.}
@@ -77,9 +80,9 @@ where results of the hierarchical partitioning analysis will be written.}
 \item{verbose}{(logical) whether to print messages; default = TRUE.}
 }
 \value{
-The function returns a data.frame containing the summary of total effects of
-factors on variance contained in the models. A plot of these effects is also
-returned.
+The function returns a list containing the summary of total effects of
+factors on variance contained in the models (mean and confidence intervals
+of total effects). A plot of these values is also returned.
 
 Other results are written in \code{out.dir}. Folders named Variation or
 HP_results_(EC, NE, and/or E, depending on \code{ext.type}) containing
@@ -117,7 +120,7 @@ how to create them see https://github.com/marlonecobos/kuenm
 sp_name <- "sp1"
 fmod_dir <- "Final_Models"
 rep <- TRUE
-format <- "ascii"
+form <- "ascii"
 project <- TRUE
 curr <- "current"
 emi_scenarios <- c("RCP4.5", "RCP8.5")
@@ -128,7 +131,7 @@ s_size <- 1000
 out_dir3 <- "Hierarchical_partitioning"
 
 # Running the function
-kuenm_hierpart(sp.name = sp_name, fmod.dir = fmod_dir, format = format,
+kuenm_hierpart(sp.name = sp_name, fmod.dir = fmod_dir, is.swd = F, format = form,
                replicated = rep, project = project, current = curr,
                emi.scenarios = emi_scenarios, clim.models = c_mods,
                ext.type = ext_type, iterations = iter,

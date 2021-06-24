@@ -6,14 +6,16 @@
 \usage{
 hierpart_tables(model.names, sp.name, format = "ascii", replicate.numbers,
                 parameters, clim.models, emi.scenarios, iterations = 100,
-                sample.size = 100, out.dir, verbose = TRUE)
+                sample.size = 1000, set.seed = 1, out.dir, verbose = TRUE)
 }
 \arguments{
-\item{model.names}{(character) vector of model names located in one or more
-directories.}
+\item{model.names}{(character) vector of file names for model predictions
+located in one or more directories.}
 
 \item{sp.name}{(character) species name as in the csv file used for creating
 models.}
+
+\item{is.swd}{(logical) whether models were produced using SWD format.}
 
 \item{format}{(character) format of model raster files. Options are "ascii",
 "GTiff", and "EHdr" = bil. Default = "ascii".}
@@ -30,7 +32,7 @@ models.}
 default = 100.}
 
 \item{sample.size}{(numeric) number of pixels to be sampled per each model.
-Default = 100.}
+Default = 1000.}
 
 \item{set.seed}{(numeric) initial seed to be set before running analysis.}
 
