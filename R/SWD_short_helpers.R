@@ -16,48 +16,46 @@
 #' @export
 
 feature_classes <- function(f.clas = "all") {
-  fea <- c("linear=true quadratic=false product=false threshold=false hinge=false",
-           "linear=false quadratic=true product=false threshold=false hinge=false",
-           "linear=false quadratic=false product=true threshold=false hinge=false",
-           "linear=false quadratic=false product=false threshold=true hinge=false",
-           "linear=false quadratic=false product=false threshold=false hinge=true",
-           "linear=true quadratic=true product=false threshold=false hinge=false",
-           "linear=true quadratic=false product=true threshold=false hinge=false",
-           "linear=true quadratic=false product=false threshold=true hinge=false",
-           "linear=true quadratic=false product=false threshold=false hinge=true",
-           "linear=false quadratic=true product=true threshold=false hinge=false",
-           "linear=false quadratic=true product=false threshold=true hinge=false",
-           "linear=false quadratic=true product=false threshold=false hinge=true",
-           "linear=false quadratic=false product=true threshold=true hinge=false",
-           "linear=false quadratic=false product=true threshold=false hinge=true",
-           "linear=false quadratic=false product=false threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=false hinge=false",
-           "linear=true quadratic=true product=false threshold=true hinge=false",
-           "linear=true quadratic=true product=false threshold=false hinge=true",
-           "linear=true quadratic=false product=true threshold=true hinge=false",
-           "linear=true quadratic=false product=true threshold=false hinge=true",
-           "linear=true quadratic=false product=false threshold=true hinge=true",
-           "linear=false quadratic=true product=true threshold=true hinge=false",
-           "linear=false quadratic=true product=true threshold=false hinge=true",
-           "linear=false quadratic=true product=false threshold=true hinge=true",
-           "linear=false quadratic=false product=true threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=true hinge=false",
-           "linear=true quadratic=true product=true threshold=false hinge=true",
-           "linear=true quadratic=true product=false threshold=true hinge=true",
-           "linear=true quadratic=false product=true threshold=true hinge=true",
-           "linear=false quadratic=true product=true threshold=true hinge=true",
-           "linear=true quadratic=true product=true threshold=true hinge=true")
+  fea <- c("linear=true quadratic=false product=false threshold=false hinge=false", #1
+           "linear=false quadratic=true product=false threshold=false hinge=false", #2
+           "linear=false quadratic=false product=false threshold=false hinge=true", #3
+           "linear=true quadratic=true product=false threshold=false hinge=false",  #4
+           "linear=true quadratic=false product=true threshold=false hinge=false",  #5
+           "linear=true quadratic=false product=false threshold=true hinge=false",  #6
+           "linear=true quadratic=false product=false threshold=false hinge=true",  #7
+           "linear=false quadratic=true product=true threshold=false hinge=false",  #8
+           "linear=false quadratic=true product=false threshold=true hinge=false",  #9
+           "linear=false quadratic=true product=false threshold=false hinge=true",  #10
+           "linear=false quadratic=false product=true threshold=true hinge=false",  #11
+           "linear=false quadratic=false product=true threshold=false hinge=true",  #12
+           "linear=false quadratic=false product=false threshold=true hinge=true",  #13
+           "linear=true quadratic=true product=true threshold=false hinge=false",   #14
+           "linear=true quadratic=true product=false threshold=true hinge=false",   #15
+           "linear=true quadratic=true product=false threshold=false hinge=true",   #16
+           "linear=true quadratic=false product=true threshold=true hinge=false",   #17
+           "linear=true quadratic=false product=true threshold=false hinge=true",   #18
+           "linear=true quadratic=false product=false threshold=true hinge=true",   #19
+           "linear=false quadratic=true product=true threshold=true hinge=false",   #20
+           "linear=false quadratic=true product=true threshold=false hinge=true",   #21
+           "linear=false quadratic=true product=false threshold=true hinge=true",   #22
+           "linear=false quadratic=false product=true threshold=true hinge=true",   #23
+           "linear=true quadratic=true product=true threshold=true hinge=false",    #24
+           "linear=true quadratic=true product=true threshold=false hinge=true",    #25
+           "linear=true quadratic=true product=false threshold=true hinge=true",    #26
+           "linear=true quadratic=false product=true threshold=true hinge=true",    #27
+           "linear=false quadratic=true product=true threshold=true hinge=true",    #28
+           "linear=true quadratic=true product=true threshold=true hinge=true")     #29
 
-  names(fea) <- c("l", "q", "p", "t", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
+  names(fea) <- c("l", "q", "h", "lq", "lp", "lt", "lh", "qp", "qt", "qh",
                   "pt", "ph", "th", "lqp", "lqt", "lqh", "lpt", "lph", "lth", "qpt",
                   "qph", "qth", "pth", "lqpt", "lqph", "lqth", "lpth", "qpth", "lqpth")
 
   if(any(f.clas %in% c("all", "basic", "no.t.h", "no.h", "no.t"))) {
     if(f.clas == "all"){fea <- fea}
-    if(f.clas == "basic"){fea <- fea[c(1, 6, 16, 26, 31)]}
-    if(f.clas == "no.t.h"){fea <- fea[c(1:3, 6:7, 10, 16)]}
-    if(f.clas == "no.h"){fea <- fea[c(1:4, 6:8, 10:11, 13, 16:17, 19, 22, 26)]}
-    if(f.clas == "no.t"){fea <- fea[c(1:3, 5:7, 9:10, 12, 14, 16, 18, 20, 23, 27)]}
+    if(f.clas == "basic"){fea <- fea[c(1, 4, 14, 24, 29)]}
+    if(f.clas == "no.t.h"){fea <- fea[c(1:2, 4:5, 8, 14)]}
+    if(f.clas == "no.h"){fea <- fea[c(1:2, 4:6, 8:9, 11, 14:15, 17, 20, 24)]}
+    if(f.clas == "no.t"){fea <- fea[c(1:5, 7:8, 10, 12, 14, 16, 18, 21, 25)]}
   }else{
     if (any(f.clas %in% names(fea))) {
       fea <- fea[f.clas]
