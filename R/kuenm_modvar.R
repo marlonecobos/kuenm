@@ -136,7 +136,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, is.swd, replicated, format = "asc",
       cat("Argument emi.scenarios is not defined, an only emission scenario will be assumed.")
     }
     if (missing(clim.models)) {
-      cat("Argument clim.models is not defined, an only cimatic model will be assumed.")
+      cat("Argument clim.models is not defined, an only climatic model will be assumed.")
     }
     if (missing(ext.type)) {
       stop("Argument ext.type needs to be provided. See fucntion's help for details.")
