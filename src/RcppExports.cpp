@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // trap_roc
 double trap_roc(NumericVector x, NumericVector y);
 RcppExport SEXP _kuenm_trap_roc(SEXP xSEXP, SEXP ySEXP) {

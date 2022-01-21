@@ -29,6 +29,8 @@
 #' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 #' is more recommended in high-performance computers. Using this option will speed up the analyses
 #' only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.
+#' @param silent (logical) if FALSE, report when evaluation is stalled waiting for a model run to
+#' complete. Default = TRUE.
 #'
 #' @return A list with three dataframes containing results from the calibration process and a scatterplot
 #' of all models based on the AICc values and omission rates. In addition, a folder, in the
@@ -77,7 +79,7 @@
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500, kept = TRUE,
-                        selection = "OR_AICc", parallel.proc = FALSE) {
+                        selection = "OR_AICc", parallel.proc = FALSE, silent = TRUE) {
   #Checking potential issues
   if (missing(path)) {
     stop(paste("Argument path is not defined, this is necessary for reading the",
@@ -209,7 +211,15 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     #If needed, waiting for the model to be created
     aicc_class <- class(aicc)
 
+    waiting_for_aicc <- FALSE
+
     while (aicc_class == "try-error") {
+
+      if ((!silent) && (!waiting_for_aicc)) {
+        waiting_for_aicc <- TRUE
+        message(sprintf("Waiting for aicc on %s\n", dir_names[i]))
+      }
+
       lbds <- as.vector(list.files(dir_names[i], pattern = ".lambdas",
                                    full.names = TRUE)) #lambdas file
       lambdas <- try(readLines(lbds), silent = TRUE)
@@ -235,7 +245,15 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
       llin_class <- class(llin)
 
+      waiting_for_llin <- FALSE
+
       while (llin_class == "try-error") {
+
+        if ((!silent) && (!waiting_for_llin)) {
+          waiting_for_llin <- TRUE
+          message(sprintf("Waiting for llin on %s\n", dir_names[i]))
+        }
+
         mxlog <- as.vector(list.files(dir_names[i], pattern = ".log",
                                       full.names = TRUE)) #maxent log file
         llin <- try(readLines(mxlog), silent = TRUE)
@@ -281,7 +299,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     #If needed, waiting for the model to be created
     proc_class <- class(proc)
 
+    waiting_for_proc <- FALSE
+
     while (proc_class == "try-error") {
+
+      if ((!silent) && (!waiting_for_proc)) {
+        waiting_for_proc <- TRUE
+        message(sprintf("Waiting for proc on %s\n", dir_names[i]))
+      }
+
+
       mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod1 <- try(raster::raster(mods1), silent = TRUE)
 
