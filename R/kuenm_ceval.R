@@ -593,17 +593,20 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     }
 
     dev.off()
+  }
 
-    ##html file
-    ###Writing the html file
-    html_eval(path = out.eval, file.name = "calibration_results")
+  ##html file
+  ###Writing the html file
+  html_eval(path = out.eval, file.name = "calibration_results")
 
-    ##Retuning objects
-    ###Dataframes in a list
-    list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
-    names(list_res) <- c("Summary", "Best models",
-                       "All models")
+  ##Retuning objects
+  ###Dataframes in a list
+  list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
+  names(list_res) <- c("Summary", "Best models",
+                     "All models")
 
+
+  if (nrow(dat) > 0) {
     ###Plot
     ku_enm_plot <- {
       par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.85)
@@ -613,7 +616,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                                                             "threshold value", sep = " "),
            las = 1, col = "grey35")
 
-     points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
+      points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
              col = "red1", pch = 19, cex = 1.1)
 
       if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
