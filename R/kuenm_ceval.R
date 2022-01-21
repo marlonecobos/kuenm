@@ -186,6 +186,9 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   options(list(show.error.messages = FALSE, suppressWarnings = TRUE))
 
   for(i in 1:length(dir_names)) {
+    if (!silent) {
+      message(sprintf("%d/%d : %s", i, length(dir_names), dir_names[i]))
+    }
     Sys.sleep(0.1)
     if(.Platform$OS.type == "unix") {
       setTxtProgressBar(pb, i)
@@ -554,61 +557,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       units = "mm", res = 600)
 
   par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.58)
-  plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
+  dat <- na.omit(ku_enm_eval)
+  if (nrow(dat) > 0) {
+    plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
        xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
                                                         paste(threshold, "%", sep = ""),
                                                         "threshold value", sep = " "),
        las = 1, col = "grey35")
 
-  points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
-         col = "red1", pch = 19, cex = 1.1)
-
-  if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
-    if(selection == "OR_AICc") {
-      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
-             col = "dodgerblue1", pch = 17, cex = 1.4)
-      legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
-             pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
-    }
-    if(selection == "AICc") {
-      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
-             col = "darkorchid1", pch = 17, cex = 1.4)
-      legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
-             pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
-    }
-    if(selection == "OR") {
-      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
-             col = "orange2", pch = 17, cex = 1.4)
-      legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
-             pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
-    }
-  }
-  dev.off()
-
-  ##html file
-  ###Writing the html file
-  html_eval(path = out.eval, file.name = "calibration_results")
-
-  ##Retuning objects
-  ###Dataframes in a list
-  list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
-  names(list_res) <- c("Summary", "Best models",
-                       "All models")
-
-  ###Plot
-  ku_enm_plot <- {
-    par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.85)
-    plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
-         xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
-                                                          paste(threshold, "%", sep = ""),
-                                                          "threshold value", sep = " "),
-         las = 1, col = "grey35")
-
-    points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
-           col = "red1", pch = 19, cex = 1.1)
+      points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
+             col = "red1", pch = 19, cex = 1.1)
 
     if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
       if(selection == "OR_AICc") {
@@ -616,7 +574,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                col = "dodgerblue1", pch = 17, cex = 1.4)
         legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
                pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
-               inset = c(0.01, 0))
+             inset = c(0.01, 0))
       }
       if(selection == "AICc") {
         points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
@@ -631,6 +589,55 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
         legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
                pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
                inset = c(0.01, 0))
+      }
+    }
+
+    dev.off()
+
+    ##html file
+    ###Writing the html file
+    html_eval(path = out.eval, file.name = "calibration_results")
+
+    ##Retuning objects
+    ###Dataframes in a list
+    list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
+    names(list_res) <- c("Summary", "Best models",
+                       "All models")
+
+    ###Plot
+    ku_enm_plot <- {
+      par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.85)
+      plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
+           xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
+                                                            paste(threshold, "%", sep = ""),
+                                                            "threshold value", sep = " "),
+           las = 1, col = "grey35")
+
+     points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
+             col = "red1", pch = 19, cex = 1.1)
+
+      if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
+        if(selection == "OR_AICc") {
+          points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+                 col = "dodgerblue1", pch = 17, cex = 1.4)
+          legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+                 pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
+                 inset = c(0.01, 0))
+        }
+        if(selection == "AICc") {
+          points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+                 col = "darkorchid1", pch = 17, cex = 1.4)
+          legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+                 pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
+                 inset = c(0.01, 0))
+        }
+        if(selection == "OR") {
+          points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+                 col = "orange2", pch = 17, cex = 1.4)
+          legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+                 pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
+                 inset = c(0.01, 0))
+        }
       }
     }
   }
