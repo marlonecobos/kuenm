@@ -221,6 +221,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       if ((!silent) && (!waiting_for_aicc)) {
         waiting_for_aicc <- TRUE
         message(sprintf("Waiting for aicc on %s\n", dir_names[i]))
+        Sys.sleep(0.1)
       }
 
       lbds <- as.vector(list.files(dir_names[i], pattern = ".lambdas",
@@ -255,6 +256,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
         if ((!silent) && (!waiting_for_llin)) {
           waiting_for_llin <- TRUE
           message(sprintf("Waiting for llin on %s\n", dir_names[i]))
+          Sys.sleep(0.1)
         }
 
         mxlog <- as.vector(list.files(dir_names[i], pattern = ".log",
@@ -309,6 +311,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       if ((!silent) && (!waiting_for_proc)) {
         waiting_for_proc <- TRUE
         message(sprintf("Waiting for proc on %s\n", dir_names[i]))
+        Sys.sleep(0.1)
       }
 
 
