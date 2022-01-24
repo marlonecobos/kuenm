@@ -45,6 +45,9 @@ selected. See details for other selection criteria.}
 cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 is more recommended in high-performance computers. Using this option will speed up the analyses
 only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.}
+
+\item{silent}{(logical) if FALSE, report when evaluation is stalled waiting for a model run to
+complete. Default = TRUE.}
 }
 \value{
 A list with three dataframes containing results from the calibration process and a scatterplot

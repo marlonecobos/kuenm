@@ -29,6 +29,8 @@
 #' cores of the computer. This will demand more RAM and almost full use of the CPU; hence, its use
 #' is more recommended in high-performance computers. Using this option will speed up the analyses
 #' only if models are large RasterLayers or if \code{iterations} are more than 5000. Default = FALSE.
+#' @param silent (logical) if FALSE, report when evaluation is stalled waiting for a model run to
+#' complete. Default = TRUE.
 #'
 #' @return A list with three dataframes containing results from the calibration process and a scatterplot
 #' of all models based on the AICc values and omission rates. In addition, a folder, in the
@@ -77,7 +79,7 @@
 
 kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, threshold = 5,
                         rand.percent = 50, iterations = 500, kept = TRUE,
-                        selection = "OR_AICc", parallel.proc = FALSE) {
+                        selection = "OR_AICc", parallel.proc = FALSE, silent = TRUE) {
   #Checking potential issues
   if (missing(path)) {
     stop(paste("Argument path is not defined, this is necessary for reading the",
@@ -184,6 +186,9 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
   options(list(show.error.messages = FALSE, suppressWarnings = TRUE))
 
   for(i in 1:length(dir_names)) {
+    if (!silent) {
+      message(sprintf("%d/%d : %s", i, length(dir_names), dir_names[i]))
+    }
     Sys.sleep(0.1)
     if(.Platform$OS.type == "unix") {
       setTxtProgressBar(pb, i)
@@ -209,7 +214,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     #If needed, waiting for the model to be created
     aicc_class <- class(aicc)
 
+    waiting_for_aicc <- FALSE
+
     while (aicc_class == "try-error") {
+
+      if ((!silent) && (!waiting_for_aicc)) {
+        waiting_for_aicc <- TRUE
+        message(sprintf("Waiting for aicc on %s\n", dir_names[i]))
+        Sys.sleep(0.1)
+      }
+
       lbds <- as.vector(list.files(dir_names[i], pattern = ".lambdas",
                                    full.names = TRUE)) #lambdas file
       lambdas <- try(readLines(lbds), silent = TRUE)
@@ -235,7 +249,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
 
       llin_class <- class(llin)
 
+      waiting_for_llin <- FALSE
+
       while (llin_class == "try-error") {
+
+        if ((!silent) && (!waiting_for_llin)) {
+          waiting_for_llin <- TRUE
+          message(sprintf("Waiting for llin on %s\n", dir_names[i]))
+          Sys.sleep(0.1)
+        }
+
         mxlog <- as.vector(list.files(dir_names[i], pattern = ".log",
                                       full.names = TRUE)) #maxent log file
         llin <- try(readLines(mxlog), silent = TRUE)
@@ -281,7 +304,17 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
     #If needed, waiting for the model to be created
     proc_class <- class(proc)
 
+    waiting_for_proc <- FALSE
+
     while (proc_class == "try-error") {
+
+      if ((!silent) && (!waiting_for_proc)) {
+        waiting_for_proc <- TRUE
+        message(sprintf("Waiting for proc on %s\n", dir_names[i]))
+        Sys.sleep(0.1)
+      }
+
+
       mods1 <- list.files(dir_names1[i], pattern = "*.asc$", full.names = TRUE) #name of ascii model
       mod1 <- try(raster::raster(mods1), silent = TRUE)
 
@@ -527,61 +560,16 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
       units = "mm", res = 600)
 
   par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.58)
-  plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
+  dat <- na.omit(ku_enm_eval)
+  if (nrow(dat) > 0) {
+    plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
        xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
                                                         paste(threshold, "%", sep = ""),
                                                         "threshold value", sep = " "),
        las = 1, col = "grey35")
 
-  points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
-         col = "red1", pch = 19, cex = 1.1)
-
-  if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
-    if(selection == "OR_AICc") {
-      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
-             col = "dodgerblue1", pch = 17, cex = 1.4)
-      legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
-             pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
-    }
-    if(selection == "AICc") {
-      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
-             col = "darkorchid1", pch = 17, cex = 1.4)
-      legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
-             pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
-    }
-    if(selection == "OR") {
-      points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
-             col = "orange2", pch = 17, cex = 1.4)
-      legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
-             pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
-             inset = c(0.01, 0))
-    }
-  }
-  dev.off()
-
-  ##html file
-  ###Writing the html file
-  html_eval(path = out.eval, file.name = "calibration_results")
-
-  ##Retuning objects
-  ###Dataframes in a list
-  list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
-  names(list_res) <- c("Summary", "Best models",
-                       "All models")
-
-  ###Plot
-  ku_enm_plot <- {
-    par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.85)
-    plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
-         xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
-                                                          paste(threshold, "%", sep = ""),
-                                                          "threshold value", sep = " "),
-         las = 1, col = "grey35")
-
-    points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
-           col = "red1", pch = 19, cex = 1.1)
+      points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
+             col = "red1", pch = 19, cex = 1.1)
 
     if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
       if(selection == "OR_AICc") {
@@ -589,7 +577,7 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
                col = "dodgerblue1", pch = 17, cex = 1.4)
         legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
                pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
-               inset = c(0.01, 0))
+             inset = c(0.01, 0))
       }
       if(selection == "AICc") {
         points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
@@ -604,6 +592,58 @@ kuenm_ceval <- function(path, occ.joint, occ.tra, occ.test, batch, out.eval, thr
         legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
                pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
                inset = c(0.01, 0))
+      }
+    }
+
+    dev.off()
+  }
+
+  ##html file
+  ###Writing the html file
+  html_eval(path = out.eval, file.name = "calibration_results")
+
+  ##Retuning objects
+  ###Dataframes in a list
+  list_res <- list(ku_enm_stats, ku_enm_best, ku_enm_eval)
+  names(list_res) <- c("Summary", "Best models",
+                     "All models")
+
+
+  if (nrow(dat) > 0) {
+    ###Plot
+    ku_enm_plot <- {
+      par(mar = c(4.5, 4, 0.5, 0.5), cex = 0.85)
+      plot(na.omit(ku_enm_eval)[, 4]~log(na.omit(ku_enm_eval)[, 5]),
+           xlab = "Natural logarithm of AICc", ylab = paste("Omission rates at",
+                                                            paste(threshold, "%", sep = ""),
+                                                            "threshold value", sep = " "),
+           las = 1, col = "grey35")
+
+      points(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 4]~log(na.omit(ku_enm_eval[!ku_enm_eval[, 1] %in% ku_enm_bes[, 1], ])[, 5]),
+             col = "red1", pch = 19, cex = 1.1)
+
+      if(selection == "OR_AICc" | selection == "AICc" | selection == "OR") {
+        if(selection == "OR_AICc") {
+          points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+                 col = "dodgerblue1", pch = 17, cex = 1.4)
+          legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+                 pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("dodgerblue1", "red1", "gray35"), bty = "n",
+                 inset = c(0.01, 0))
+        }
+        if(selection == "AICc") {
+          points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+                 col = "darkorchid1", pch = 17, cex = 1.4)
+          legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+                 pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("darkorchid1", "red1", "gray35"), bty = "n",
+                 inset = c(0.01, 0))
+        }
+        if(selection == "OR") {
+          points(na.omit(ku_enm_best)[, 4]~log(na.omit(ku_enm_best)[, 5]),
+                 col = "orange2", pch = 17, cex = 1.4)
+          legend("bottomright", legend = c("Selected models", "Non significant models", "All candidate models"),
+                 pt.cex = c(1.4, 1.1, 1), pch = c(17, 19, 1), col = c("orange2", "red1", "gray35"), bty = "n",
+                 inset = c(0.01, 0))
+        }
       }
     }
   }

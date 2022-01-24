@@ -1,7 +1,7 @@
 Package: kuenm
 Type: Package
 Title: Detailed development of ecological niche models using Maxent
-Version: 1.1.7
+Version: 1.1.8
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre"),
     comment = c(ORCID = "0000-0002-2611-1767")),
@@ -12,7 +12,7 @@ Authors@R: c(
     person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-7893-8774")))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2021-06-09
+Date: 2022-01-21
 Description: A set of tools to help with the development of critical phases of the 
     ecological niche modeling process in Maxent. Pre-modeling analyses and 
     explorations can be done to prepare data. Model calibration (model selection)
