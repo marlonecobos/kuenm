@@ -81,27 +81,12 @@ kuenm_rpca <- function(variables, in.format, var.scale = TRUE, write.result = TR
     if (missing(in.format)) {
       stop("Argument variables is a character, in.format needs to be defined.")
     }
-    if (in.format == "ascii") {
-      patt <- ".asc$"
-    }
-    if (in.format == "GTiff") {
-      patt <- ".tif$"
-    }
-    if (in.format == "EHdr") {
-      patt <- ".bil$"
-    }
+    patt <- rformat_type(in.format)
+    patt <- paste0(patt, "$")
   }
 
   if (!missing(write.result)) {
-    if (out.format == "ascii") {
-      patt1 <- ".asc"
-    }
-    if (out.format == "GTiff") {
-      patt1 <- ".tif"
-    }
-    if (out.format == "EHdr") {
-      patt1 <- ".bil"
-    }
+    patt1 <- rformat_type(out.format)
   }
 
   # reading variables
