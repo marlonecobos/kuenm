@@ -154,7 +154,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, is.swd, replicated, format = "asc",
   # Not statistics
   if (replicated == TRUE) {
     sn <- paste0(".*", sp.name, "_\\d.*")
-  }else {
+  } else {
     sn <- paste0(".*", sp.name, ".*")
   }
   stn <- gregexpr(sn, a)
@@ -182,7 +182,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, is.swd, replicated, format = "asc",
     nrep <- regmatches(nstas, nre)
     nrepl <- unlist(nrep)
     nrepli <- as.numeric(gsub(paste0(sp.name, "_"), "", unique(nrepl)))
-  }else {
+  } else {
     nrepli <- 0
   }
 
@@ -213,7 +213,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, is.swd, replicated, format = "asc",
       b <- list.files(fmod.dir, pattern = ca, full.names = T, recursive = T)
       cal <- gregexpr(ca, b)
       cali <- regmatches(b, cal)
-    }else {
+    } else {
       ca <- paste0(".*", sp.name, nump, ".", format)
       cal <- gregexpr(ca, nstas)
       cali <- regmatches(nstas, cal)
@@ -255,7 +255,7 @@ kuenm_modvar <- function(sp.name, fmod.dir, is.swd, replicated, format = "asc",
       }
     }
 
-  }else {
+  } else {
     # Splitting data according to extrapolation type
     ext_types <- list()
     var_folders <- vector()
@@ -365,14 +365,14 @@ kuenm_modvar <- function(sp.name, fmod.dir, is.swd, replicated, format = "asc",
         ## Models for other time periods
         if (!missing(current)) {
           timep <- ext_types[[i]][!ext_types[[i]] %in% calib & !ext_types[[i]] %in% currente]
-        }else {
+        } else {
           timep <- ext_types[[i]][!ext_types[[i]] %in% calib]
         }
 
         if (missing(time.periods)) {
           timeper <- list(timep)
           timpe <- 1
-        }else {
+        } else {
           timeper <- list()
           for (j in 1:length(time.periods)) {
             tp <- paste(paste0(".*", sp.name, "_\\d\\D.*", time.periods[j]),
@@ -536,7 +536,7 @@ var_models <- function(model.names, is.swd, format = "asc", sp.name, source.code
           means[[i]] <- suppressWarnings(apply(mods, 1, mean))
         }
         mods <- 1
-      }else {
+      } else {
         replic <- split(replic, ceiling(seq_along(replic) / (split.length / 2)))
 
         mean <- list()
