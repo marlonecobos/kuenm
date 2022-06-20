@@ -45,10 +45,10 @@ aicc <- function(occ, prediction, npar) {
     warning("Cannot calculate AICc when prediction has 0 rows. Returning NA")
   } else {
     vals <- prediction[paste(prediction[, 1], prediction[, 2]) %in%
-                         paste(occ[, 1], occ[, 2]), 3]
-    vals <- na.omit(vals)
+                         paste(occ[, 1], occ[, 2]), 1:3]
+    vals <- unique(na.omit(vals))[, 3]
     probsum <- sum(prediction[, 3], na.rm = TRUE)
-    LL <- colSums(log(t(t(vals)/probsum)), na.rm = TRUE)
+    LL <- colSums(log(.Machine$double.eps + t(t(vals)/probsum)))
     AICc <- ((2 * npar) - (2 * LL)) + (2 * npar * (npar + 1) /
                                                  (nrow(occ) - npar - 1))
     AICc[AIC.valid == FALSE] <- NA

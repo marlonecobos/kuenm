@@ -26,6 +26,7 @@
 #' kuenm_aicc(occ, model, npar)
 #'
 #' @export
+#' @importFrom raster extract
 #'
 #' @seealso
 #' \code{\link{aicc}} for results obtained using the SWD format.
@@ -64,9 +65,9 @@ kuenm_aicc <- function (occ, model, npar) {
                             w.AIC = NA, parameters = npar))
     warning("Cannot calculate AICc when model = FALSE. Returning NA's.")
   } else {
-    vals <- raster::extract(model, occ)
-    probsum <- sum(raster::values(model), na.rm = TRUE)
-    LL <- colSums(log(t(t(vals)/probsum)), na.rm = TRUE)
+    vals <- na.omit(raster::extract(model, occ))
+    probsum <- sum(model[], na.rm = TRUE)
+    LL <- colSums(log(.Machine$double.eps + t(t(vals)/probsum)))
     AICc <- (2 * npar - 2 * LL) + (2 * (npar) * (npar + 1)/(nrow(occ) - npar - 1))
     AICc[AIC.valid == FALSE] <- NA
     AICc[is.infinite(AICc)] <- NA
