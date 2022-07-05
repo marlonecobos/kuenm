@@ -163,8 +163,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
 
   #Data
   ##Data from best models table
-  best <- list.files(path = out.eval, pattern = "best", full.names = TRUE)
-  sett <- read.csv(best)
+  sett <- read.csv(paste0(out.eval, "/selected_models.csv"),
+                   stringsAsFactors = FALSE)
   sett1 <- as.character(sett[, 1])
   setts <- strsplit(sett1, split = "_")
 
