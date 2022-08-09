@@ -198,7 +198,7 @@ proc_or_aicc <- function(occ.joint, occ.tra, occ.test,
     waiting <- wait_written_done(lbds)
     lambdas <- readLines(lbds)
 
-    par_num <- n.par(lambdas)
+    par_num <- n_par(lambdas)
 
     mods <- paste0(raw.folders[i], sl, spn, ".csv")
     waiting <- wait_written_done(mods)
