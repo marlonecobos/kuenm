@@ -33,9 +33,6 @@ html_calibration <- function(path = getwd(), file.name) {
   if (missing(file.name)) {
     stop("Argument 'file.name' must be defined")
   }
-  if (missing(is.swd)) {
-    stop("Argument 'is.swd' must be defined")
-  }
 
   file.name <- paste0(path, "/", file.name, ".Rmd")
   suppressMessages(
