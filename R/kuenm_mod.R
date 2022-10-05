@@ -244,12 +244,8 @@ kuenm_mod <- function(occ.joint, M.var.dir, out.eval, batch, rep.n = 10, rep.typ
       ext.nam <- c("_EC", "_E", "_NE")
     }
 
-    if(write.mess == FALSE) {
-      w.mess <- "writeclampgrid=false"
-    }
-    if(write.clamp == FALSE) {
-      w.clamp <- "writemess=false"
-    }
+    w.mess <- ifelse(write.mess == FALSE, "writemess=false", "writemess=true")
+    w.clamp <- ifelse(write.clamp == FALSE, "writeclampgrid=false", "writeclampgrid=true")
   }else {
     mid.com <- "extrapolate=false doclamp=false writeclampgrid=false writemess=false responsecurves=true"
   }

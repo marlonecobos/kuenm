@@ -199,8 +199,8 @@ kuenm_mod_swd <- function(occ.joint, back.dir, out.eval, batch, rep.n = 10,
 
     mid.com <- ext_type(ext.type)[[1]]; ext.nam <- ext_type(ext.type)[[2]]
 
-    w.mess <- ifelse(write.mess == FALSE, "writeclampgrid=false", "writeclampgrid=true")
-    w.clamp <- ifelse(write.clamp == FALSE, "writemess=false", "writemess=true")
+    w.mess <- ifelse(write.mess == FALSE, "writemess=false", "writemess=true")
+    w.clamp <- ifelse(write.clamp == FALSE, "writeclampgrid=false", "writeclampgrid=true")
 
     mid.com <- paste(mid.com, w.mess, w.clamp, "responsecurves=true")
   }else {
