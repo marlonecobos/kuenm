@@ -13,11 +13,11 @@
 #' @export
 
 plot_out <- function (M1, G1) {
-  if(calss(M1)[1] %in% c("RasterBrick", "RasterLayer", "RasterStack")){
+  if(class(M1)[1] %in% c("RasterBrick", "RasterLayer", "RasterStack")){
     M1 <- raster::values(M1)
   }
 
-  if(calss(G1)[1] %in% c("RasterBrick", "RasterLayer", "RasterStack")){
+  if(class(G1)[1] %in% c("RasterBrick", "RasterLayer", "RasterStack")){
     G1 <- raster::values(G1)
   }
 
