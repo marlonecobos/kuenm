@@ -34,10 +34,22 @@
 
 kuenm_omrat <- function(model, threshold = 5, occ.tra, occ.test) {
 
-  if(model@data@min == model@data@max) {
+  if (missing(model)) {
+    stop("Argument model is not defined.")
+  }
+  if (missing(occ.tra)) {
+    stop("Argument occ.tra is not defined.")
+  }
+  if (missing(occ.test)) {
+    stop("Argument occ.test is not defined.")
+  }
+
+  ran_mod <- range(na.omit(model[]))
+
+  if(ran_mod[1] == ran_mod[2]) {
     warning("\nModel imput has no variability, omission rate will return NA.\n")
 
-    om_rate <- NA
+    om_rate <- rep(NA, length(threshold))
   }else {
 
     suit_val_cal <- na.omit(raster::extract(model, occ.tra))
@@ -50,8 +62,8 @@ kuenm_omrat <- function(model, threshold = 5, occ.tra, occ.test) {
       omi_val_suit <- sort(suit_val_cal)[val]
       om_rate[i] <- as.numeric(length(suit_val_eval[suit_val_eval < omi_val_suit]) / length(suit_val_eval))
     }
-
-    names(om_rate) <- paste("om_rate_", threshold, "%", sep = "")
-    return(om_rate)
   }
+
+  names(om_rate) <- paste("om_rate_", threshold, "%", sep = "")
+  return(om_rate)
 }
