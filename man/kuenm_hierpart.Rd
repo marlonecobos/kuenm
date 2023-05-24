@@ -91,12 +91,8 @@ plot summarizing the total effects of the sources of variation on the
 variance in the models.
 }
 \description{
-kuenm_hierpart performs a hierarchical partitioning analysis of
-the variance coming from distinct sources in ENMs. In this version potential
-sources of variation are: replicates, parameter settings, general circulation
-models (GCMs), and emission scenarios. The last two are considered only when
-projections in time are performed. At least two of these sources of variation
-must be present in results.
+kuenm_hierpart has been deprecated for the moment. A future,
+more complete version will be available soon.
 }
 \details{
 If the length of any of the potential sources of variation is equal to one
@@ -109,32 +105,4 @@ models so the function can locate each file without problems.
 
 Error whiskers in resulting plots represent the 95\% Confidence Interval of
 the mean. This interval is calculated using a bootstrap approach.
-}
-\examples{
-# Models should be ready before starting these analyses, for an example of
-how to create them see https://github.com/marlonecobos/kuenm
-
-# Here an example of how to use the function once the models are ready
-\dontrun{
-## Arguments
-sp_name <- "sp1"
-fmod_dir <- "Final_Models"
-rep <- TRUE
-form <- "ascii"
-project <- TRUE
-curr <- "current"
-emi_scenarios <- c("RCP4.5", "RCP8.5")
-c_mods <- c("GCM1", "GCM2")
-ext_type <- c("E", "EC")
-iter <- 100
-s_size <- 1000
-out_dir3 <- "Hierarchical_partitioning"
-
-# Running the function
-kuenm_hierpart(sp.name = sp_name, fmod.dir = fmod_dir, is.swd = F, format = form,
-               replicated = rep, project = project, current = curr,
-               emi.scenarios = emi_scenarios, clim.models = c_mods,
-               ext.type = ext_type, iterations = iter,
-               sample.size = s_size, out.dir = out_dir3)
-}
 }
