@@ -17,12 +17,7 @@
 #' default = 500.
 #' @param rand.percent (numeric) percentage of testing data to be used in each
 #' bootstrapped process for calculating the partial ROC. Default = 50.
-#' @param parallel (logical) if TRUE, calculations will be performed in parallel
-#' using the available cores of the computer. This will demand more RAM and
-#' almost full use of the CPU; hence, its use is recommended in high-performance
-#' computers. Using this option will speed up the analyses only if \code{model}
-#' is a large RasterLayer or if \code{iterations} are more than 5000.
-#' Default = FALSE.
+#' @param parallel (logical) argument deprecated. Default = NULL.
 #'
 #' @return A list with the summary of the results and a data.frame containing
 #' the AUC values and AUC ratios calculated for all iterations.
@@ -50,7 +45,7 @@
 #'                    rand.percent = rand_perc, iterations = iterac)
 
 kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
-                       iterations = 500, parallel = FALSE) {
+                       iterations = 500, parallel = NULL) {
 
   # -----------
   # detecting potential errors, other potential problems tested in code
@@ -71,52 +66,58 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
   if (c_pred == "numeric" & c_tdat != "numeric") {
     stop("'occ.test' must be of class numeric if model is a numeric vector.")
   }
+  if (!is.null(parallel)) {
+    message("'parallel' is a deprecated argument.")
+  }
 
 
   # -----------
-  # package and function needed
+  # package needed
   suppressPackageStartupMessages(library(dplyr))
-
-  calc_aucDF <- function(big_classpixels, fractional_area, test_data, n_data,
-                         n_samp, error_sens) {
-    rowsID <- sample(x = n_data, size = n_samp, replace = TRUE)
-    test_data1 <- test_data[rowsID]
-    omssion_matrix <- big_classpixels > test_data1
-    sensibility <- 1 - colSums(omssion_matrix) / n_samp
-    xyTable <- data.frame(fractional_area, sensibility)
-    less_ID <- which(xyTable$sensibility <= error_sens)
-    xyTable <- xyTable[-less_ID, ]
-    xyTable <- xyTable[order(xyTable$fractional_area, decreasing = F), ]
-    auc_pmodel <- kuenm:::trap_roc(xyTable$fractional_area, xyTable$sensibility)
-    auc_prand <- kuenm:::trap_roc(xyTable$fractional_area, xyTable$fractional_area)
-    auc_ratio <- auc_pmodel / auc_prand
-    auc_table <- data.frame(auc_pmodel, auc_prand, auc_ratio = auc_ratio )
-    return(auc_table)
-  }
 
   # -----------
   # preparing data
-  if (c_pred == "RasterLayer") {model <- raster::setMinMax(model)}
+  if (c_pred == "RasterLayer") {
+    model <- raster::setMinMax(model)
+  }
+
   min_pred <- ifelse(c_pred == "numeric", min(model, na.rm = TRUE),
                      model@data@min)
   max_pred <- ifelse(c_pred == "numeric", max(model, na.rm = TRUE),
                      model@data@max)
 
-  model <- round((model / max_pred) * 1000)
   if (c_pred == "RasterLayer") {
     if (c_tdat != "numeric") {
       test_data <- na.omit(raster::extract(model,
                                            occ.test[, 1:2]))
     } else {
-      test_data <- round((occ.test / max_pred) * 1000)
+      test_data <- na.omit(occ.test)
     }
-    classpixels <- data.frame(raster::freq(model, useNA = "no"))
   } else {
-    test_data <- round((occ.test / max_pred) * 1000)
-    vals <- na.omit(unique(model))
-    classpixels <- data.frame(value = vals, count = c(table(model)),
-                              row.names = 1:length(vals))
+    test_data <- na.omit(occ.test)
   }
+
+  vals <- na.omit(model[])
+
+  # ndec <- dec_places_proc(min_pred, min(test_data))
+  # fix_dec <- as.numeric(paste0("1e+", ndec))
+  #
+  # test_data <- test_data * fix_dec
+  # vals <- vals * fix_dec
+  #
+  # minmin <- min(c(vals, test_data))
+  #
+  # test_data <- round(test_data / minmin)
+  # vals <- round(vals / minmin)
+
+  nvals <- length(vals)
+  vals <- c(vals, test_data)
+  vals <- as.numeric(cut(vals, 500))
+  test_data <- vals[(nvals + 1):length(vals)]
+  vals <- vals[1:nvals]
+
+  classpixels <- as.data.frame(table(vals), stringsAsFactors = FALSE)
+  colnames(classpixels) <- c("value", "count")
 
   # -----------
   # analysis
@@ -132,15 +133,13 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
 
     p_roc_res <- list(pROC_summary = p_roc, pROC_results = auc_ratios)
 
-    return(p_roc_res)
-  }else {
+  } else {
     classpixels <- classpixels %>%
-      dplyr::mutate_(value = ~rev(value),
-                     count = ~rev(count),
-                     totpixperclass = ~cumsum(count),
-                     percentpixels = ~totpixperclass/sum(count)) %>%
+      dplyr::mutate(value = rev(value),
+                    count = rev(count),
+                    totpixperclass = cumsum(count),
+                    percentpixels = totpixperclass/sum(count)) %>%
       dplyr::arrange(value)
-
 
     error_sens <- 1 - (threshold / 100)
     prediction_errors <- classpixels[, "value"]
@@ -151,37 +150,12 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     big_classpixels <- matrix(rep(prediction_errors, each = n_samp),
                               ncol = length(prediction_errors))
 
-    if(parallel){
-      future::plan(future::multiprocess)
-      roc_env <- new.env()
-      n_cores <- future::availableCores()
-      niter_big <- floor(iterations/n_cores)
-      n_runs <- rep(niter_big,n_cores)
-      sum_n_runs <- sum(n_runs)
-      n_runs[1] <- n_runs[1] + (iterations - sum_n_runs)
-
-      for(i in 1:length(n_runs)){
-        x <- as.character(i)
-        roc_env[[x]] %<-% {
-          x1 <- 1:n_runs[i]
-          auc_matrix1 <- x1 %>%
-            purrr::map_df(~calc_aucDF(big_classpixels,
-                                      fractional_area,
-                                      test_data,n_data,n_samp,
-                                      error_sens))
-        }
-      }
-      partial_AUC <- as.list(roc_env)
-      rm(roc_env)
-      partial_AUC <- do.call(rbind.data.frame,partial_AUC)
-      rownames(partial_AUC) <- NULL
-      future::plan(future::sequential)
-
-    }else{
-      partial_AUC <- 1:iterations %>%
-        purrr::map_df(~calc_aucDF(big_classpixels, fractional_area, test_data,
-                                  n_data, n_samp, error_sens))
-    }
+    st <- Sys.time()
+    partial_AUC <- 1:iterations %>%
+      purrr::map_df(~calc_aucDF(big_classpixels, fractional_area, test_data,
+                                n_data, n_samp, error_sens))
+    ed <- Sys.time()
+    print(ed - st)
 
     naID <- !is.na(partial_AUC$auc_ratio)
     nona_valproc <- partial_AUC$auc_ratio[naID]
@@ -196,7 +170,37 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
                            "AUC_ratio")
 
     p_roc_res <- list(pROC_summary = p_roc, pROC_results = auc_ratios)
-
-    return(p_roc_res)
   }
+
+  return(p_roc_res)
+}
+
+
+dec_places_proc <- function(model_vals, test_vals) {
+
+  x <- c(model_vals, test_vals)
+  x <- x[abs(x - round(x)) > .Machine$double.eps^0.5]
+
+  x <- do.call(rbind, strsplit(sub('0+$', '', as.character(x)), ".",
+                              fixed = TRUE))[, 2]
+
+  return(max(nchar(x), na.rm = TRUE))
+}
+
+
+calc_aucDF <- function(big_classpixels, fractional_area, test_data, n_data,
+                       n_samp, error_sens) {
+  rowsID <- sample(x = n_data, size = n_samp, replace = TRUE)
+  test_data1 <- test_data[rowsID]
+  omssion_matrix <- big_classpixels > test_data1
+  sensibility <- 1 - colSums(omssion_matrix) / n_samp
+  xyTable <- data.frame(fractional_area, sensibility)
+  less_ID <- which(xyTable$sensibility <= error_sens)
+  xyTable <- xyTable[-less_ID, ]
+  xyTable <- xyTable[order(xyTable$fractional_area, decreasing = F), ]
+  auc_pmodel <- kuenm:::trap_roc(xyTable$fractional_area, xyTable$sensibility)
+  auc_prand <- kuenm:::trap_roc(xyTable$fractional_area, xyTable$fractional_area)
+  auc_ratio <- auc_pmodel / auc_prand
+  auc_table <- data.frame(auc_pmodel, auc_prand, auc_ratio = auc_ratio )
+  return(auc_table)
 }

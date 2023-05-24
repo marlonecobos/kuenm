@@ -28,12 +28,7 @@ bootstrapped process for calculating the partial ROC. Default = 50.}
 \item{iterations}{(numeric) number of bootstrap iterations to be performed;
 default = 500.}
 
-\item{parallel}{(logical) if TRUE, calculations will be performed in parallel
-using the available cores of the computer. This will demand more RAM and
-almost full use of the CPU; hence, its use is recommended in high-performance
-computers. Using this option will speed up the analyses only if \code{model}
-is a large RasterLayer or if \code{iterations} are more than 5000.
-Default = FALSE.}
+\item{parallel}{(logical) argument deprecated. Default = NULL.}
 }
 \value{
 A list with the summary of the results and a data.frame containing
