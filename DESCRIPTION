@@ -1,7 +1,7 @@
 Package: kuenm
 Type: Package
 Title: Detailed development of ecological niche models using Maxent
-Version: 1.1.9
+Version: 1.1.10
 Authors@R: c(
     person("Marlon E.", "Cobos", email = "manubio13@gmail.com", role = c("aut","cre"),
     comment = c(ORCID = "0000-0002-2611-1767")),
@@ -12,7 +12,7 @@ Authors@R: c(
     person("Narayani", "Barve", email = "narayani.ku@gmail.com", role = "aut",
     comment = c(ORCID = "0000-0002-7893-8774")))
 Maintainer: Marlon E. Cobos <manubio13@gmail.com>
-Date: 2022-06-20
+Date: 2023-05-23
 Description: A set of tools to help with the development of critical phases of the 
     ecological niche modeling process in Maxent. Pre-modeling analyses and 
     explorations can be done to prepare data. Model calibration (model selection)
@@ -35,7 +35,6 @@ Imports:
     fields (>= 9.6),
     foreach (>= 1.4),
     future (>= 1.8),
-    hier.part (>= 1.0),
     Kendall (>= 2.2),
     knitr (>= 1.20),
     purrr (>= 0.2),
@@ -48,11 +47,11 @@ Suggests:
 	maptools,
     yaml
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.5.0)
 VignetteBuilder: knitr
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp
