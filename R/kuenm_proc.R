@@ -150,12 +150,9 @@ kuenm_proc <- function(occ.test, model, threshold = 5, rand.percent = 50,
     big_classpixels <- matrix(rep(prediction_errors, each = n_samp),
                               ncol = length(prediction_errors))
 
-    st <- Sys.time()
     partial_AUC <- 1:iterations %>%
       purrr::map_df(~calc_aucDF(big_classpixels, fractional_area, test_data,
                                 n_data, n_samp, error_sens))
-    ed <- Sys.time()
-    print(ed - st)
 
     naID <- !is.na(partial_AUC$auc_ratio)
     nona_valproc <- partial_AUC$auc_ratio[naID]
